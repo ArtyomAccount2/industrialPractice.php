@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профессиональные резюме студентов</title>
+    <title>СтудМаркет</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -28,7 +28,10 @@
                         <a class="nav-link" href="portfolio.php">Портфолио</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="feedback.php">Обратная связь</a>
+                        <a class="nav-link" href="feedback.php">Сотрудничество</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="feedback.php">FAQ</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -41,62 +44,122 @@
 
     <section class="hero-section vh-100 d-flex align-items-center">
         <div class="container text-center">
-            <h1 class="display-4 fw-bold">Найдите талантливых студентов</h1>
-            <p class="lead">Платформа для размещения профессиональных резюме студентов и выпускников</p>
-            <a href="portfolio.php" class="btn btn-primary btn-lg mt-3">Посмотреть портфолио</a>
+            <h1 class="display-4 fw-bold mb-3">СтудМаркет - мост между талантами и возможностями</h1>
+            <p class="lead mb-4">Специализированная платформа для студентов Колледжа предпринимательства, где можно демонстрировать работы, находить вакансии и взаимодействовать с работодателями</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a data-bs-toggle="modal" data-bs-target="#registerModal" class="btn btn-primary btn-lg px-4 gap-3">Начать сейчас</a>
+                <a href="#" class="btn btn-outline-light btn-lg px-4">Узнать больше</a>
+            </div>
         </div>
     </section>
 
     <section class="features-section">
-        <div class="container my-5">
+        <div class="container my-4">
             <div class="section-header text-center mb-5">
-                <h2 class="display-5 fw-bold">Почему выбирают нас</h2>
-                <p class="lead text-muted">Мы соединяем талантливых студентов с ведущими компаниями</p>
+                <h2 class="display-5 fw-bold">Возможности платформы</h2>
+                <p class="lead text-muted">Уникальные инструменты для студентов и работодателей</p>
                 <div class="divider mx-auto"></div>
             </div>
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="feature-card p-4 text-center h-100">
                         <div class="feature-icon">
-                            <i class="bi bi-people-fill"></i>
+                            <i class="bi bi-person-badge"></i>
                         </div>
-                        <h3>Широкий выбор</h3>
-                        <p>Более 1000 резюме студентов из различных вузов и специальностей. Найдите идеального кандидата для вашей компании среди нашего обширного каталога.</p>
-                        <div class="stats mt-3">
-                            <span class="badge bg-primary rounded-pill">500+ IT специалистов</span>
-                            <span class="badge bg-success rounded-pill">300+ дизайнеров</span>
-                            <span class="badge bg-info rounded-pill">200+ маркетологов</span>
+                        <h3>Для студентов</h3>
+                        <p>Создайте профессиональное портфолио, демонстрируйте свои проекты и находите подходящие вакансии от проверенных работодателей.</p>
+                        <div class="text-start mt-3 ps-4">
+                            <li>Публикация работ и проектов</li>
+                            <li>Доступ к эксклюзивным вакансиям</li>
+                            <li>Обратная связь от работодателей</li>
+                            <li>Рекомендации по развитию</li>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="feature-card p-4 text-center h-100">
                         <div class="feature-icon">
-                            <i class="bi bi-search"></i>
+                            <i class="bi bi-building"></i>
                         </div>
-                        <h3>Удобный поиск</h3>
-                        <p>Мощные фильтры по специальностям, навыкам и уровню подготовки помогут быстро найти именно тех кандидатов, которые соответствуют вашим требованиям.</p>
+                        <h3>Для работодателей</h3>
+                        <p>Находите талантливых студентов, просматривайте портфолио и публикуйте вакансии напрямую для целевой аудитории колледжа.</p>
                         <ul class="text-start mt-3 ps-4">
-                            <li>Фильтр по вузам и факультетам</li>
-                            <li>Поиск по ключевым навыкам</li>
-                            <li>Сортировка по рейтингу</li>
-                            <li>Географический поиск</li>
+                            <li>Поиск по специализациям</li>
+                            <li>Просмотр студенческих работ</li>
+                            <li>Публикация вакансий</li>
+                            <li>Прямой контакт с кандидатами</li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-4">
+               <div class="col-md-4">
                     <div class="feature-card p-4 text-center h-100">
                         <div class="feature-icon">
-                            <i class="bi bi-hand-thumbs-up"></i>
+                            <i class="bi bi-award"></i>
                         </div>
-                        <h3>Прямой контакт</h3>
-                        <p>Наша платформа обеспечивает прямую коммуникацию с кандидатами без посредников, что ускоряет процесс найма и делает его более эффективным.</p>
-                        <div class="testimonial mt-3 p-3 bg-light rounded">
-                            <p class="mb-0"><i>"Нашли идеального стажера за 2 дня!"</i></p>
-                            <small class="text-muted">- Ольга, HR-менеджер TechCompany</small>
+                        <h3>Для колледжа</h3>
+                        <p>Платформа помогает отслеживать успехи выпускников, улучшать учебные программы и укреплять связи с бизнес-сообществом, а также повышать качество обучения.</p>
+                        <ul class="text-start mt-3 ps-4">
+                            <li>Мониторинг трудоустройства</li>
+                            <li>Анализ востребованных навыков</li>
+                            <li>Совместные проекты</li>
+                            <li>Повышение репутации</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-preview py-5">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="display-5 fw-bold">Примеры студенческих работ</h2>
+                <p class="lead text-muted">Лучшие проекты наших студентов</p>
+                <div class="divider mx-auto"></div>
+            </div>           
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <img src="img/portfolio1.jfif" class="card-img-top" alt="Студенческая работа">
+                        <div class="card-body step-card-body">
+                            <h5 class="card-title">Маркетинговая стратегия</h5>
+                            <p class="card-text">Разработка комплексной маркетинговой стратегии для стартапа в сфере IT.</p>
+                            <div class="step-card d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">Маркетинг</span>
+                                <p class="text-muted small mb-0">Иван Петров, 3 курс</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <img src="img/portfolio2.jfif" class="card-img-top" alt="Студенческая работа">
+                        <div class="card-body step-card-body">
+                            <h5 class="card-title">Дизайн мобильного приложения</h5>
+                            <p class="card-text">Полный цикл разработки UI/UX для приложения здорового питания.</p>
+                            <div class="step-card d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">Дизайн</span>
+                                <p class="text-muted small mb-0">Анна Сидорова, 4 курс</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <img src="img/portfolio3.jfif" class="card-img-top" alt="Студенческая работа">
+                        <div class="card-body step-card-body">
+                            <h5 class="card-title">Бизнес-план кафе</h5>
+                            <p class="card-text">Детальный бизнес-план и финансовые расчеты для кофейни премиум-класса.</p>
+                            <div class="step-card d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">Предпринимательство</span>
+                                <p class="text-muted small mb-0">Михаил Иванов, 2 курс</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="text-center mt-5">
+                <a href="portfolio.php" class="btn btn-primary btn-lg">Смотреть все работы</a>
             </div>
         </div>
     </section>
@@ -114,10 +177,10 @@
                         <div class="card-body">
                             <span class="badge bg-primary rounded-circle p-3 mb-3">1</span>
                             <h5 class="card-title">Регистрация</h5>
-                            <p class="card-text">Создайте аккаунт работодателя или студента всего за 2 минуты</p>
+                            <p class="card-text">Создайте аккаунт работодателя или студента всего за несколько минут</p>
                             <div class="step-details mt-3">
-                                <p><small>Для студентов: бесплатно</small></p>
-                                <p><small>Для работодателей: бесплатный пробный период</small></p>
+                                <p class="small">Для студентов: бесплатно</p>
+                                <p class="small">Для работодателей: проверка и подтверждение</p>
                             </div>
                         </div>
                     </div>
@@ -127,13 +190,12 @@
                         <div class="card-body">
                             <span class="badge bg-primary rounded-circle p-3 mb-3">2</span>
                             <h5 class="card-title">Заполнение профиля</h5>
-                            <p class="card-text">Студенты добавляют информацию о себе и навыках</p>
+                            <p class="card-text">Добавьте информацию о себе или своей компании</p>
                             <div class="step-details mt-3">
                                 <ul class="text-start ps-4">
-                                    <li>Добавьте образование</li>
-                                    <li>Укажите навыки</li>
-                                    <li>Загрузите проекты</li>
-                                    <li>Получите рекомендации</li>
+                                    <li>Образование и навыки</li>
+                                    <li>Проекты и работы</li>
+                                    <li>Интересы и цели</li>
                                 </ul>
                             </div>
                         </div>
@@ -147,9 +209,9 @@
                             <p class="card-text">Работодатели находят подходящих кандидатов и связываются с ними</p>
                             <div class="step-details mt-3">
                                 <div class="d-flex flex-column align-items-center">
-                                    <span class="badge bg-light text-dark w-50 border"><i class="bi bi-envelope me-1"></i> Сообщения</span>
-                                    <span class="badge bg-light text-dark w-50 border mt-2"><i class="bi bi-calendar me-1"></i> Интервью</span>
-                                    <span class="badge bg-light text-dark w-50 border mt-2"><i class="bi bi-briefcase me-1"></i> Оффер</span>
+                                    <span class="step-icons badge bg-light text-dark border"><i class="bi bi-search me-1"></i>Поиск и просмотр</span>
+                                    <span class="step-icons badge bg-light text-dark border mt-2"><i class="bi bi-chat me-1"></i>Общение</span>
+                                    <span class="step-icons badge bg-light text-dark border mt-2"><i class="bi bi-briefcase me-1"></i>Сотрудничество</span>
                                 </div>
                             </div>
                         </div>
@@ -157,10 +219,10 @@
                 </div>
             </div>
             <div class="cta-box mt-5 p-4 rounded-3">
-                <h3 class="mb-3">Готовы начать?</h3>
-                <p class="mb-4">Присоединяйтесь к тысячам студентов и работодателей, которые уже нашли друг друга</p>
+                <h3 class="mb-3">Готовы присоединиться?</h3>
+                <p class="mb-4">Станьте частью сообщества СтудМаркет и откройте новые возможности</p>
                 <a href="#" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#registerModal">Зарегистрироваться</a>
-                <a href="portfolio.php" class="btn btn-outline-primary">Посмотреть резюме</a>
+                <a href="feedback.php" class="btn btn-outline-primary">Сотрудничество</a>
             </div>
         </div>
     </section>
@@ -177,7 +239,7 @@
                     <div class="review-card p-4 bg-white rounded-3 h-100">
                         <div class="review-header d-flex justify-content-between mb-3">
                             <div class="reviewer-info">
-                                <h5 class="mb-1">Анна К.</h5>
+                                <h6 class="mb-1">Анна К.</h6>
                                 <p class="text-muted small mb-0">Студент</p>
                             </div>
                             <div class="rating">
@@ -191,7 +253,7 @@
                             </div>
                         </div>
                         <div class="review-body">
-                            <p class="mb-3">"Благодаря этой платформе получила стажировку в крупной IT-компании уже на 3 курсе. Очень удобный интерфейс и полезные советы по оформлению резюме."</p>
+                            <p class="mb-3">"Благодаря СтудМаркету я получила стажировку в крупной компании уже на 3 курсе. Очень удобная платформа, где можно показать свои работы и сразу получить отклик от работодателей."</p>
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
                             <p class="text-muted small mb-0">2 дня назад</p>
@@ -205,7 +267,7 @@
                     <div class="review-card p-4 bg-white rounded-3 h-100">
                         <div class="review-header d-flex justify-content-between mb-3">
                             <div class="reviewer-info">
-                                <h5 class="mb-1">TechSolutions Inc.</h5>
+                                <h6 class="mb-1">TechSolutions Inc.</h6>
                                 <p class="text-muted small mb-0">Работодатель</p>
                             </div>
                             <div class="rating">
@@ -219,10 +281,10 @@
                             </div>
                         </div>
                         <div class="review-body">
-                            <p class="mb-3">"За последний год нашли через платформу 5 отличных стажеров. Фильтры по навыкам экономят массу времени. Рекомендую!"</p>
+                            <p class="mb-3">"За последний год нашли через платформу 3 отличных стажера. Особенно ценно, что можно сразу увидеть реальные работы студентов, а не только сухие резюме. Экономит массу времени!"</p>
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
-                            <small class="text-muted">1 неделю назад</small>
+                            <p class="text-muted small mb-0">1 неделю назад</p>
                             <button class="btn btn-sm btn-outline-primary like-btn">
                                 <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">18</span>
                             </button>
@@ -233,7 +295,7 @@
                     <div class="review-card p-4 bg-white rounded-3 h-100">
                         <div class="review-header d-flex justify-content-between mb-3">
                             <div class="reviewer-info">
-                                <h5 class="mb-1">Иван П.</h5>
+                                <h6 class="mb-1">Иван П.</h6>
                                 <p class="text-muted small mb-0">Студент</p>
                             </div>
                             <div class="rating">
@@ -247,10 +309,10 @@
                             </div>
                         </div>
                         <div class="review-body">
-                            <p class="mb-3">"Платформа помогла найти первую работу. Хотелось бы больше компаний из моего региона, но в целом сервис очень полезный."</p>
+                            <p class="mb-3">"Платформа помогла мне найти первых клиентов на фрилансе еще во время учебы. Теперь у меня есть портфолио и опыт, которые помогут устроиться на работу после выпуска."</p>
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
-                            <small class="text-muted">3 недели назад</small>
+                            <p class="text-muted small mb-0">3 недели назад</p>
                             <button class="btn btn-sm btn-outline-primary like-btn">
                                 <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">12</span>
                             </button>
@@ -258,8 +320,8 @@
                     </div>
                 </div>
             </div>
-            <div class="rating-stats mt-5 p-4 bg-white rounded-3">
-                <div class="row text-center">
+            <div class="rating-stats mt-2 p-4 bg-white rounded-3">
+                <div class="row d-flex align-items-center text-center">
                     <div class="col-md-3">
                         <div class="display-4 fw-bold text-primary">4.8</div>
                         <div class="stars mb-2">
@@ -289,6 +351,7 @@
                 <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
                     <i class="bi bi-pencil-square me-2"></i>Добавить отзыв
                 </button>
+                <a href="#" class="bi bi-list-columns-reverse btn btn-outline-light ms-2"> Смотреть все отзывы</button></a>
             </div>
         </div>
     </section>
@@ -298,7 +361,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Авторизация</h5>
+                <h5 class="modal-title" id="loginModalLabel">Вход в систему</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -311,9 +374,13 @@
                         <label for="loginPassword" class="form-label">Пароль</label>
                         <input type="password" class="form-control" id="loginPassword" required>
                     </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Запомнить меня</label>
+                    </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Авторизоваться</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Войти</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                     </div>
                 </form>
             </div>
@@ -357,9 +424,13 @@
                             </label>
                         </div>
                     </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                        <label class="form-check-label" for="agreeTerms">Я согласен с условиями использования</label>
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                     </div>
                 </form>
             </div>
@@ -413,13 +484,46 @@
 </div>
 
 <footer class="bg-dark text-white py-4">
-    <div class="container text-center">
-        <div class="mb-3">
-            <a href="index.php" class="text-white text-decoration-none me-3">Главная</a>
-            <a href="portfolio.php" class="text-white text-decoration-none me-3">Портфолио</a>
-            <a href="feedback.php" class="text-white text-decoration-none">Обратная связь</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="mb-3">СтудМаркет</h5>
+                <p>Специализированная платформа для студентов Колледжа предпринимательства, где можно демонстрировать работы, находить вакансии и взаимодействовать с работодателями.</p>
+                <div class="social-icons">
+                    <a href="https://vk.com/studmarket39" class="text-white me-2"><i class="bi bi-people-fill"></i></a>
+                    <a href="https://t.me/StudMarket_bot" class="text-white"><i class="bi bi-telegram"></i></a>
+                </div>
+            </div>
+            <div class="col-md-2 mb-4 mb-md-0">
+                <h5 class="navigation mb-3">Навигация</h5>
+                <ul class="list-navigation list-unstyled">
+                    <li class="mb-2"><a href="index.php" class="text-white text-decoration-none">Главная</a></li>
+                    <li class="mb-2"><a href="portfolio.php" class="text-white text-decoration-none">Портфолио</a></li>
+                    <li class="mb-2"><a href="feedback.php" class="text-white text-decoration-none">Сотрудничество</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4 mb-md-0">
+                <h5 class="mb-3">Контакты</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> г. Калининград, ул.Брамса, д.9</li>
+                    <li class="mb-2"><i class="bi bi-envelope me-2"></i> gaukokp@mail.ru</li>
+                    <li><i class="bi bi-telephone me-2"></i> +7 (4012) 95-77-75</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5 class="mb-3">Подписаться</h5>
+                <p>Будьте в курсе новых возможностей</p>
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Ваш email">
+                    <button class="btn btn-primary" type="button">OK</button>
+                </div>
+            </div>
         </div>
-        <p class="mb-0">© 2025 СтудМаркет.рф. Все права защищены.</p>
+        <hr class="my-4">
+        <div class="text-center">
+            <p class="mb-0">© 2025 СтудМаркет. Все права защищены.</p>
+        </div>
     </div>
 </footer>
 

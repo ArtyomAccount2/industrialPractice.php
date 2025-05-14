@@ -36,24 +36,19 @@ a:hover
     font-weight: 500;
 }
 
-.navbar-brand 
-{
-    font-family: 'Arial Black', sans-serif;
-    font-size: 1.5rem;
-}
-
 .logo
 {
-    width: 150px;
+    width: 115px;
     height: auto;
 }
 
 .hero-section 
 {
-    background: linear-gradient(135deg, #2A5C8F, #4A90E2);
-    color: #fff;
-    position: relative;
-    margin-top: -60px;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('img/img0.jfif');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    margin-top: -50px;
 }
 
 .hero-section h1 
@@ -80,8 +75,8 @@ a:hover
 
 .features-section 
 {
-    background-color: #f8f9fa;
-    padding: 60px 0;
+    background-color: #f1f1f1;
+    padding: 35px;
 }
 
 .section-header h2 
@@ -201,25 +196,25 @@ footer p
 
 @media (max-width: 768px) 
 {
-  .hero-section h1 
-  {
-      font-size: 2rem;
-  }
+    .hero-section h1 
+    {
+        font-size: 2rem;
+    }
 
-  .section-header h2 
-  {
-      font-size: 2rem;
-  }
+    .section-header h2 
+    {
+        font-size: 2rem;
+    }
 
-  .feature-icon 
-  {
-      font-size: 2rem;
-  }
+    .feature-icon 
+    {
+        font-size: 2rem;
+    }
 
-  .card 
-  {
-      margin-bottom: 20px;
-  }
+    .card 
+    {
+        margin-bottom: 20px;
+    }
 }
 
 .review-card 
@@ -294,11 +289,43 @@ footer p
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
+.step-icons
+{
+    width: 50%;
+}
+
 @media (min-width: 768px) and (max-width: 992px) 
 {
     .row 
     {
         justify-content: center;
+    }
+
+    .navigation
+    {
+        margin-left: -15px;
+    }
+
+    .list-navigation
+    {
+        margin-left: -25px;
+    }
+
+    .step-icons
+    {
+        width: 100%;
+    }
+
+    .step-card
+    {
+        flex-direction: column;
+    }
+
+    .step-card-body
+    {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 }
 
