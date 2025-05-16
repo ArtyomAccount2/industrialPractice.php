@@ -217,6 +217,11 @@ footer p
     }
 }
 
+.reviews-section
+{
+    background-color: #f1f1f1;
+}
+
 .review-card 
 {
     transition: transform 0.3s, box-shadow 0.3s;

@@ -25,13 +25,13 @@
                         <a class="nav-link active" aria-current="page" href="index.php">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="portfolio.php">Портфолио</a>
+                        <a class="nav-link" href="#">Портфолио</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="feedback.php">Сотрудничество</a>
+                        <a class="nav-link" href="#">Сотрудничество</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="feedback.php">FAQ</a>
+                        <a class="nav-link" href="#">Вакансии</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -159,7 +159,7 @@
                 </div>
             </div>  
             <div class="text-center mt-5">
-                <a href="portfolio.php" class="btn btn-primary btn-lg">Смотреть все работы</a>
+                <a href="#" class="btn btn-primary btn-lg">Смотреть все работы</a>
             </div>
         </div>
     </section>
@@ -222,12 +222,81 @@
                 <h3 class="mb-3">Готовы присоединиться?</h3>
                 <p class="mb-4">Станьте частью сообщества СтудМаркет и откройте новые возможности</p>
                 <a href="#" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#registerModal">Зарегистрироваться</a>
-                <a href="feedback.php" class="btn btn-outline-primary">Сотрудничество</a>
+                <a href="#" class="btn btn-outline-primary">Сотрудничество</a>
             </div>
         </div>
     </section>
 
-    <section class="reviews-section py-5 bg-light">
+    <section class="latest-vacancies py-5 bg-light">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="display-5 fw-bold">Свежие вакансии</h2>
+                <p class="lead text-muted">Актуальные предложения для студентов</p>
+                <div class="divider mx-auto"></div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="img/vacancy1.jfif" class="card-img-top" alt="Стажер-маркетолог" style="height: 200px; object-fit: cover;">
+                        <div class="card-body step-card-body">
+                            <h5 class="card-title">Стажер-маркетолог</h5>
+                            <p class="text-muted small">Digital Agency</p>
+                            <div class="vacancy-meta my-3">
+                                <p class="mb-1"><i class="bi bi-geo-alt me-1"></i>Калининград</p>
+                                <p class="mb-1"><i class="bi bi-cash-coin me-1"></i>от 25 000 ₽</p>
+                                <p class="mb-0"><i class="bi bi-clock me-1"></i>Стажировка</p>
+                            </div>
+                            <div class="d-flex flex-column justify-content-between align-items-center">
+                                <p class="card-text">Участие в разработке digital-стратегий, работа с соцсетями.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="img/vacancy2.jfif" class="card-img-top" alt="Помощник дизайнера" style="height: 200px; object-fit: cover;">
+                        <div class="card-body step-card-body">
+                            <h5 class="card-title">Помощник дизайнера</h5>
+                            <p class="text-muted small">Creative Studio</p>
+                            <div class="vacancy-meta my-3">
+                                <p class="mb-1"><i class="bi bi-geo-alt me-1"></i>Удалённо</p>
+                                <p class="mb-1"><i class="bi bi-cash-coin me-1"></i>30 000 ₽</p>
+                                <p class="mb-0"><i class="bi bi-clock me-1"></i>Частичная занятость</p>
+                            </div>
+                            <div class="d-flex flex-column justify-content-between align-items-center">
+                                <p class="card-text">Подготовка макетов, ретушь фото, помощь в создании презентаций.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="img/vacancy3.jfif" class="card-img-top" alt="Ассистент бухгалтера" style="height: 200px; object-fit: cover;">
+                        <div class="card-body step-card-body">
+                            <h5 class="card-title">Ассистент бухгалтера</h5>
+                            <p class="text-muted small">Финансовая группа</p>
+                            <div class="vacancy-meta my-3">
+                                <p class="mb-1"><i class="bi bi-geo-alt me-1"></i>Калининград</p>
+                                <p class="mb-1"><i class="bi bi-cash-coin me-1"></i>от 30 000 ₽</p>
+                                <p class="mb-0"><i class="bi bi-clock me-1"></i>Полная занятость</p>
+                            </div>
+                            <div class="d-flex flex-column justify-content-between align-items-center">
+                                <p class="card-text">Ведение первичной документации, помощь в подготовке отчетности.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a href="#" class="btn btn-primary btn-lg">Все вакансии</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews-section py-5">
         <div class="container">
             <div class="section-header text-center mb-5">
                 <h2 class="display-5 fw-bold">Отзывы и оценки</h2>
@@ -357,7 +426,7 @@
     </section>
 </div>
 
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -388,7 +457,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+<div class="modal fade" id="registerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -438,7 +507,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+<div class="modal fade" id="addReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -498,9 +567,9 @@
                 <h5 class="navigation mb-3">Навигация</h5>
                 <ul class="list-navigation list-unstyled">
                     <li class="mb-2"><a href="index.php" class="text-white text-decoration-none">Главная</a></li>
-                    <li class="mb-2"><a href="portfolio.php" class="text-white text-decoration-none">Портфолио</a></li>
-                    <li class="mb-2"><a href="feedback.php" class="text-white text-decoration-none">Сотрудничество</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">FAQ</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Портфолио</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Сотрудничество</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Вакансии</a></li>
                 </ul>
             </div>
             <div class="col-md-3 mb-4 mb-md-0">
