@@ -1,3 +1,12 @@
+<?php
+session_start();
+require_once("config/link.php");
+
+$isLoggedIn = isset($_SESSION['user_id']);
+$userName = $isLoggedIn ? $_SESSION['user_name'] : '';
+$userType = $isLoggedIn ? $_SESSION['user_type'] : '';
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -32,6 +41,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Вакансии</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="all_reviews.php">Отзывы</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -158,7 +170,7 @@
                     </div>
                 </div>
             </div>  
-            <div class="text-center mt-5">
+            <div class="text-center mt-4">
                 <a href="#" class="btn btn-primary btn-lg">Смотреть все работы</a>
             </div>
         </div>
@@ -290,7 +302,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-5">
+            <div class="text-center mt-4">
                 <a href="#" class="btn btn-primary btn-lg">Все вакансии</a>
             </div>
         </div>
@@ -326,8 +338,8 @@
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
                             <p class="text-muted small mb-0">2 дня назад</p>
-                            <button class="btn btn-sm btn-outline-primary like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">24</span>
+                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <i class="bi bi-hand-thumbs-up"></i><span class="like-count"> 24</span>
                             </button>
                         </div>
                     </div>
@@ -354,8 +366,8 @@
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
                             <p class="text-muted small mb-0">1 неделю назад</p>
-                            <button class="btn btn-sm btn-outline-primary like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">18</span>
+                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <i class="bi bi-hand-thumbs-up"></i><span class="like-count"> 18</span>
                             </button>
                         </div>
                     </div>
@@ -382,8 +394,8 @@
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
                             <p class="text-muted small mb-0">3 недели назад</p>
-                            <button class="btn btn-sm btn-outline-primary like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">12</span>
+                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <i class="bi bi-hand-thumbs-up"></i><span class="like-count"> 12</span>
                             </button>
                         </div>
                     </div>
@@ -417,10 +429,7 @@
                 </div>
             </div>
             <div class="text-center mt-4">
-                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
-                    <i class="bi bi-pencil-square me-2"></i>Добавить отзыв
-                </button>
-                <a href="#" class="bi bi-list-columns-reverse btn btn-outline-light ms-2"> Смотреть все отзывы</button></a>
+                <a href="files/all_reviews.php" class="btn btn-primary btn-lg"> Смотреть все отзывы</button></a>
             </div>
         </div>
     </section>
@@ -433,26 +442,33 @@
                 <h5 class="modal-title" id="loginModalLabel">Вход в систему</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form method="POST" action="files/login.php">
+                <?php if (isset($_SESSION['error']))
+                {
+                ?>
+                    <div class="alert alert-danger m-3"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
+                <?php 
+                } 
+                ?>
+                <div class="modal-body">
                     <div class="mb-3">
                         <label for="loginEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="loginEmail" required>
+                        <input type="email" class="form-control" id="loginEmail" name="email" required>
                     </div>
                     <div class="mb-3">
                         <label for="loginPassword" class="form-label">Пароль</label>
-                        <input type="password" class="form-control" id="loginPassword" required>
+                        <input type="password" class="form-control" id="loginPassword" name="password" required>
                     </div>
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="rememberMe">
                         <label class="form-check-label" for="rememberMe">Запомнить меня</label>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Войти</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -464,30 +480,42 @@
                 <h5 class="modal-title" id="registerModalLabel">Регистрация</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form method="POST" action="files/register.php">
+                <?php 
+                if (isset($_SESSION['error_register']))
+                {
+                ?>
+                    <div class="alert alert-danger m-3"><?php echo $_SESSION['error_register']; unset($_SESSION['error_register']); ?></div>
+                <?php 
+                } 
+                ?>
+                <div class="modal-body">
                     <div class="mb-3">
                         <label for="regName" class="form-label">Имя</label>
-                        <input type="text" class="form-control" id="regName" required>
+                        <input type="text" class="form-control" id="regName" name="name" required>
                     </div>
                     <div class="mb-3">
                         <label for="regEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="regEmail" required>
+                        <input type="email" class="form-control" id="regEmail" name="email" required>
                     </div>
                     <div class="mb-3">
                         <label for="regPassword" class="form-label">Пароль</label>
-                        <input type="password" class="form-control" id="regPassword" required>
+                        <input type="password" class="form-control" id="regPassword" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regPhone" class="form-label">Телефон</label>
+                        <input type="phone" class="form-control" id="regPhone" name="phone" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Вы регистрируетесь как:</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="userType" id="studentType" checked>
+                            <input class="form-check-input" type="radio" name="user_type" id="studentType" value="student" checked>
                             <label class="form-check-label" for="studentType">
                                 Студент
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="userType" id="employerType">
+                            <input class="form-check-input" type="radio" name="user_type" id="employerType" value="employer">
                             <label class="form-check-label" for="employerType">
                                 Работодатель
                             </label>
@@ -497,57 +525,12 @@
                         <input type="checkbox" class="form-check-input" id="agreeTerms" required>
                         <label class="form-check-label" for="agreeTerms">Я согласен с условиями использования</label>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="addReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addReviewModalLabel">Оставить отзыв</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label">Ваша оценка</label>
-                        <div class="rating-input">
-                            <input type="radio" id="star5" name="rating" value="5"><label for="star5" class="bi bi-star-fill"></label>
-                            <input type="radio" id="star4" name="rating" value="4"><label for="star4" class="bi bi-star-fill"></label>
-                            <input type="radio" id="star3" name="rating" value="3"><label for="star3" class="bi bi-star-fill"></label>
-                            <input type="radio" id="star2" name="rating" value="2"><label for="star2" class="bi bi-star-fill"></label>
-                            <input type="radio" id="star1" name="rating" value="1"><label for="star1" class="bi bi-star-fill"></label>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="reviewText" class="form-label">Текст отзыва</label>
-                        <textarea class="form-control" id="reviewText" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="reviewerName" class="form-label">Ваше имя</label>
-                        <input type="text" class="form-control" id="reviewerName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="reviewerRole" class="form-label">Ваша роль</label>
-                        <select class="form-select" id="reviewerRole" required>
-                            <option value="">Выберите роль</option>
-                            <option value="student">Студент</option>
-                            <option value="employer">Работодатель</option>
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Отправить отзыв</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -569,7 +552,8 @@
                     <li class="mb-2"><a href="index.php" class="text-white text-decoration-none">Главная</a></li>
                     <li class="mb-2"><a href="#" class="text-white text-decoration-none">Портфолио</a></li>
                     <li class="mb-2"><a href="#" class="text-white text-decoration-none">Сотрудничество</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">Вакансии</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Вакансии</a></li>
+                    <li><a href="all_reviews.php" class="text-white text-decoration-none">Отзывы</a></li>
                 </ul>
             </div>
             <div class="col-md-3 mb-4 mb-md-0">
@@ -595,6 +579,20 @@
         </div>
     </div>
 </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() 
+{
+    if (window.location.hash) 
+    {
+        let modalId = window.location.hash;
+        let modal = new bootstrap.Modal(document.querySelector(modalId));
+        modal.show();
+
+        history.replaceState(null, null, ' ');
+    }
+});
+</script>
 
 <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
