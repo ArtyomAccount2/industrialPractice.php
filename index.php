@@ -334,10 +334,10 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
                             </div>
                         </div>
                         <div class="review-body">
-                            <p class="mb-3">"Благодаря СтудМаркету я получила стажировку в крупной компании уже на 3 курсе. Очень удобная платформа, где можно показать свои работы и сразу получить отклик от работодателей."</p>
+                            <p class="mb-3">Благодаря СтудМаркету я получила стажировку в крупной компании уже на 3 курсе. Очень удобная платформа, где можно показать свои работы и сразу получить отклик от работодателей.</p>
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
-                            <p class="text-muted small mb-0">2 дня назад</p>
+                            <p class="text-muted small mb-0">21.05.2025</p>
                             <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <i class="bi bi-hand-thumbs-up"></i><span class="like-count"> 24</span>
                             </button>
@@ -357,15 +357,15 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
                                     <i class="bi bi-star-fill text-warning"></i>
                                     <i class="bi bi-star-fill text-warning"></i>
                                     <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-half text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="review-body">
-                            <p class="mb-3">"За последний год нашли через платформу 3 отличных стажера. Особенно ценно, что можно сразу увидеть реальные работы студентов, а не только сухие резюме. Экономит массу времени!"</p>
+                            <p class="mb-3">За последний год нашли через платформу 3 отличных стажера. Особенно ценно, что можно сразу увидеть реальные работы студентов, а не только сухие резюме. Экономит массу времени!</p>
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
-                            <p class="text-muted small mb-0">1 неделю назад</p>
+                            <p class="text-muted small mb-0">19.05.2025</p>
                             <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <i class="bi bi-hand-thumbs-up"></i><span class="like-count"> 18</span>
                             </button>
@@ -385,15 +385,15 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
                                     <i class="bi bi-star-fill text-warning"></i>
                                     <i class="bi bi-star-fill text-warning"></i>
                                     <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="review-body">
-                            <p class="mb-3">"Платформа помогла мне найти первых клиентов на фрилансе еще во время учебы. Теперь у меня есть портфолио и опыт, которые помогут устроиться на работу после выпуска."</p>
+                            <p class="mb-3">Платформа помогла мне найти первых клиентов на фрилансе еще во время учебы. Теперь у меня есть портфолио и опыт, которые помогут устроиться на работу после выпуска.</p>
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
-                            <p class="text-muted small mb-0">3 недели назад</p>
+                            <p class="text-muted small mb-0">17.05.2025</p>
                             <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <i class="bi bi-hand-thumbs-up"></i><span class="like-count"> 12</span>
                             </button>

@@ -5,6 +5,71 @@ require_once("../config/link.php");
 $isLoggedIn = isset($_SESSION['user_id']);
 $userName = $isLoggedIn ? $_SESSION['user_name'] : '';
 $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_review'])) 
+{
+    $rating = intval($_POST['rating']);
+    $text = mysqli_real_escape_string($conn, $_POST['review_text']);
+    $userId = $_SESSION['user_id'];
+    
+    $sql = "INSERT INTO reviews (user_id, rating, text, created_at) VALUES ('$userId', '$rating', '$text', NOW())";
+    
+    if (mysqli_query($conn, $sql)) 
+    {
+        $_SESSION['success'] = "Отзыв успешно добавлен!";
+        header("Location: all_reviews.php");
+        exit();
+    } 
+    else 
+    {
+        $_SESSION['error'] = "Ошибка при добавлении отзыва: " . mysqli_error($conn);
+    }
+}
+
+if ($isLoggedIn && isset($_GET['action'])) 
+{
+    $reviewId = intval($_GET['id']);
+    $userId = $_SESSION['user_id'];
+    
+    if ($_GET['action'] === 'like') 
+    {
+        $sql = "INSERT INTO likes (user_id, review_id) VALUES ('$userId', '$reviewId') ON DUPLICATE KEY UPDATE is_active = NOT is_active";
+    } 
+    else if ($_GET['action'] === 'unlike') 
+    {
+        $sql = "UPDATE likes SET is_active = 0 WHERE user_id = '$userId' AND review_id = '$reviewId'";
+    }
+    
+    mysqli_query($conn, $sql);
+    header("Location: all_reviews.php?page=" . $_GET['page']);
+    exit();
+}
+
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+if ($current_page < 1) 
+{
+    $current_page = 1;
+}
+
+$limit = 10;
+$offset = ($current_page - 1) * $limit;
+
+$sql = "SELECT r.*, u.name as user_name, u.user_type, 
+        (SELECT COUNT(*) FROM likes WHERE review_id = r.id AND is_active = 1) as like_count,
+        (SELECT SUM(like_currect) FROM likes WHERE review_id = r.id) as like_currect_sum
+        FROM reviews r 
+        JOIN users u ON r.user_id = u.id 
+        ORDER BY r.created_at DESC 
+        LIMIT $limit OFFSET $offset";
+$reviews = mysqli_query($conn, $sql);
+$total_reviews = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM reviews"))['count'];
+$total_pages = ceil($total_reviews / $limit);
+
+if ($current_page > $total_pages) 
+{
+    $current_page = $total_pages;
+}
 ?>
 
 <!DOCTYPE html>
@@ -89,346 +154,114 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
                 <p class="lead text-muted">Мнения студентов и работодателей о СтудМаркет</p>
                 <div class="divider mx-auto"></div>
             </div>
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="rating-stats p-4 bg-white rounded-3 h-100">
-                        <div class="display-4 fw-bold text-primary">4.8</div>
-                        <div class="stars mb-2">
-                            <i class="bi bi-star-fill text-warning"></i>
-                            <i class="bi bi-star-fill text-warning"></i>
-                            <i class="bi bi-star-fill text-warning"></i>
-                            <i class="bi bi-star-fill text-warning"></i>
-                            <i class="bi bi-star-half text-warning"></i>
-                        </div>
-                        <p class="small text-muted mb-0">Средняя оценка на основе 1,250+ отзывов</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="rating-distribution p-4 bg-white rounded-3 h-100">
-                        <h5 class="mb-3">Распределение оценок</h5>
-                        <div class="rating-bar mb-2">
-                            <div class="d-flex justify-content-between">
-                                <span>5 звезд</span>
-                                <span>820 (65%)</span>
-                            </div>
-                            <div class="progress" style="height: 10px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="rating-bar mb-2">
-                            <div class="d-flex justify-content-between">
-                                <span>4 звезды</span>
-                                <span>330 (26%)</span>
-                            </div>
-                            <div class="progress" style="height: 10px;">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 26%" aria-valuenow="26" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="rating-bar mb-2">
-                            <div class="d-flex justify-content-between">
-                                <span>3 звезды</span>
-                                <span>70 (6%)</span>
-                            </div>
-                            <div class="progress" style="height: 10px;">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 6%" aria-valuenow="6" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="rating-bar mb-2">
-                            <div class="d-flex justify-content-between">
-                                <span>2 звезды</span>
-                                <span>20 (2%)</span>
-                            </div>
-                            <div class="progress" style="height: 10px;">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 2%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="rating-bar">
-                            <div class="d-flex justify-content-between">
-                                <span>1 звезда</span>
-                                <span>10 (1%)</span>
-                            </div>
-                            <div class="progress" style="height: 10px;">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 1%" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row g-4">
+            <?php 
+            while($review = mysqli_fetch_assoc($reviews))
+            {
+                $isLiked = false;
+                $likeCount = $review['like_count'];
+                $likeTotal = $review['like_count'] + ($review['like_currect_sum'] ?? 0);
+                
+                if ($isLoggedIn) 
+                {
+                    $checkLike = mysqli_query($conn, "SELECT * FROM likes WHERE user_id = '$_SESSION[user_id]' AND review_id = '{$review['id']}' AND is_active = 1");
+                    $isLiked = mysqli_num_rows($checkLike) > 0;
+                }
+            ?>
                 <div class="col-lg-6">
                     <div class="review-card p-4 bg-white rounded-3 h-100">
                         <div class="review-header d-flex justify-content-between mb-3">
                             <div class="reviewer-info">
-                                <h6 class="mb-1">Анна К.</h6>
-                                <p class="text-muted small mb-0">Студент</p>
+                                <h6 class="mb-1"><?= htmlspecialchars($review['user_name']) ?></h6>
+                                <p class="text-muted small mb-0">
+                                    <?= $review['user_type'] === 'employer' ? 'Работодатель' : 'Студент' ?>
+                                </p>
                             </div>
                             <div class="rating">
                                 <div class="stars">
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <?php 
+                                    for ($i = 1; $i <= 5; $i++)
+                                    { 
+                                    ?>
+                                        <i class="bi bi-star<?= $i <= $review['rating'] ? '-fill' : '' ?> text-warning"></i>
+                                    <?php 
+                                    } 
+                                    ?>
                                 </div>
                             </div>
                         </div>
                         <div class="review-body">
-                            <p class="mb-3">"Благодаря СтудМаркету я получила стажировку в крупной компании уже на 3 курсе. Очень удобная платформа, где можно показать свои работы и сразу получить отклик от работодателей."</p>
+                            <p class="mb-3"><?= nl2br(htmlspecialchars($review['text'])) ?></p>
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
-                            <p class="text-muted small mb-0">2 дня назад</p>
+                            <p class="text-muted small mb-0">
+                                <?= date('d.m.Y', strtotime($review['created_at'])) ?>
+                            </p>
                             <?php 
                             if ($isLoggedIn)
                             {
                             ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">24</span>
-                            </button>
+                                <a href="all_reviews.php?page=<?= $current_page ?>&action=<?= $isLiked ? 'unlike' : 'like' ?>&id=<?= $review['id'] ?>" 
+                                class="btn btn-sm <?= $isLiked ? 'btn-primary' : 'btn-outline-primary' ?> like-btn">
+                                    <i class="bi bi-hand-thumbs-up"></i> 
+                                    <span class="like-count"><?= $likeTotal ?></span>
+                                </a>
                             <?php 
                             }
                             else
                             {
                             ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">24</span>
-                            </button>
-                            <?php
-                            }
+                                <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <i class="bi bi-hand-thumbs-up"></i> 
+                                    <span class="like-count"><?= $likeTotal ?></span>
+                                </button>
+                            <?php 
+                            } 
                             ?>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="review-card p-4 bg-white rounded-3 h-100">
-                        <div class="review-header d-flex justify-content-between mb-3">
-                            <div class="reviewer-info">
-                                <h6 class="mb-1">TechSolutions Inc.</h6>
-                                <p class="text-muted small mb-0">Работодатель</p>
-                            </div>
-                            <div class="rating">
-                                <div class="stars">
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-half text-warning"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review-body">
-                            <p class="mb-3">"За последний год нашли через платформу 3 отличных стажера. Особенно ценно, что можно сразу увидеть реальные работы студентов, а не только сухие резюме. Экономит массу времени!"</p>
-                        </div>
-                        <div class="review-footer d-flex justify-content-between align-items-center">
-                            <p class="text-muted small mb-0">1 неделю назад</p>
-                            <?php 
-                            if ($isLoggedIn)
-                            {
-                            ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">18</span>
-                            </button>
-                            <?php 
-                            }
-                            else
-                            {
-                            ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">18</span>
-                            </button>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="review-card p-4 bg-white rounded-3 h-100">
-                        <div class="review-header d-flex justify-content-between mb-3">
-                            <div class="reviewer-info">
-                                <h6 class="mb-1">Иван П.</h6>
-                                <p class="text-muted small mb-0">Студент</p>
-                            </div>
-                            <div class="rating">
-                                <div class="stars">
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review-body">
-                            <p class="mb-3">"Платформа помогла мне найти первых клиентов на фрилансе еще во время учебы. Теперь у меня есть портфолио и опыт, которые помогут устроиться на работу после выпуска."</p>
-                        </div>
-                        <div class="review-footer d-flex justify-content-between align-items-center">
-                            <p class="text-muted small mb-0">3 недели назад</p>
-                            <?php 
-                            if ($isLoggedIn)
-                            {
-                            ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">12</span>
-                            </button>
-                            <?php 
-                            }
-                            else
-                            {
-                            ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">12</span>
-                            </button>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="review-card p-4 bg-white rounded-3 h-100">
-                        <div class="review-header d-flex justify-content-between mb-3">
-                            <div class="reviewer-info">
-                                <h6 class="mb-1">Creative Agency</h6>
-                                <p class="text-muted small mb-0">Работодатель</p>
-                            </div>
-                            <div class="rating">
-                                <div class="stars">
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review-body">
-                            <p class="mb-3">"Мы регулярно ищем талантливых студентов через СтудМаркет. Платформа действительно помогает находить людей с практическими навыками, а не только с теоретическими знаниями."</p>
-                        </div>
-                        <div class="review-footer d-flex justify-content-between align-items-center">
-                            <p class="text-muted small mb-0">1 месяц назад</p>
-                            <?php 
-                            if ($isLoggedIn)
-                            {
-                            ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">32</span>
-                            </button>
-                            <?php 
-                            }
-                            else
-                            {
-                            ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">32</span>
-                            </button>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="review-card p-4 bg-white rounded-3 h-100">
-                        <div class="review-header d-flex justify-content-between mb-3">
-                            <div class="reviewer-info">
-                                <h6 class="mb-1">Елена С.</h6>
-                                <p class="text-muted small mb-0">Студент</p>
-                            </div>
-                            <div class="rating">
-                                <div class="stars">
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star text-warning"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review-body">
-                            <p class="mb-3">"Через платформу получила свой первый заказ на дизайн логотипа. Клиент нашел меня по моему портфолио здесь. Очень удобно, что все в одном месте - и работы, и общение с заказчиками."</p>
-                        </div>
-                        <div class="review-footer d-flex justify-content-between align-items-center">
-                            <p class="text-muted small mb-0">2 месяца назад</p>
-                            <?php 
-                            if ($isLoggedIn)
-                            {
-                            ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">15</span>
-                            </button>
-                            <?php 
-                            }
-                            else
-                            {
-                            ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">15</span>
-                            </button>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="review-card p-4 bg-white rounded-3 h-100">
-                        <div class="review-header d-flex justify-content-between mb-3">
-                            <div class="reviewer-info">
-                                <h6 class="mb-1">StartUp Ventures</h6>
-                                <p class="text-muted small mb-0">Работодатель</p>
-                            </div>
-                            <div class="rating">
-                                <div class="stars">
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-half text-warning"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review-body">
-                            <p class="mb-3">"Как стартапу нам было важно найти недорогих, но талантливых специалистов. СтудМаркет идеально подошел для этого - мы нашли двух отличных разработчиков, которые сейчас работают у нас на полную ставку."</p>
-                        </div>
-                        <div class="review-footer d-flex justify-content-between align-items-center">
-                            <p class="text-muted small mb-0">3 месяца назад</p>
-                            <?php 
-                            if ($isLoggedIn)
-                            {
-                            ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">28</span>
-                            </button>
-                            <?php 
-                            }
-                            else
-                            {
-                            ?>
-                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">28</span>
-                            </button>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
+                <?php 
+                } 
+                ?>
             </div>
             <div class="text-center mt-5">
+                <?php 
+                if ($isLoggedIn)
+                {
+                ?>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
                     <i class="bi bi-pencil-square me-2"></i>Добавить отзыв
                 </button>
+                <?php 
+                }
+                else
+                {
+                ?>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <i class="bi bi-pencil-square me-2"></i>Добавить отзыв
+                </button>
+                <?php 
+                }
+                ?>
             </div>
             <nav aria-label="Page navigation" class="mt-3">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Назад</a>
+                    <li class="page-item <?= ($current_page == 1) ? 'disabled' : '' ?>">
+                        <a class="page-link" href="all_reviews.php?page=<?= $current_page - 1 ?>" tabindex="-1">Назад</a>
                     </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Вперед</a>
+                    <?php 
+                    for ($i = 1; $i <= $total_pages; $i++)
+                    {
+                    ?>
+                        <li class="page-item <?= ($current_page == $i) ? 'active' : '' ?>">
+                            <a class="page-link" href="all_reviews.php?page=<?= $i ?>"><?= $i ?></a>
+                        </li>
+                    <?php 
+                    } 
+                    ?>
+                    <li class="page-item <?= ($current_page >= $total_pages) ? 'disabled' : '' ?>">
+                        <a class="page-link" href="all_reviews.php?page=<?= $current_page + 1 ?>">Вперед</a>
                     </li>
                 </ul>
             </nav>
@@ -536,47 +369,56 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
     </div>
 </div>
 
-<div class="modal fade" id="addReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+<div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addReviewModalLabel">Оставить отзыв</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form method="POST" action="all_reviews.php">
+                <div class="modal-body">
+                    <?php 
+                    if (isset($_SESSION['error']))
+                    {
+                    ?>
+                        <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+                    <?php 
+                    } 
+                    ?>
+                    <?php 
+                    if (isset($_SESSION['success']))
+                    {
+                    ?>
+                        <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
+                    <?php 
+                    } 
+                    ?>
                     <div class="mb-3">
                         <label class="form-label">Ваша оценка</label>
                         <div class="rating-input">
-                            <input type="radio" id="star5" name="rating" value="5"><label for="star5" class="bi bi-star-fill"></label>
-                            <input type="radio" id="star4" name="rating" value="4"><label for="star4" class="bi bi-star-fill"></label>
-                            <input type="radio" id="star3" name="rating" value="3"><label for="star3" class="bi bi-star-fill"></label>
-                            <input type="radio" id="star2" name="rating" value="2"><label for="star2" class="bi bi-star-fill"></label>
-                            <input type="radio" id="star1" name="rating" value="1"><label for="star1" class="bi bi-star-fill"></label>
+                            <input type="radio" id="star5" name="rating" value="5" required>
+                            <label for="star5" class="bi bi-star-fill"></label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4" class="bi bi-star-fill"></label>
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3" class="bi bi-star-fill"></label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2" class="bi bi-star-fill"></label>
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1" class="bi bi-star-fill"></label>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="reviewText" class="form-label">Текст отзыва</label>
-                        <textarea class="form-control" id="reviewText" rows="3" required></textarea>
+                        <textarea class="form-control" id="reviewText" name="review_text" rows="3" required></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label for="reviewerName" class="form-label">Ваше имя</label>
-                        <input type="text" class="form-control" id="reviewerName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="reviewerRole" class="form-label">Ваша роль</label>
-                        <select class="form-select" id="reviewerRole" required>
-                            <option value="">Выберите роль</option>
-                            <option value="student">Студент</option>
-                            <option value="employer">Работодатель</option>
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Отправить отзыв</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="submit" name="add_review" class="btn btn-primary">Отправить отзыв</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
