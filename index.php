@@ -3,8 +3,6 @@ session_start();
 require_once("config/link.php");
 
 $isLoggedIn = isset($_SESSION['user_id']);
-$userName = $isLoggedIn ? $_SESSION['user_name'] : '';
-$userType = $isLoggedIn ? $_SESSION['user_type'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -34,16 +32,16 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
                         <a class="nav-link active" aria-current="page" href="index.php">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Портфолио</a>
+                        <a class="nav-link" href="files/portfolio.php">Портфолио</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Сотрудничество</a>
+                        <a class="nav-link" href="files/cooperation.php">Сотрудничество</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Вакансии</a>
+                        <a class="nav-link" href="files/vacancies.php">Вакансии</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="all_reviews.php">Отзывы</a>
+                        <a class="nav-link" aria-current="page" href="files/all_reviews.php">Отзывы</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -55,12 +53,28 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
     </nav>
 
     <section class="hero-section vh-100 d-flex align-items-center">
-        <div class="container text-center">
-            <h1 class="display-4 fw-bold mb-3">СтудМаркет - мост между талантами и возможностями</h1>
-            <p class="lead mb-4">Специализированная платформа для студентов Колледжа предпринимательства, где можно демонстрировать работы, находить вакансии и взаимодействовать с работодателями</p>
+        <div class="hero-slide carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner h-100">
+                <div class="carousel-item active h-100">
+                    <img src="img/hero1.jfif" class="d-block w-100 h-100 object-fit-cover" alt="Slide 1">
+                    <div class="carousel-caption d-none d-md-block"></div>
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="img/hero2.jfif" class="d-block w-100 h-100 object-fit-cover" alt="Slide 2">
+                    <div class="carousel-caption d-none d-md-block"></div>
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="img/hero3.jfif" class="d-block w-100 h-100 object-fit-cover" alt="Slide 3">
+                    <div class="carousel-caption d-none d-md-block"></div>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center position-relative z-index-1">
+            <h1 class="display-4 fw-bold mb-3 shadow-text">СтудМаркет - мост между талантами и возможностями</h1>
+            <p class="lead mb-4 shadow-text">Специализированная платформа для студентов Колледжа предпринимательства, где можно демонстрировать работы, находить вакансии и взаимодействовать с работодателями</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                 <a data-bs-toggle="modal" data-bs-target="#registerModal" class="btn btn-primary btn-lg px-4 gap-3">Начать сейчас</a>
-                <a href="#" class="btn btn-outline-light btn-lg px-4">Узнать больше</a>
+                <a href="#" class="btn btn-light btn-lg px-4">Узнать больше</a>
             </div>
         </div>
     </section>
@@ -134,11 +148,14 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
                     <div class="card h-100 border-0 shadow-sm">
                         <img src="img/portfolio1.jfif" class="card-img-top" alt="Студенческая работа">
                         <div class="card-body step-card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge badge-category">Маркетинг</span>
+                            </div>
                             <h5 class="card-title">Маркетинговая стратегия</h5>
                             <p class="card-text">Разработка комплексной маркетинговой стратегии для стартапа в сфере IT.</p>
                             <div class="step-card d-flex justify-content-between align-items-center">
-                                <span class="badge bg-primary">Маркетинг</span>
-                                <p class="text-muted small mb-0">Иван Петров, 3 курс</p>
+                                <small class="text-muted">22.05.2025</small>
+                                <p class="text-muted small mb-0">Иван П.</p>
                             </div>
                         </div>
                     </div>
@@ -147,11 +164,14 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
                     <div class="card h-100 border-0 shadow-sm">
                         <img src="img/portfolio2.jfif" class="card-img-top" alt="Студенческая работа">
                         <div class="card-body step-card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge badge-category">Дизайн</span>
+                            </div>
                             <h5 class="card-title">Дизайн мобильного приложения</h5>
                             <p class="card-text">Полный цикл разработки UI/UX для приложения здорового питания.</p>
                             <div class="step-card d-flex justify-content-between align-items-center">
-                                <span class="badge bg-primary">Дизайн</span>
-                                <p class="text-muted small mb-0">Анна Сидорова, 4 курс</p>
+                                <small class="text-muted">17.05.2025</small>
+                                <p class="text-muted small mb-0">Анна С.</p>
                             </div>
                         </div>
                     </div>
@@ -160,18 +180,21 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
                     <div class="card h-100 border-0 shadow-sm">
                         <img src="img/portfolio3.jfif" class="card-img-top" alt="Студенческая работа">
                         <div class="card-body step-card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge badge-category">IT</span>
+                            </div>
                             <h5 class="card-title">Бизнес-план кафе</h5>
                             <p class="card-text">Детальный бизнес-план и финансовые расчеты для кофейни премиум-класса.</p>
                             <div class="step-card d-flex justify-content-between align-items-center">
-                                <span class="badge bg-primary">Предпринимательство</span>
-                                <p class="text-muted small mb-0">Михаил Иванов, 2 курс</p>
+                                <small class="text-muted">12.05.2025</small>
+                                <p class="text-muted small mb-0">Михаил И.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>  
             <div class="text-center mt-4">
-                <a href="#" class="btn btn-primary btn-lg">Смотреть все работы</a>
+                <a href="files/portfolio.php" class="btn btn-primary btn-lg">Смотреть все работы</a>
             </div>
         </div>
     </section>
@@ -234,7 +257,7 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
                 <h3 class="mb-3">Готовы присоединиться?</h3>
                 <p class="mb-4">Станьте частью сообщества СтудМаркет и откройте новые возможности</p>
                 <a href="#" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#registerModal">Зарегистрироваться</a>
-                <a href="#" class="btn btn-outline-primary">Сотрудничество</a>
+                <a href="files/cooperation.php" class="btn btn-outline-primary">Сотрудничество</a>
             </div>
         </div>
     </section>
@@ -303,7 +326,7 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
                 </div>
             </div>
             <div class="text-center mt-4">
-                <a href="#" class="btn btn-primary btn-lg">Все вакансии</a>
+                <a href="files/vacancies.php" class="btn btn-primary btn-lg">Все вакансии</a>
             </div>
         </div>
     </section>
@@ -435,150 +458,10 @@ $userType = $isLoggedIn ? $_SESSION['user_type'] : '';
     </section>
 </div>
 
-<div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Вход в систему</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="POST" action="files/login.php">
-                <?php if (isset($_SESSION['error']))
-                {
-                ?>
-                    <div class="alert alert-danger m-3"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
-                <?php 
-                } 
-                ?>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="loginEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="loginEmail" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="loginPassword" class="form-label">Пароль</label>
-                        <input type="password" class="form-control" id="loginPassword" name="password" required>
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Запомнить меня</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Войти</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="registerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Регистрация</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="POST" action="files/register.php">
-                <?php 
-                if (isset($_SESSION['error_register']))
-                {
-                ?>
-                    <div class="alert alert-danger m-3"><?php echo $_SESSION['error_register']; unset($_SESSION['error_register']); ?></div>
-                <?php 
-                } 
-                ?>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="regName" class="form-label">Имя</label>
-                        <input type="text" class="form-control" id="regName" name="name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="regEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="regEmail" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="regPassword" class="form-label">Пароль</label>
-                        <input type="password" class="form-control" id="regPassword" name="password" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="regPhone" class="form-label">Телефон</label>
-                        <input type="phone" class="form-control" id="regPhone" name="phone" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Вы регистрируетесь как:</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="user_type" id="studentType" value="student" checked>
-                            <label class="form-check-label" for="studentType">
-                                Студент
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="user_type" id="employerType" value="employer">
-                            <label class="form-check-label" for="employerType">
-                                Работодатель
-                            </label>
-                        </div>
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="agreeTerms" required>
-                        <label class="form-check-label" for="agreeTerms">Я согласен с условиями использования</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<footer class="bg-dark text-white py-4">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-4 mb-md-0">
-                <h5 class="mb-3">СтудМаркет</h5>
-                <p>Специализированная платформа для студентов Колледжа предпринимательства, где можно демонстрировать работы, находить вакансии и взаимодействовать с работодателями.</p>
-                <div class="social-icons">
-                    <a href="https://vk.com/studmarket39" class="text-white me-2"><i class="bi bi-people-fill"></i></a>
-                    <a href="https://t.me/StudMarket_bot" class="text-white"><i class="bi bi-telegram"></i></a>
-                </div>
-            </div>
-            <div class="col-md-2 mb-4 mb-md-0">
-                <h5 class="navigation mb-3">Навигация</h5>
-                <ul class="list-navigation list-unstyled">
-                    <li class="mb-2"><a href="index.php" class="text-white text-decoration-none">Главная</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Портфолио</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Сотрудничество</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Вакансии</a></li>
-                    <li><a href="all_reviews.php" class="text-white text-decoration-none">Отзывы</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3 mb-4 mb-md-0">
-                <h5 class="mb-3">Контакты</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> г. Калининград, ул.Брамса, д.9</li>
-                    <li class="mb-2"><i class="bi bi-envelope me-2"></i> gaukokp@mail.ru</li>
-                    <li><i class="bi bi-telephone me-2"></i> +7 (4012) 95-77-75</li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <h5 class="mb-3">Подписаться</h5>
-                <p>Будьте в курсе новых возможностей</p>
-                <div class="input-group mb-3">
-                    <input type="email" class="form-control" placeholder="Ваш email">
-                    <button class="btn btn-primary" type="button">OK</button>
-                </div>
-            </div>
-        </div>
-        <hr class="my-4">
-        <div class="text-center">
-            <p class="mb-0">© 2025 СтудМаркет. Все права защищены.</p>
-        </div>
-    </div>
-</footer>
+<?php
+    require_once("files/modals.php");
+    require_once("files/footer.php");
+?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() 

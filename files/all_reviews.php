@@ -3,8 +3,6 @@ session_start();
 require_once("../config/link.php");
 
 $isLoggedIn = isset($_SESSION['user_id']);
-$userName = $isLoggedIn ? $_SESSION['user_name'] : '';
-$userType = $isLoggedIn ? $_SESSION['user_type'] : '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_review'])) 
 {
@@ -55,13 +53,7 @@ if ($current_page < 1)
 $limit = 10;
 $offset = ($current_page - 1) * $limit;
 
-$sql = "SELECT r.*, u.name as user_name, u.user_type, 
-        (SELECT COUNT(*) FROM likes WHERE review_id = r.id AND is_active = 1) as like_count,
-        (SELECT SUM(like_currect) FROM likes WHERE review_id = r.id) as like_currect_sum
-        FROM reviews r 
-        JOIN users u ON r.user_id = u.id 
-        ORDER BY r.created_at DESC 
-        LIMIT $limit OFFSET $offset";
+$sql = "SELECT r.*, u.name as user_name, u.user_type, (SELECT COUNT(*) FROM likes WHERE review_id = r.id AND is_active = 1) as like_count, (SELECT SUM(like_currect) FROM likes WHERE review_id = r.id) as like_currect_sum FROM reviews r JOIN users u ON r.user_id = u.id ORDER BY r.created_at DESC LIMIT $limit OFFSET $offset";
 $reviews = mysqli_query($conn, $sql);
 $total_reviews = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM reviews"))['count'];
 $total_pages = ceil($total_reviews / $limit);
@@ -114,13 +106,13 @@ if ($current_page > $total_pages)
                     } 
                     ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Портфолио</a>
+                        <a class="nav-link" href="portfolio.php">Портфолио</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Сотрудничество</a>
+                        <a class="nav-link" href="cooperation.php">Сотрудничество</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Вакансии</a>
+                        <a class="nav-link" href="vacancies.php">Вакансии</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="all_reviews.php">Отзывы</a>
@@ -131,7 +123,9 @@ if ($current_page > $total_pages)
                     if ($isLoggedIn)
                     {
                     ?>
-                        <a href="logout.php" class="btn btn-outline-danger">Выйти</a>
+                        <a href="logout.php" class="btn btn-outline-danger">
+                            <i class="bi bi-box-arrow-right"></i> Выйти
+                        </a>
                     <?php 
                     }
                     else
@@ -269,107 +263,11 @@ if ($current_page > $total_pages)
     </section>
 </div>
 
-<div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Вход в систему</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="POST" action="login.php">
-                <?php 
-                if (isset($_SESSION['error']))
-                {
-                ?>
-                    <div class="alert alert-danger m-3"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
-                <?php 
-                } 
-                ?>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="loginEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="loginEmail" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="loginPassword" class="form-label">Пароль</label>
-                        <input type="password" class="form-control" id="loginPassword" name="password" required>
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Запомнить меня</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Войти</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<?php
+    require_once("modals.php");
+?>
 
-<div class="modal fade" id="registerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Регистрация</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="POST" action="register.php">
-                <?php if (isset($_SESSION['error_register']))
-                {
-                ?>
-                    <div class="alert alert-danger m-3"><?php echo $_SESSION['error_register']; unset($_SESSION['error_register']); ?></div>
-                <?php 
-                } 
-                ?>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="regName" class="form-label">Имя</label>
-                        <input type="text" class="form-control" id="regName" name="name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="regEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="regEmail" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="regPassword" class="form-label">Пароль</label>
-                        <input type="password" class="form-control" id="regPassword" name="password" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="regPhone" class="form-label">Телефон</label>
-                        <input type="phone" class="form-control" id="regPhone" name="phone" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Вы регистрируетесь как:</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="user_type" id="studentType" value="student" checked>
-                            <label class="form-check-label" for="studentType">
-                                Студент
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="user_type" id="employerType" value="employer">
-                            <label class="form-check-label" for="employerType">
-                                Работодатель
-                            </label>
-                        </div>
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="agreeTerms" required>
-                        <label class="form-check-label" for="agreeTerms">Я согласен с условиями использования</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+<div class="modal fade" id="addReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -423,50 +321,9 @@ if ($current_page > $total_pages)
     </div>
 </div>
 
-<footer class="bg-dark text-white py-4">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-4 mb-md-0">
-                <h5 class="mb-3">СтудМаркет</h5>
-                <p>Специализированная платформа для студентов Колледжа предпринимательства, где можно демонстрировать работы, находить вакансии и взаимодействовать с работодателями.</p>
-                <div class="social-icons">
-                    <a href="https://vk.com/studmarket39" class="text-white me-2"><i class="bi bi-people-fill"></i></a>
-                    <a href="https://t.me/StudMarket_bot" class="text-white"><i class="bi bi-telegram"></i></a>
-                </div>
-            </div>
-            <div class="col-md-2 mb-4 mb-md-0">
-                <h5 class="navigation mb-3">Навигация</h5>
-                <ul class="list-navigation list-unstyled">
-                    <li class="mb-2"><a href="../index.php" class="text-white text-decoration-none">Главная</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Портфолио</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Сотрудничество</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Вакансии</a></li>
-                    <li><a href="all_reviews.php" class="text-white text-decoration-none">Отзывы</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3 mb-4 mb-md-0">
-                <h5 class="mb-3">Контакты</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> г. Калининград, ул.Брамса, д.9</li>
-                    <li class="mb-2"><i class="bi bi-envelope me-2"></i> gaukokp@mail.ru</li>
-                    <li><i class="bi bi-telephone me-2"></i> +7 (4012) 95-77-75</li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <h5 class="mb-3">Подписаться</h5>
-                <p>Будьте в курсе новых возможностей</p>
-                <div class="input-group mb-3">
-                    <input type="email" class="form-control" placeholder="Ваш email">
-                    <button class="btn btn-primary" type="button">OK</button>
-                </div>
-            </div>
-        </div>
-        <hr class="my-4">
-        <div class="text-center">
-            <p class="mb-0">© 2025 СтудМаркет. Все права защищены.</p>
-        </div>
-    </div>
-</footer>
+<?php
+    require_once("footer.php");
+?>
 
 <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
