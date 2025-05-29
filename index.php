@@ -342,9 +342,12 @@ $isLoggedIn = isset($_SESSION['user_id']);
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="review-card p-4 bg-white rounded-3 h-100">
                         <div class="review-header d-flex justify-content-between mb-3">
-                            <div class="reviewer-info">
-                                <h6 class="mb-1">Анна К.</h6>
-                                <p class="text-muted small mb-0">Студент</p>
+                            <div class="reviewer-info d-flex align-items-center">
+                                <img src="uploads/avatars/avatar1.png" alt="Аватар" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                <div>
+                                    <h6 class="mb-1">Анна К.</h6>
+                                    <p class="text-muted small mb-0">Студент</p>
+                                </div>
                             </div>
                             <div class="rating">
                                 <div class="stars">
@@ -370,9 +373,12 @@ $isLoggedIn = isset($_SESSION['user_id']);
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="review-card p-4 bg-white rounded-3 h-100">
                         <div class="review-header d-flex justify-content-between mb-3">
-                            <div class="reviewer-info">
-                                <h6 class="mb-1">TechSolutions Inc.</h6>
-                                <p class="text-muted small mb-0">Работодатель</p>
+                            <div class="reviewer-info d-flex align-items-center">
+                                <img src="uploads/avatars/avatar2.png" alt="Аватар" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                <div>
+                                    <h6 class="mb-1">TechSolutions Inc.</h6>
+                                    <p class="text-muted small mb-0">Работодатель</p>
+                                </div>
                             </div>
                             <div class="rating">
                                 <div class="stars">
@@ -398,9 +404,12 @@ $isLoggedIn = isset($_SESSION['user_id']);
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="review-card p-4 bg-white rounded-3 h-100">
                         <div class="review-header d-flex justify-content-between mb-3">
-                            <div class="reviewer-info">
-                                <h6 class="mb-1">Иван П.</h6>
-                                <p class="text-muted small mb-0">Студент</p>
+                            <div class="reviewer-info d-flex align-items-center">
+                                <img src="uploads/avatars/avatar3.png" alt="Аватар" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                <div>
+                                    <h6 class="mb-1">Иван П.</h6>
+                                    <p class="text-muted small mb-0">Студент</p>
+                                </div>
                             </div>
                             <div class="rating">
                                 <div class="stars">

@@ -53,7 +53,7 @@ if ($current_page < 1)
 $limit = 10;
 $offset = ($current_page - 1) * $limit;
 
-$sql = "SELECT r.*, u.name as user_name, u.user_type, (SELECT COUNT(*) FROM likes WHERE review_id = r.id AND is_active = 1) as like_count, (SELECT SUM(like_currect) FROM likes WHERE review_id = r.id) as like_currect_sum FROM reviews r JOIN users u ON r.user_id = u.id ORDER BY r.created_at DESC LIMIT $limit OFFSET $offset";
+$sql = "SELECT r.*, u.name as user_name, u.user_type, u.avatar_path, (SELECT COUNT(*) FROM likes WHERE review_id = r.id AND is_active = 1) as like_count, (SELECT SUM(like_currect) FROM likes WHERE review_id = r.id) as like_currect_sum FROM reviews r JOIN users u ON r.user_id = u.id ORDER BY r.created_at DESC LIMIT $limit OFFSET $offset";
 $reviews = mysqli_query($conn, $sql);
 $total_reviews = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM reviews"))['count'];
 $total_pages = ceil($total_reviews / $limit);
@@ -149,32 +149,43 @@ if ($current_page > $total_pages)
                 <div class="divider mx-auto"></div>
             </div>
             <div class="row g-4">
-            <?php 
-            while($review = mysqli_fetch_assoc($reviews))
-            {
-                $isLiked = false;
-                $likeCount = $review['like_count'];
-                $likeTotal = $review['like_count'] + ($review['like_currect_sum'] ?? 0);
-                
-                if ($isLoggedIn) 
+                <?php 
+                while($review = mysqli_fetch_assoc($reviews))
                 {
-                    $checkLike = mysqli_query($conn, "SELECT * FROM likes WHERE user_id = '$_SESSION[user_id]' AND review_id = '{$review['id']}' AND is_active = 1");
-                    $isLiked = mysqli_num_rows($checkLike) > 0;
-                }
-            ?>
+                    $isLiked = false;
+                    $likeCount = $review['like_count'];
+                    $likeTotal = $review['like_count'] + ($review['like_currect_sum'] ?? 0);
+                    
+                    if ($isLoggedIn) 
+                    {
+                        $checkLike = mysqli_query($conn, "SELECT * FROM likes WHERE user_id = '$_SESSION[user_id]' AND review_id = '{$review['id']}' AND is_active = 1");
+                        $isLiked = mysqli_num_rows($checkLike) > 0;
+                    }
+                ?>
                 <div class="col-lg-6">
                     <div class="review-card p-4 bg-white rounded-3 h-100">
                         <div class="review-header d-flex justify-content-between mb-3">
-                            <div class="reviewer-info">
-                                <h6 class="mb-1"><?= htmlspecialchars($review['user_name']) ?></h6>
-                                <p class="text-muted small mb-0">
-                                    <?= $review['user_type'] === 'employer' ? 'Работодатель' : 'Студент' ?>
-                                </p>
+                            <div class="reviewer-info d-flex align-items-center">
+                                <?php
+                                $avatarPath = !empty($review['avatar_path']) ? $review['avatar_path'] : '../img/no-image.png';
+
+                                if (!empty($review['avatar_path']) && strpos($review['avatar_path'], '../') === false) 
+                                {
+                                    $avatarPath = '../' . $review['avatar_path'];
+                                }
+                                ?>
+                                <img src="<?= htmlspecialchars($avatarPath) ?>" alt="Аватар" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                <div>
+                                    <h6 class="mb-1"><?= htmlspecialchars($review['user_name']) ?></h6>
+                                    <p class="text-muted small mb-0">
+                                        <?= $review['user_type'] === 'employer' ? 'Работодатель' : 'Студент' ?>
+                                    </p>
+                                </div>
                             </div>
                             <div class="rating">
                                 <div class="stars">
                                     <?php 
-                                    for ($i = 1; $i <= 5; $i++)
+                                    for ($i = 1; $i <= 5; $i++) 
                                     { 
                                     ?>
                                         <i class="bi bi-star<?= $i <= $review['rating'] ? '-fill' : '' ?> text-warning"></i>

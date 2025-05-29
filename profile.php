@@ -254,13 +254,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                         <?php if (isset($_SESSION['success'])) 
                         {
                         ?>
-                            <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
+                            <div class="alert alert-success alert-dismissible fade show text-center">
+                                <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
                         <?php 
                         }
                         if (isset($_SESSION['error'])) 
                         {
                         ?>
-                            <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
+                            <div class="alert alert-danger alert-dismissible fade show text-center">
+                                <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
                         <?php 
                         } 
                         ?>
