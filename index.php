@@ -74,7 +74,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
             <p class="lead mb-4 shadow-text">Специализированная платформа для студентов Колледжа предпринимательства, где можно демонстрировать работы, находить вакансии и взаимодействовать с работодателями</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                 <a data-bs-toggle="modal" data-bs-target="#registerModal" class="btn btn-primary btn-lg px-4 gap-3">Начать сейчас</a>
-                <a href="#" class="btn btn-light btn-lg px-4">Узнать больше</a>
+                <a href="#about-form" class="btn btn-light btn-lg px-4">Узнать больше</a>
             </div>
         </div>
     </section>
@@ -465,6 +465,93 @@ $isLoggedIn = isset($_SESSION['user_id']);
             </div>
         </div>
     </section>
+
+    <section id="about-form" class="about-platform py-5 bg-light">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="display-5 fw-bold">Узнать больше о платформе</h2>
+                <p class="lead text-muted">Дополнительная информация о возможностях СтудМаркет</p>
+                <div class="divider mx-auto"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="accordion" id="aboutAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Для кого предназначена платформа?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#aboutAccordion">
+                                <div class="accordion-body">
+                                    <p>СтудМаркет создан специально для студентов Колледжа предпринимательства и работодателей, заинтересованных в молодых талантах. Платформа объединяет:</p>
+                                    <ul>
+                                        <li>Студентов, желающих показать свои работы и найти работу/стажировку</li>
+                                        <li>Работодателей, ищущих перспективных сотрудников</li>
+                                        <li>Преподавателей, отслеживающих успехи выпускников</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Как начать пользоваться платформой?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#aboutAccordion">
+                                <div class="accordion-body">
+                                    <ol>
+                                        <li>Зарегистрируйтесь как студент или работодатель</li>
+                                        <li>Заполните профиль (для студентов - добавьте работы в портфолио)</li>
+                                        <li>Начните поиск вакансий или кандидатов</li>
+                                        <li>Связывайтесь с интересующими вас пользователями через платформу</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Преимущества для студентов
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#aboutAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li><strong>Бесплатный доступ</strong> ко всем возможностям платформы</li>
+                                        <li><strong>Профессиональное портфолио</strong> для демонстрации работ</li>
+                                        <li><strong>Прямой контакт</strong> с работодателями без посредников</li>
+                                        <li><strong>Эксклюзивные вакансии</strong> только для студентов колледжа</li>
+                                        <li><strong>Обратная связь</strong> от работодателей и преподавателей</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h3 class="card-title mb-4">Часто задаваемые вопросы</h3>
+                            <div class="faq-item mb-4">
+                                <h5>Как добавить работу в портфолио?</h5>
+                                <p class="text-muted">После регистрации и входа в систему перейдите в раздел "Мое портфолио" и нажмите "Добавить работу". Вы сможете загрузить файлы, добавить описание и теги.</p>
+                            </div>
+                            <div class="faq-item mb-4">
+                                <h5>Можно ли редактировать профиль после создания?</h5>
+                                <p class="text-muted">Да, вы можете в любое время изменить информацию в своем профиле, добавить новые работы или обновить существующие.</p>
+                            </div>
+                            <div class="faq-item">
+                                <h5>Как работодатели могут связаться со мной?</h5>
+                                <p class="text-muted">Работодатели могут отправить вам сообщение через платформу или предложение о вакансии. Все уведомления приходят на вашу электронную почту и в личный кабинет.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 
 <?php
@@ -472,20 +559,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
     require_once("files/footer.php");
 ?>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() 
-{
-    if (window.location.hash) 
-    {
-        let modalId = window.location.hash;
-        let modal = new bootstrap.Modal(document.querySelector(modalId));
-        modal.show();
-
-        history.replaceState(null, null, ' ');
-    }
-});
-</script>
-
 <script src="../js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

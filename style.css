@@ -359,6 +359,52 @@ footer p
     width: 50%;
 }
 
+.about-platform 
+{
+    background-color: #f1f1f1;
+    padding: 5rem 0;
+}
+
+.about-platform .accordion-button 
+{
+    font-weight: 600;
+    padding: 1.2rem 1.5rem;
+    background-color: rgba(42, 92, 143, 0.05);
+}
+
+.about-platform .accordion-button:not(.collapsed) 
+{
+    background-color: rgba(42, 92, 143, 0.1);
+    color: #2A5C8F;
+}
+
+.about-platform .accordion-button:focus 
+{
+    box-shadow: none;
+    border-color: rgba(42, 92, 143, 0.2);
+}
+
+.about-platform .accordion-body 
+{
+    padding: 1.5rem;
+}
+
+.faq-item 
+{
+    margin-bottom: 2rem;
+}
+
+.faq-item h5 
+{
+    color: #2A5C8F;
+    margin-bottom: 0.5rem;
+}
+
+.faq-item p 
+{
+    color: #6c757d;
+}
+
 @media (min-width: 768px) and (max-width: 992px) 
 {
     .row 
@@ -484,6 +530,7 @@ footer p
 
 .stats-badge 
 {
+    content: '';
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -501,4 +548,150 @@ footer p
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.cooperation-form .card 
+{
+    border-radius: 15px;
+}
+
+.icon-box 
+{
+    width: 60px;
+    height: 60px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.cooperation-hero
+{
+    background: linear-gradient(135deg, #2A5C8F 0%, #1e4a6b 100%);
+    margin-top: -50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.list-check 
+{
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.list-check li 
+{
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 5px;
+}
+
+.list-check li:before 
+{
+    content: "\F26E";
+    font-family: bootstrap-icons;
+    position: absolute;
+    left: 0;
+    color: #2A5C8F;
+}
+
+.benefits-section 
+{
+    position: relative;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
+.benefit-card 
+{
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+}
+
+.benefit-card:hover 
+{
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(42, 92, 143, 0.1);
+}
+
+.benefit-icon 
+{
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(42, 92, 143, 0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon 
+{
+    background: #2A5C8F;
+    color: white;
+}
+
+.benefit-number 
+{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: rgba(42, 92, 143, 0.1);
+    transition: all 0.3s ease;
+}
+
+.benefit-card:hover .benefit-number 
+{
+    color: rgba(42, 92, 143, 0.2);
+}
+
+.stats-card 
+{
+    background: linear-gradient(135deg, #2A5C8F 0%, #1e4a6b 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card::before 
+{
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.stats-card::after 
+{
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+@media (max-width: 768px) 
+{
+    .stats-card .row > div 
+    {
+        margin-bottom: 1.5rem;
+    }
+    
+    .stats-card .row > div:last-child 
+    {
+        margin-bottom: 0;
+    }
 }

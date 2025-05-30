@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 28 2025 г., 19:03
+-- Время создания: Май 30 2025 г., 20:11
 -- Версия сервера: 5.7.39
 -- Версия PHP: 8.0.22
 
@@ -20,6 +20,23 @@ SET time_zone = "+00:00";
 --
 -- База данных: `studmarket`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cooperation_requests`
+--
+
+CREATE TABLE `cooperation_requests` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `type` enum('employer','college','other') NOT NULL,
+  `message` text NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('new','processed','rejected') NOT NULL DEFAULT 'new'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -43,7 +60,8 @@ CREATE TABLE `likes` (
 INSERT INTO `likes` (`id`, `user_id`, `review_id`, `is_active`, `like_currect`, `created_at`) VALUES
 (4, 1, 4, 0, '24', '2025-05-21 07:24:39'),
 (9, 2, 9, 0, '18', '2025-05-19 16:28:30'),
-(10, 3, 10, 0, '12', '2025-05-17 11:25:37');
+(10, 3, 10, 0, '12', '2025-05-17 11:25:37'),
+(11, 7, 10, 0, '0', '2025-05-29 16:33:50');
 
 -- --------------------------------------------------------
 
@@ -195,9 +213,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `created_at`, `avatar_path`) VALUES
-(1, 'Анна К.', 'email1@gmail.com', '', 'student', NULL, NULL, NULL),
-(2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', NULL, NULL, NULL),
-(3, 'Иван П.', 'email3@gmail.com', '', 'student', NULL, NULL, NULL),
+(1, 'Анна К.', 'email1@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar1.png'),
+(2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', NULL, NULL, 'uploads/avatars/avatar2.png'),
+(3, 'Иван П.', 'email3@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar3.png'),
 (4, 'Илья Р.', 'email4@gmail.com', '', 'student', NULL, NULL, NULL),
 (5, 'DesignPro Studio', 'email5@gmail.com', '', 'employer', NULL, NULL, NULL),
 (6, 'Максим А.', 'email6@gmail.com', '', 'student', NULL, NULL, NULL),
@@ -206,6 +224,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `c
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `cooperation_requests`
+--
+ALTER TABLE `cooperation_requests`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `likes`
@@ -264,6 +288,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `cooperation_requests`
+--
+ALTER TABLE `cooperation_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT для таблицы `likes`
 --
 ALTER TABLE `likes`
@@ -273,7 +303,7 @@ ALTER TABLE `likes`
 -- AUTO_INCREMENT для таблицы `portfolio`
 --
 ALTER TABLE `portfolio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `portfolio_categories`
@@ -297,13 +327,13 @@ ALTER TABLE `portfolio_views`
 -- AUTO_INCREMENT для таблицы `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
