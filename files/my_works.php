@@ -80,13 +80,13 @@ $works = mysqli_query($conn, "SELECT p.*, c.name as category_name, (SELECT COUNT
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="../profile.php"><i class="bi bi-arrow-left me-1"></i> Назад в кабинет</a>
+                        <a class="nav-link" href="../profile.php">Назад в кабинет</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="my_works.php"><i class="bi bi-collection me-1"></i> Мои работы</a>
+                        <a class="nav-link active" href="my_works.php">Мои работы</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="portfolio.php"><i class="bi bi-plus-circle me-1"></i> Добавить работу</a>
+                        <a class="nav-link" href="portfolio.php">Добавить работу</a>
                     </li>
                 </ul>
                 <div class="d-flex">

@@ -45,8 +45,12 @@ $isLoggedIn = isset($_SESSION['user_id']);
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Авторизация</button>
-                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Регистрация</button>
+                    <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Авторизация
+                    </button>
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                        <i class="bi bi-person-add me-2"></i>Регистрация
+                    </button>
                 </div>
             </div>
         </div>
@@ -73,8 +77,12 @@ $isLoggedIn = isset($_SESSION['user_id']);
             <h1 class="display-4 fw-bold mb-3 shadow-text">СтудМаркет - мост между талантами и возможностями</h1>
             <p class="lead mb-4 shadow-text">Специализированная платформа для студентов Колледжа предпринимательства, где можно демонстрировать работы, находить вакансии и взаимодействовать с работодателями</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <a data-bs-toggle="modal" data-bs-target="#registerModal" class="btn btn-primary btn-lg px-4 gap-3">Начать сейчас</a>
-                <a href="#about-form" class="btn btn-light btn-lg px-4">Узнать больше</a>
+                <a data-bs-toggle="modal" data-bs-target="#registerModal" class="btn btn-primary btn-lg px-4 gap-3">
+                    <i class="bi bi-person-plus me-2"></i>Начать сейчас
+                </a>
+                <a href="#about-form" class="btn btn-light btn-lg px-4">
+                    <i class="bi bi-arrow-down-circle me-2"></i>Узнать больше
+                </a>
             </div>
         </div>
     </section>

@@ -166,8 +166,12 @@ if ($isLoggedIn && !isset($_GET['action']))
                     else
                     {
                     ?>
-                        <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Авторизация</button>
-                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Регистрация</button>
+                        <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Авторизация
+                        </button>
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                            <i class="bi bi-person-add me-2"></i>Регистрация
+                        </button>
                     <?php 
                     } 
                     ?>
@@ -459,5 +463,6 @@ if ($isLoggedIn)
 ?>
 
 <script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../script.js"></script>
 </body>
 </html>

@@ -6,6 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     $email = $conn->real_escape_string($_POST['email']);
     $password = $_POST['password'];
+
+    $referer = isset($_POST['referer']) ? $_POST['referer'] : (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../index.php');
     
     $sql = "SELECT id, name, password, user_type, phone FROM users WHERE email = '$email'";
     $result = $conn->query($sql);
@@ -28,14 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         else 
         {
             $_SESSION['error'] = "Неверный пароль";
-            header("Location: ../index.php#loginModal");
+            header("Location: $referer#loginModal");
             exit();
         }
     } 
     else 
     {
         $_SESSION['error'] = "Пользователь с таким email не найден";
-        header("Location: ../index.php#loginModal");
+        header("Location: $referer#loginModal");
         exit();
     }
 }

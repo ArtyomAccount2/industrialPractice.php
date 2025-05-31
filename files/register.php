@@ -9,6 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $phone = $conn->real_escape_string($_POST['phone']);
     $user_type = $_POST['user_type'] == 'employer' ? 'employer' : 'student';
+
+    $referer = isset($_POST['referer']) ? $_POST['referer'] : (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../index.php');
     
     $check_sql = "SELECT id FROM users WHERE email = '$email'";
     $check_result = $conn->query($check_sql);
@@ -16,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     if ($check_result->num_rows > 0) 
     {
         $_SESSION['error_register'] = "Этот email уже зарегистрирован";
-        header("Location: ../index.php#registerModal");
+        header("Location: $referer#registerModal");
         exit();
     }
     
@@ -38,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     else 
     {
         $_SESSION['error_register'] = "Ошибка регистрации: " . $conn->error;
-        header("Location: ../index.php");
+        header("Location: $referer#registerModal.php");
         exit();
     }
 }
