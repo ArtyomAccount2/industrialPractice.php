@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 30 2025 г., 20:11
+-- Время создания: Июн 02 2025 г., 20:19
 -- Версия сервера: 5.7.39
 -- Версия PHP: 8.0.22
 
@@ -205,21 +205,24 @@ CREATE TABLE `users` (
   `user_type` enum('student','employer') COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `avatar_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'img/no-image.png'
+  `avatar_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'img/no-image.png',
+  `vk_id` bigint(20) DEFAULT NULL,
+  `telegram_id` bigint(20) DEFAULT NULL,
+  `telegram_username` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `created_at`, `avatar_path`) VALUES
-(1, 'Анна К.', 'email1@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar1.png'),
-(2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', NULL, NULL, 'uploads/avatars/avatar2.png'),
-(3, 'Иван П.', 'email3@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar3.png'),
-(4, 'Илья Р.', 'email4@gmail.com', '', 'student', NULL, NULL, NULL),
-(5, 'DesignPro Studio', 'email5@gmail.com', '', 'employer', NULL, NULL, NULL),
-(6, 'Максим А.', 'email6@gmail.com', '', 'student', NULL, NULL, NULL),
-(7, 'Тестовый аккаунт', 'account404@gmail.com', '$2y$10$DQfQW.kpiRs3yZ.Cm.q52OvZ9i0ZtBvPpDLtxTyz19NvhPTYRNSm.', 'student', '+79115678934', '2025-05-28 15:24:43', 'img/no-image.png');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `created_at`, `avatar_path`, `vk_id`, `telegram_id`, `telegram_username`) VALUES
+(1, 'Анна К.', 'email1@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar1.png', NULL, NULL, NULL),
+(2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', NULL, NULL, 'uploads/avatars/avatar2.png', NULL, NULL, NULL),
+(3, 'Иван П.', 'email3@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar3.png', NULL, NULL, NULL),
+(4, 'Илья Р.', 'email4@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 'DesignPro Studio', 'email5@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 'Максим А.', 'email6@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 'Тестовый аккаунт', 'account404@gmail.com', '$2y$10$DQfQW.kpiRs3yZ.Cm.q52OvZ9i0ZtBvPpDLtxTyz19NvhPTYRNSm.', 'student', '+79115678934', '2025-05-28 15:24:43', 'img/no-image.png', NULL, NULL, NULL);
 
 --
 -- Индексы сохранённых таблиц

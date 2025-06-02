@@ -5,7 +5,7 @@ require_once("../config/link.php");
 $isLoggedIn = isset($_SESSION['user_id']);
 
 $categories = [];
-$sql_categories = "SELECT * FROM portfolio_categories";
+$sql_categories = "SELECT * FROM `portfolio_categories`";
 $result_categories = mysqli_query($conn, $sql_categories);
 
 while ($row = mysqli_fetch_assoc($result_categories)) 
@@ -13,9 +13,32 @@ while ($row = mysqli_fetch_assoc($result_categories))
     $categories[$row['id']] = $row['name'];
 }
 
-$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$category_filter = isset($_GET['category']) ? (int)$_GET['category'] : 0;
-$search_query = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+if (isset($_GET['page'])) 
+{
+    $current_page = (int)$_GET['page'];
+} 
+else 
+{
+    $current_page = 1;
+}
+
+if (isset($_GET['category'])) 
+{
+    $category_filter = (int)$_GET['category'];
+} 
+else 
+{
+    $category_filter = 0;
+}
+
+if (isset($_GET['search'])) 
+{
+    $search_query = mysqli_real_escape_string($conn, $_GET['search']);
+} 
+else 
+{
+    $search_query = '';
+}
 
 if ($current_page < 1) 
 {
@@ -55,20 +78,20 @@ if ($isLoggedIn && isset($_GET['action']) && $_GET['action'] == 'like')
     $work_id = (int)$_GET['id'];
     $user_id = $_SESSION['user_id'];
     
-    $check_sql = "SELECT * FROM portfolio_likes WHERE work_id = $work_id AND user_id = $user_id";
+    $check_sql = "SELECT * FROM `portfolio_likes` WHERE `work_id` = $work_id AND `user_id` = $user_id";
     $check_result = mysqli_query($conn, $check_sql);
     
     if (mysqli_num_rows($check_result) == 0) 
     {
-        $like_sql = "INSERT INTO portfolio_likes (work_id, user_id) VALUES ($work_id, $user_id)";
+        $like_sql = "INSERT INTO `portfolio_likes` (`work_id`, `user_id`) VALUES ($work_id, $user_id)";
         mysqli_query($conn, $like_sql);
         
-        $view_check_sql = "SELECT * FROM portfolio_views WHERE work_id = $work_id AND user_id = $user_id";
+        $view_check_sql = "SELECT * FROM `portfolio_views` WHERE `work_id` = $work_id AND `user_id` = $user_id";
         $view_check_result = mysqli_query($conn, $view_check_sql);
         
         if (mysqli_num_rows($view_check_result) == 0) 
         {
-            $view_sql = "INSERT INTO portfolio_views (work_id, user_id) VALUES ($work_id, $user_id)";
+            $view_sql = "INSERT INTO `portfolio_views` (`work_id`, `user_id`) VALUES ($work_id, $user_id)";
             mysqli_query($conn, $view_sql);
         }
     }
@@ -85,12 +108,12 @@ if ($isLoggedIn && !isset($_GET['action']))
     {
         $work_id = $work['id'];
         
-        $view_check_sql = "SELECT * FROM portfolio_views WHERE work_id = $work_id AND user_id = $user_id";
+        $view_check_sql = "SELECT * FROM `portfolio_views` WHERE `work_id` = $work_id AND `user_id` = $user_id";
         $view_check_result = mysqli_query($conn, $view_check_sql);
         
         if (mysqli_num_rows($view_check_result) == 0) 
         {
-            $view_sql = "INSERT INTO portfolio_views (work_id, user_id) VALUES ($work_id, $user_id)";
+            $view_sql = "INSERT INTO `portfolio_views` (`work_id`, `user_id`) VALUES ($work_id, $user_id)";
             mysqli_query($conn, $view_sql);
         }
     }
@@ -114,7 +137,7 @@ if ($isLoggedIn && !isset($_GET['action']))
 <div class="flex-grow-1">
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="<?php echo $isLoggedIn ? '../profile.php' : '../index.php'; ?>">
+            <a class="navbar-brand" href="<?php if ($isLoggedIn) { echo '../profile.php'; } else { echo '../index.php'; } ?>">
                 <img class="logo" src="../img/img5.png" alt="Логотип">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">
@@ -197,7 +220,9 @@ if ($isLoggedIn && !isset($_GET['action']))
                                 foreach ($categories as $id => $name)
                                 {
                                 ?>
-                                    <option value="<?= $id ?>" <?= $category_filter == $id ? 'selected' : '' ?>><?= htmlspecialchars($name) ?></option>
+                                    <option value="<?php echo $id; ?>" <?php if ($category_filter == $id) echo 'selected'; ?>>
+                                        <?php echo htmlspecialchars($name); ?>
+                                    </option>
                                 <?php 
                                 } 
                                 ?>
@@ -279,6 +304,7 @@ if ($isLoggedIn && !isset($_GET['action']))
                                         <div class="mb-3">
                                             <?php 
                                             $links = json_decode($work['external_links'], true);
+
                                             foreach ($links as $platform => $url)
                                             {
                                                 if (!empty($url))
@@ -296,8 +322,8 @@ if ($isLoggedIn && !isset($_GET['action']))
                                     } 
                                     ?>
                                     <div class="step-card d-flex justify-content-between align-items-center">
-                                        <span class="badge bg-<?= $work['user_type'] == 'student' ? 'info' : 'warning' ?>">
-                                            <?= $work['user_type'] == 'student' ? 'Студент' : 'Работодатель' ?>
+                                        <span class="badge bg-<?php if ($work['user_type'] == 'student') { echo 'info'; } else { echo 'warning'; } ?>">
+                                            <?php if ($work['user_type'] == 'student') { echo 'Студент'; } else { echo 'Работодатель'; } ?>
                                         </span>
                                         <small class="text-muted"><?= htmlspecialchars($work['author_name']) ?></small>
                                     </div>
@@ -305,7 +331,7 @@ if ($isLoggedIn && !isset($_GET['action']))
                                         <span class="text-muted me-2" title="Просмотры">
                                             <i class="bi bi-eye stats-icon"></i> <?= $work['views_count'] ?>
                                         </span>
-                                        <span class="like-btn <?= $isLoggedIn ? 'clickable' : '' ?>" title="Лайки"
+                                        <span class="like-btn <?php if ($isLoggedIn) echo 'clickable'; ?>" title="Лайки"
                                         <?php 
                                         if ($isLoggedIn)
                                         {
@@ -347,20 +373,20 @@ if ($isLoggedIn && !isset($_GET['action']))
             ?>
                 <nav aria-label="Page navigation" class="mt-4">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item <?= ($current_page == 1) ? 'disabled' : '' ?>">
+                        <li class="page-item <?php if ($current_page == 1) { echo 'disabled'; } ?>">
                             <a class="page-link" href="portfolio.php?page=<?= $current_page - 1 ?><?= $category_filter ? '&category='.$category_filter : '' ?><?= !empty($search_query) ? '&search='.$search_query : '' ?>">Назад</a>
                         </li>
                         <?php 
                         for ($i = 1; $i <= $total_pages; $i++)
                         { 
                         ?>
-                            <li class="page-item <?= ($current_page == $i) ? 'active' : '' ?>">
+                            <li class="page-item <?php if ($current_page == $i) { echo 'active'; } ?>">
                                 <a class="page-link" href="portfolio.php?page=<?= $i ?><?= $category_filter ? '&category='.$category_filter : '' ?><?= !empty($search_query) ? '&search='.$search_query : '' ?>"><?= $i ?></a>
                             </li>
                         <?php 
                         } 
                         ?>
-                        <li class="page-item <?= ($current_page >= $total_pages) ? 'disabled' : '' ?>">
+                        <li class="page-item <?php if ($current_page >= $total_pages) { echo 'disabled'; } ?>">
                             <a class="page-link" href="portfolio.php?page=<?= $current_page + 1 ?><?= $category_filter ? '&category='.$category_filter : '' ?><?= !empty($search_query) ? '&search='.$search_query : '' ?>">Вперед</a>
                         </li>
                     </ul>

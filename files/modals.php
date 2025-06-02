@@ -34,10 +34,10 @@
                     <div class="social-login text-center mt-4">
                         <p class="text-muted">Или войти через:</p>
                         <div class="d-flex justify-content-center gap-3">
-                            <a href="../files/social_auth.php?provider=vk" class="btn btn-outline-primary">
+                            <a href="../files/vk_auth.php?action=login" class="btn btn-outline-primary">
                                 <i class="bi bi-people-fill"></i> ВКонтакте
                             </a>
-                            <a href="../files/social_auth.php?provider=telegram" class="btn btn-outline-info">
+                            <a href="../files/telegram_auth.php?action=login" class="btn btn-outline-info">
                                 <i class="bi bi-telegram"></i> Telegram
                             </a>
                         </div>
@@ -102,10 +102,10 @@
                     <div class="social-register text-center mt-4">
                         <p class="text-muted small border-0">Или зарегистрироваться через:</p>
                         <div class="d-flex justify-content-center gap-3">
-                            <a href="../files/social_auth.php?provider=vk&action=register" class="btn btn-outline-primary">
+                            <a href="../files/vk_auth.php?action=register" class="btn btn-outline-primary">
                                 <i class="bi bi-people-fill"></i> ВКонтакте
                             </a>
-                            <a href="../files/social_auth.php?provider=telegram&action=register" class="btn btn-outline-info">
+                            <a href="../files/telegram_auth.php?action=register" class="btn btn-outline-info">
                                 <i class="bi bi-telegram"></i> Telegram
                             </a>
                         </div>

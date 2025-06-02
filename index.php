@@ -264,8 +264,8 @@ $isLoggedIn = isset($_SESSION['user_id']);
             <div class="cta-box mt-5 p-4 rounded-3">
                 <h3 class="mb-3">Готовы присоединиться?</h3>
                 <p class="mb-4">Станьте частью сообщества СтудМаркет и откройте новые возможности</p>
-                <a href="#" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#registerModal">Зарегистрироваться</a>
-                <a href="files/cooperation.php" class="btn btn-outline-primary">Сотрудничество</a>
+                <a href="#" class="btn btn-outline-light bi-person-plus me-2" data-bs-toggle="modal" data-bs-target="#registerModal"> Зарегистрироваться</a>
+                <a href="files/cooperation.php" class="btn btn-outline-primary bi-briefcase"> Сотрудничество</a>
             </div>
         </div>
     </section>
@@ -372,7 +372,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
                             <p class="text-muted small mb-0">21.05.2025</p>
-                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <i class="bi bi-hand-thumbs-up"></i><span class="like-count"> 24</span>
                             </button>
                         </div>
@@ -403,7 +403,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
                             <p class="text-muted small mb-0">19.05.2025</p>
-                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <i class="bi bi-hand-thumbs-up"></i><span class="like-count"> 18</span>
                             </button>
                         </div>
@@ -434,7 +434,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                         </div>
                         <div class="review-footer d-flex justify-content-between align-items-center">
                             <p class="text-muted small mb-0">17.05.2025</p>
-                            <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <i class="bi bi-hand-thumbs-up"></i><span class="like-count"> 12</span>
                             </button>
                         </div>

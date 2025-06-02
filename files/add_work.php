@@ -30,7 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         }
     }
 
-    $external_links_json = !empty($external_links) ? json_encode($external_links) : null;
+    if (!empty($external_links)) 
+    {
+        $external_links_json = json_encode($external_links);
+    } 
+    else 
+    {
+        $external_links_json = null;
+    }
 
     $upload_dir = "../uploads/portfolio/";
 
@@ -40,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     }
     
     $image_path = null;
+
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) 
     {
         $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
@@ -82,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     
     if (!isset($_SESSION['error'])) 
     {
-        $sql = "INSERT INTO portfolio (user_id, title, category_id, description, tags, image_path, external_links) VALUES ('$user_id', '$title', '$category_id', '$description', '$tags', '$image_path', " . ($external_links_json ? "'$external_links_json'" : "NULL") . ")";
+        $sql = "INSERT INTO `portfolio` (`user_id`, `title`, `category_id`, `description`, `tags`, `image_path`, `external_links`) VALUES ('$user_id', '$title', '$category_id', '$description', '$tags', '$image_path', " . ($external_links_json ? "'$external_links_json'" : "NULL") . ")";
         
         if (mysqli_query($conn, $sql)) 
         {

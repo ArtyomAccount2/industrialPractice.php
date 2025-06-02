@@ -17,7 +17,7 @@ if (isset($_GET['delete']))
     
     try 
     {
-        $check_sql = "SELECT image_path FROM portfolio WHERE id = $work_id AND user_id = $user_id";
+        $check_sql = "SELECT `image_path` FROM `portfolio` WHERE `id` = $work_id AND `user_id` = $user_id";
         $check_result = mysqli_query($conn, $check_sql);
         $work = mysqli_fetch_assoc($check_result);
         
@@ -26,13 +26,13 @@ if (isset($_GET['delete']))
             throw new Exception("Работа не найдена или нет прав на удаление");
         }
         
-        $delete_likes_sql = "DELETE FROM portfolio_likes WHERE work_id = $work_id";
+        $delete_likes_sql = "DELETE FROM `portfolio_likes` WHERE `work_id` = $work_id";
         mysqli_query($conn, $delete_likes_sql);
 
-        $delete_views_sql = "DELETE FROM portfolio_views WHERE work_id = $work_id";
+        $delete_views_sql = "DELETE FROM `portfolio_views` WHERE `work_id` = $work_id";
         mysqli_query($conn, $delete_views_sql);
         
-        $delete_sql = "DELETE FROM portfolio WHERE id = $work_id AND user_id = $user_id";
+        $delete_sql = "DELETE FROM `portfolio` WHERE `id` = $work_id AND `user_id` = $user_id";
         mysqli_query($conn, $delete_sql);
         
         if ($work['image_path'] && file_exists($work['image_path'])) 

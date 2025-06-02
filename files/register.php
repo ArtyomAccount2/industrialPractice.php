@@ -8,11 +8,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $email = $conn->real_escape_string($_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $phone = $conn->real_escape_string($_POST['phone']);
-    $user_type = $_POST['user_type'] == 'employer' ? 'employer' : 'student';
 
-    $referer = isset($_POST['referer']) ? $_POST['referer'] : (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../index.php');
+    if ($_POST['user_type'] == 'employer') 
+    {
+        $user_type = 'employer';
+    } 
+    else 
+    {
+        $user_type = 'student';
+    }
+
+    if (isset($_POST['referer'])) 
+    {
+        $referer = $_POST['referer'];
+    } 
+    else if (isset($_SERVER['HTTP_REFERER'])) 
+    {
+        $referer = $_SERVER['HTTP_REFERER'];
+    } 
+    else 
+    {
+        $referer = '../index.php';
+    }
     
-    $check_sql = "SELECT id FROM users WHERE email = '$email'";
+    $check_sql = "SELECT `id` FROM `users` WHERE `email` = '$email'";
     $check_result = $conn->query($check_sql);
     
     if ($check_result->num_rows > 0) 
@@ -22,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         exit();
     }
     
-    $sql = "INSERT INTO users (name, email, password, user_type, phone) VALUES ('$name', '$email', '$password', '$user_type', '$phone')";
+    $sql = "INSERT INTO `users` (`name`, `email`, `password`, `user_type`, `phone`) VALUES ('$name', '$email', '$password', '$user_type', '$phone')";
     
     if ($conn->query($sql) === TRUE) 
     {

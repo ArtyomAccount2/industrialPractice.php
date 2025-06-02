@@ -16,7 +16,7 @@ $user_email = $_SESSION['user_email'];
 $user_type = $_SESSION['user_type'];
 $user_phone = $_SESSION['user_phone'];
 
-$sql = "SELECT * FROM users WHERE id = $user_id";
+$sql = "SELECT * FROM `users` WHERE `id` = $user_id";
 $result = $conn->query($sql);
 $user = $result->fetch_assoc();
 
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile']))
     $email = $conn->real_escape_string($_POST['email']);
     $phone = $conn->real_escape_string($_POST['phone']);
     
-    $update_sql = "UPDATE users SET name = '$name', email = '$email', phone = '$phone' WHERE id = $user_id";
+    $update_sql = "UPDATE `users` SET name = '$name', `email` = '$email', `phone` = '$phone' WHERE `id` = $user_id";
 
     if ($conn->query($update_sql)) 
     {
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_password']))
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
     
-    $sql = "SELECT password FROM users WHERE id = $user_id";
+    $sql = "SELECT `password` FROM `users` WHERE `id` = $user_id";
     $result = $conn->query($sql);
     $user = $result->fetch_assoc();
     
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_password']))
     else 
     {
         $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-        $update_sql = "UPDATE users SET password = '$new_password_hash' WHERE id = $user_id";
+        $update_sql = "UPDATE `users` SET `password` = '$new_password_hash' WHERE `id` = $user_id";
 
         if ($conn->query($update_sql)) 
         {
@@ -95,7 +95,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
     $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
     $max_size = 2 * 1024 * 1024;
     
-    if ($_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+    if ($_FILES['avatar']['error'] === UPLOAD_ERR_OK) 
+    {
         $file_type = $_FILES['avatar']['type'];
         $file_size = $_FILES['avatar']['size'];
         
@@ -109,19 +110,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                 
                 if (move_uploaded_file($_FILES['avatar']['tmp_name'], $target_path)) 
                 {
-                    $old_avatar = $user['avatar_path'] ?? '';
+                    if (isset($user['avatar_path'])) 
+                    {
+                        $old_avatar = $user['avatar_path'];
+                    } 
+                    else 
+                    {
+                        $old_avatar = '';
+                    }
 
                     if ($old_avatar && $old_avatar !== 'img/no-image.png' && file_exists($old_avatar)) 
                     {
                         unlink($old_avatar);
                     }
                     
-                    $update_sql = "UPDATE users SET avatar_path = '$target_path' WHERE id = $user_id";
+                    $update_sql = "UPDATE `users` SET `avatar_path` = '$target_path' WHERE `id` = $user_id";
                     
                     if ($conn->query($update_sql)) 
                     {
                         $_SESSION['success'] = "Аватар успешно обновлен";
-                        $sql = "SELECT * FROM users WHERE id = $user_id";
+                        $sql = "SELECT * FROM `users` WHERE `id` = $user_id";
                         $result = $conn->query($sql);
                         $user = $result->fetch_assoc();
                     } 
@@ -205,7 +213,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                     <div class="card-body text-center">
                         <img src="<?php echo isset($user['avatar_path']) && !empty($user['avatar_path']) ? htmlspecialchars($user['avatar_path']) : 'img/no-image.png'; ?>" alt="Аватар" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                         <h3><?php echo htmlspecialchars($user_name); ?></h3>
-                        <p class="text-muted"><?php echo $user_type == 'student' ? 'Студент' : 'Работодатель'; ?></p>
+                        <p class="text-muted">
+                            <?php if ($user_type == 'student') { echo 'Студент'; } else { echo 'Работодатель'; } ?>
+                        </p>
                         <form method="POST" action="profile.php" enctype="multipart/form-data" class="mt-3">
                             <div class="mb-3">
                                 <label for="avatar" class="form-label">Изменить аватар</label>

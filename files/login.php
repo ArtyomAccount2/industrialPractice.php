@@ -7,9 +7,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $email = $conn->real_escape_string($_POST['email']);
     $password = $_POST['password'];
 
-    $referer = isset($_POST['referer']) ? $_POST['referer'] : (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../index.php');
+    if (isset($_POST['referer'])) 
+    {
+        $referer = $_POST['referer'];
+    } 
+    else if (isset($_SERVER['HTTP_REFERER'])) 
+    {
+        $referer = $_SERVER['HTTP_REFERER'];
+    } 
+    else 
+    {
+        $referer = '../index.php';
+    }
     
-    $sql = "SELECT id, name, password, user_type, phone FROM users WHERE email = '$email'";
+    $sql = "SELECT `id`, `name`, `password`, `user_type`, `phone` FROM `users` WHERE `email` = '$email'";
     $result = $conn->query($sql);
     
     if ($result->num_rows == 1) 

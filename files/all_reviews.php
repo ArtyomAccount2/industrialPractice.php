@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_review']))
     $text = mysqli_real_escape_string($conn, $_POST['review_text']);
     $userId = $_SESSION['user_id'];
     
-    $sql = "INSERT INTO reviews (user_id, rating, text, created_at) VALUES ('$userId', '$rating', '$text', NOW())";
+    $sql = "INSERT INTO `reviews` (`user_id`, `rating`, `text`, `created_at`) VALUES ('$userId', '$rating', '$text', NOW())";
     
     if (mysqli_query($conn, $sql)) 
     {
@@ -31,11 +31,11 @@ if ($isLoggedIn && isset($_GET['action']))
     
     if ($_GET['action'] === 'like') 
     {
-        $sql = "INSERT INTO likes (user_id, review_id) VALUES ('$userId', '$reviewId') ON DUPLICATE KEY UPDATE is_active = NOT is_active";
+        $sql = "INSERT INTO `likes` (`user_id`, `review_id`) VALUES ('$userId', '$reviewId') ON DUPLICATE KEY UPDATE `is_active` = NOT `is_active`";
     } 
     else if ($_GET['action'] === 'unlike') 
     {
-        $sql = "UPDATE likes SET is_active = 0 WHERE user_id = '$userId' AND review_id = '$reviewId'";
+        $sql = "UPDATE `likes` SET `is_active` = 0 WHERE `user_id` = '$userId' AND `review_id` = '$reviewId'";
     }
     
     mysqli_query($conn, $sql);
@@ -43,7 +43,14 @@ if ($isLoggedIn && isset($_GET['action']))
     exit();
 }
 
-$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if (isset($_GET['page'])) 
+{
+    $current_page = (int)$_GET['page'];
+} 
+else 
+{
+    $current_page = 1;
+}
 
 if ($current_page < 1) 
 {
@@ -162,7 +169,7 @@ if ($current_page > $total_pages)
                     
                     if ($isLoggedIn) 
                     {
-                        $checkLike = mysqli_query($conn, "SELECT * FROM likes WHERE user_id = '$_SESSION[user_id]' AND review_id = '{$review['id']}' AND is_active = 1");
+                        $checkLike = mysqli_query($conn, "SELECT * FROM `likes` WHERE `user_id` = '$_SESSION[user_id]' AND `review_id` = '{$review['id']}' AND `is_active` = 1");
                         $isLiked = mysqli_num_rows($checkLike) > 0;
                     }
                 ?>
@@ -171,7 +178,14 @@ if ($current_page > $total_pages)
                         <div class="review-header d-flex justify-content-between mb-3">
                             <div class="reviewer-info d-flex align-items-center">
                                 <?php
-                                $avatarPath = !empty($review['avatar_path']) ? $review['avatar_path'] : '../img/no-image.png';
+                                if (!empty($review['avatar_path'])) 
+                                {
+                                    $avatarPath = $review['avatar_path'];
+                                } 
+                                else 
+                                {
+                                    $avatarPath = '../img/no-image.png';
+                                }
 
                                 if (!empty($review['avatar_path']) && strpos($review['avatar_path'], '../') === false) 
                                 {
@@ -182,7 +196,7 @@ if ($current_page > $total_pages)
                                 <div>
                                     <h6 class="mb-1"><?= htmlspecialchars($review['user_name']) ?></h6>
                                     <p class="text-muted small mb-0">
-                                        <?= $review['user_type'] === 'employer' ? 'Работодатель' : 'Студент' ?>
+                                        <?php if ($review['user_type'] === 'employer') { echo 'Работодатель'; } else { echo 'Студент'; } ?>
                                     </p>
                                 </div>
                             </div>
@@ -192,7 +206,7 @@ if ($current_page > $total_pages)
                                     for ($i = 1; $i <= 5; $i++) 
                                     { 
                                     ?>
-                                        <i class="bi bi-star<?= $i <= $review['rating'] ? '-fill' : '' ?> text-warning"></i>
+                                        <i class="bi bi-star<?php if ($i <= $review['rating']) { echo '-fill'; } ?> text-warning"></i>
                                     <?php 
                                     } 
                                     ?>
@@ -210,8 +224,7 @@ if ($current_page > $total_pages)
                             if ($isLoggedIn)
                             {
                             ?>
-                                <a href="all_reviews.php?page=<?= $current_page ?>&action=<?= $isLiked ? 'unlike' : 'like' ?>&id=<?= $review['id'] ?>" 
-                                class="btn btn-sm <?= $isLiked ? 'btn-primary' : 'btn-outline-primary' ?> like-btn">
+                                <a href="all_reviews.php?page=<?= $current_page ?>&action=<?php echo $isLiked ? 'unlike' : 'like'; ?>&id=<?= $review['id'] ?>" class="btn btn-sm <?php echo $isLiked ? 'btn-primary' : 'btn-outline-primary'; ?> like-btn">
                                     <i class="bi bi-hand-thumbs-up"></i> 
                                     <span class="like-count"><?= $likeTotal ?></span>
                                 </a>
@@ -220,7 +233,7 @@ if ($current_page > $total_pages)
                             else
                             {
                             ?>
-                                <button class="btn btn-sm btn-outline-primary like-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
                                     <i class="bi bi-hand-thumbs-up"></i> 
                                     <span class="like-count"><?= $likeTotal ?></span>
                                 </button>
@@ -256,21 +269,21 @@ if ($current_page > $total_pages)
             </div>
             <nav aria-label="Page navigation" class="mt-3">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item <?= ($current_page == 1) ? 'disabled' : '' ?>">
-                        <a class="page-link" href="all_reviews.php?page=<?= $current_page - 1 ?>" tabindex="-1">Назад</a>
+                    <li class="page-item <?php if ($current_page == 1) echo 'disabled'; ?>">
+                        <a class="page-link" href="all_reviews.php?page=<?= max(1, $current_page - 1) ?>" tabindex="-1">Назад</a>
                     </li>
                     <?php 
                     for ($i = 1; $i <= $total_pages; $i++)
                     {
                     ?>
-                        <li class="page-item <?= ($current_page == $i) ? 'active' : '' ?>">
+                        <li class="page-item <?php if ($current_page == $i) echo 'active'; ?>">
                             <a class="page-link" href="all_reviews.php?page=<?= $i ?>"><?= $i ?></a>
                         </li>
                     <?php 
                     } 
                     ?>
-                    <li class="page-item <?= ($current_page >= $total_pages) ? 'disabled' : '' ?>">
-                        <a class="page-link" href="all_reviews.php?page=<?= $current_page + 1 ?>">Вперед</a>
+                    <li class="page-item <?php if ($current_page >= $total_pages) echo 'disabled'; ?>">
+                        <a class="page-link" href="all_reviews.php?page=<?php echo $current_page + 1; ?>">Вперед</a>
                     </li>
                 </ul>
             </nav>

@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
     $type = mysqli_real_escape_string($conn, $_POST['type']);
     $message = mysqli_real_escape_string($conn, $_POST['message']);
     
-    $sql = "INSERT INTO cooperation_requests (name, email, phone, type, message, created_at) VALUES ('$name', '$email', '$phone', '$type', '$message', NOW())";
+    $sql = "INSERT INTO `cooperation_requests` (`name`, `email`, `phone`, `type`, `message`, `created_at`) VALUES ('$name', '$email', '$phone', '$type', '$message', NOW())";
     
     if (mysqli_query($conn, $sql)) 
     {
@@ -159,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
                             { 
                             ?>
                             <div class="mt-2">
-                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Присоединиться</button>
+                                <button class="btn btn-outline-primary bi-person-plus" data-bs-toggle="modal" data-bs-target="#registerModal"> Присоединиться</button>
                             </div>
                             <?php 
                             }
@@ -167,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
                             {
                             ?>
                             <div class="mt-2">
-                                <a href="portfolio.php" class="btn btn-outline-primary">Добавить работу</a>
+                                <a href="portfolio.php" class="btn btn-outline-primary bi-file-earmark-plus"> Добавить работу</a>
                             </div>
                             <?php 
                             }
@@ -191,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
                                 <li>Сотрудничество с учебными заведениями</li>
                             </ul>
                             <div class="mt-2">
-                                <a href="vacancies.php" class="btn btn-outline-primary">Разместить вакансию</a>
+                                <a href="vacancies.php" class="btn btn-outline-primary bi-card-checklist"> Разместить вакансию</a>
                             </div>
                         </div>
                     </div>
