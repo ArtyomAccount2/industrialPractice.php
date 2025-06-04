@@ -76,6 +76,11 @@ a:hover
     transition: opacity 1s ease-in-out;
 }
 
+.shadow-text
+{
+    text-shadow: -1px 0 rgba(0, 0, 0, 0.5), 0 1px rgba(0, 0, 0, 0.5), 1px 0 rgba(0, 0, 0, 0.5), 0 -1px rgba(0, 0, 0, 0.5);
+}
+
 .object-fit-cover 
 {
     object-fit: cover;
@@ -132,11 +137,6 @@ a:hover
     background-color: #FF6B35;
     margin: 1rem auto;
     border-radius: 2px;
-}
-
-.shadow-text
-{
-    text-shadow: -1px 0 rgba(0, 0, 0, 0.5), 0 1px rgba(0, 0, 0, 0.5), 1px 0 rgba(0, 0, 0, 0.5), 0 -1px rgba(0, 0, 0, 0.5);
 }
 
 .feature-card 

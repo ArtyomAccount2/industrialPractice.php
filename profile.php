@@ -214,7 +214,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                         <img src="<?php echo isset($user['avatar_path']) && !empty($user['avatar_path']) ? htmlspecialchars($user['avatar_path']) : 'img/no-image.png'; ?>" alt="Аватар" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                         <h3><?php echo htmlspecialchars($user_name); ?></h3>
                         <p class="text-muted">
-                            <?php if ($user_type == 'student') { echo 'Студент'; } else { echo 'Работодатель'; } ?>
+                            <?php 
+                            if ($user_type == 'student') 
+                            { 
+                                echo 'Студент'; 
+                            } 
+                            else 
+                            { 
+                                echo 'Работодатель'; 
+                            } 
+                            ?>
                         </p>
                         <form method="POST" action="profile.php" enctype="multipart/form-data" class="mt-3">
                             <div class="mb-3">
@@ -265,7 +274,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                         {
                         ?>
                             <div class="alert alert-success alert-dismissible fade show text-center">
-                                <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+                                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             </div>
                         <?php 
@@ -274,7 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                         {
                         ?>
                             <div class="alert alert-danger alert-dismissible fade show text-center">
-                                <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+                                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             </div>
                         <?php 
@@ -295,7 +304,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Тип аккаунта</label>
-                                <input type="text" class="form-control" value="<?php echo $user_type == 'student' ? 'Студент' : 'Работодатель'; ?>" disabled>
+                                <input type="text" class="form-control" value="<?php if ($user_type == 'student') { echo 'Студент'; } else { echo 'Работодатель'; } ?>" disabled>
                             </div>
                             <button type="submit" name="update_profile" class="btn btn-primary">Сохранить изменения</button>
                         </form>

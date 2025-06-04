@@ -269,20 +269,20 @@ if ($current_page > $total_pages)
             </div>
             <nav aria-label="Page navigation" class="mt-3">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item <?php if ($current_page == 1) echo 'disabled'; ?>">
+                    <li class="page-item <?php if ($current_page == 1) { echo 'disabled'; } ?>">
                         <a class="page-link" href="all_reviews.php?page=<?= max(1, $current_page - 1) ?>" tabindex="-1">Назад</a>
                     </li>
                     <?php 
                     for ($i = 1; $i <= $total_pages; $i++)
                     {
                     ?>
-                        <li class="page-item <?php if ($current_page == $i) echo 'active'; ?>">
+                        <li class="page-item <?php if ($current_page == $i) { echo 'active'; } ?>">
                             <a class="page-link" href="all_reviews.php?page=<?= $i ?>"><?= $i ?></a>
                         </li>
                     <?php 
                     } 
                     ?>
-                    <li class="page-item <?php if ($current_page >= $total_pages) echo 'disabled'; ?>">
+                    <li class="page-item <?php if ($current_page >= $total_pages) { echo 'disabled'; } ?>">
                         <a class="page-link" href="all_reviews.php?page=<?php echo $current_page + 1; ?>">Вперед</a>
                     </li>
                 </ul>
@@ -308,7 +308,9 @@ if ($current_page > $total_pages)
                     if (isset($_SESSION['error']))
                     {
                     ?>
-                        <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+                        <div class="alert alert-danger">
+                            <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+                        </div>
                     <?php 
                     } 
                     ?>
@@ -316,7 +318,9 @@ if ($current_page > $total_pages)
                     if (isset($_SESSION['success']))
                     {
                     ?>
-                        <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
+                        <div class="alert alert-success">
+                            <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+                        </div>
                     <?php 
                     } 
                     ?>

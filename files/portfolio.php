@@ -410,62 +410,64 @@ if ($isLoggedIn)
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="POST" action="add_work.php" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="workTitle" class="form-label">Название работы</label>
-                        <input type="text" class="form-control" id="workTitle" name="title" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="workCategory" class="form-label">Категория</label>
-                        <select class="form-select" id="workCategory" name="category_id" required>
-                            <?php 
-                            foreach ($categories as $id => $name)
-                            { 
-                            ?>
-                                <option value="<?= $id ?>"><?= htmlspecialchars($name) ?></option>
-                            <?php 
-                            } 
-                            ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="workDescription" class="form-label">Описание</label>
-                        <textarea class="form-control" id="workDescription" name="description" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="workTags" class="form-label">Теги (через запятую)</label>
-                        <input type="text" class="form-control" id="workTags" name="tags" placeholder="Например: дизайн, логотип, брендинг">
-                    </div>
-                    <div class="mb-3">
-                        <label for="workImage" class="form-label">Изображение работы</label>
-                        <input type="file" class="form-control" id="workImage" name="image" accept="image/*" required>
-                        <div class="form-text">Рекомендуемый размер: 1200x800px. Макс. размер: 5MB.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Внешние ссылки</label>
-                        <div class="row g-2">
-                            <div class="col-md-6">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-text"><i class="bi bi-behance"></i></span>
-                                    <input type="url" class="form-control" name="external_links[Behance]" placeholder="Ссылка на Behance">
+                <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                    <div class="pe-3">
+                        <div class="mb-3">
+                            <label for="workTitle" class="form-label">Название работы</label>
+                            <input type="text" class="form-control" id="workTitle" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="workCategory" class="form-label">Категория</label>
+                            <select class="form-select" id="workCategory" name="category_id" required>
+                                <?php 
+                                foreach ($categories as $id => $name)
+                                { 
+                                ?>
+                                    <option value="<?= $id ?>"><?= htmlspecialchars($name) ?></option>
+                                <?php 
+                                } 
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="workDescription" class="form-label">Описание</label>
+                            <textarea class="form-control" id="workDescription" name="description" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="workTags" class="form-label">Теги (через запятую)</label>
+                            <input type="text" class="form-control" id="workTags" name="tags" placeholder="Например: дизайн, логотип, брендинг">
+                        </div>
+                        <div class="mb-3">
+                            <label for="workImage" class="form-label">Изображение работы</label>
+                            <input type="file" class="form-control" id="workImage" name="image" accept="image/*" required>
+                            <div class="form-text">Рекомендуемый размер: 1200x800px. Макс. размер: 5MB.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Внешние ссылки</label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text"><i class="bi bi-behance"></i></span>
+                                        <input type="url" class="form-control" name="external_links[Behance]" placeholder="Ссылка на Behance">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-text"><i class="bi bi-github"></i></span>
-                                    <input type="url" class="form-control" name="external_links[GitHub]" placeholder="Ссылка на GitHub">
+                                <div class="col-md-6">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text"><i class="bi bi-github"></i></span>
+                                        <input type="url" class="form-control" name="external_links[GitHub]" placeholder="Ссылка на GitHub">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-text"><i class="bi bi-dribbble"></i></span>
-                                    <input type="url" class="form-control" name="external_links[Dribbble]" placeholder="Ссылка на Dribbble">
+                                <div class="col-md-6">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text"><i class="bi bi-dribbble"></i></span>
+                                        <input type="url" class="form-control" name="external_links[Dribbble]" placeholder="Ссылка на Dribbble">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
-                                    <input type="url" class="form-control" name="external_links[Website]" placeholder="Другая ссылка">
+                                <div class="col-md-6">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                                        <input type="url" class="form-control" name="external_links[Website]" placeholder="Другая ссылка">
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -317,7 +317,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
                             if (isset($_SESSION['success']))
                             { 
                             ?>
-                                <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
+                                <div class="alert alert-success">
+                                    <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+                                </div>
                             <?php 
                             } 
                             ?>
@@ -325,7 +327,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
                             if (isset($_SESSION['error']))
                             {
                             ?>
-                                <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+                                <div class="alert alert-danger">
+                                    <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+                                </div>
                             <?php 
                             } 
                             ?>
@@ -364,7 +368,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
                                     </div>
                                 </div>
                                 <div class="col-12 text-center">
-                                    <button type="submit" name="submit_cooperation" class="btn btn-primary btn-lg px-4">Отправить заявку</button>
+                                    <button type="submit" name="submit_cooperation" class="btn btn-primary btn-lg px-4 bi-send"> Отправить заявку</button>
                                 </div>
                             </form>
                         </div>
