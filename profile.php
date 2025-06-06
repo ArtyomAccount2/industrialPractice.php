@@ -252,7 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                             {
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="bi bi-collection me-2"></i>Мои вакансии</a>
+                                <a class="nav-link" href="files/my_vacancies.php"><i class="bi bi-collection me-2"></i>Мои вакансии</a>
                             </li>
                             <?php 
                             }

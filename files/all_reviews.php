@@ -86,7 +86,7 @@ if ($current_page > $total_pages)
 <div class="flex-grow-1">
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="../index.php">
+            <a class="navbar-brand" href="<?php if ($isLoggedIn) { echo '../profile.php'; } else { echo '../index.php'; } ?>">
                 <img class="logo" src="../img/img5.png" alt="Логотип">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">
@@ -291,10 +291,6 @@ if ($current_page > $total_pages)
     </section>
 </div>
 
-<?php
-    require_once("modals.php");
-?>
-
 <div class="modal fade" id="addReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -354,6 +350,7 @@ if ($current_page > $total_pages)
 </div>
 
 <?php
+    require_once("modals.php");
     require_once("footer.php");
 ?>
 

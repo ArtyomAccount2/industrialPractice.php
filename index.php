@@ -102,7 +102,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                         </div>
                         <h3>Для студентов</h3>
                         <p>Создайте профессиональное портфолио, демонстрируйте свои проекты и находите подходящие вакансии от проверенных работодателей.</p>
-                        <div class="list-check text-start mt-3 ps-4">
+                        <div class="list-check text-start">
                             <li>Публикация работ и проектов</li>
                             <li>Доступ к эксклюзивным вакансиям</li>
                             <li>Обратная связь от работодателей</li>
@@ -115,9 +115,9 @@ $isLoggedIn = isset($_SESSION['user_id']);
                         <div class="feature-icon">
                             <i class="bi bi-building"></i>
                         </div>
-                        <h3>Для работодателей</h3>
+                        <h3 class="font-text">Для работодателей</h3>
                         <p>Находите талантливых студентов, просматривайте портфолио и публикуйте вакансии напрямую для целевой аудитории колледжа.</p>
-                        <ul class="list-check text-start mt-3 ps-4">
+                        <ul class="list-check text-start">
                             <li>Поиск по специализациям</li>
                             <li>Просмотр студенческих работ</li>
                             <li>Публикация вакансий</li>
@@ -132,7 +132,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                         </div>
                         <h3>Для колледжа</h3>
                         <p>Платформа помогает отслеживать успехи выпускников, улучшать учебные программы и укреплять связи с бизнес-сообществом, а также повышать качество обучения.</p>
-                        <ul class="list-check text-start mt-3 ps-4">
+                        <ul class="list-check text-start">
                             <li>Мониторинг трудоустройства</li>
                             <li>Анализ востребованных навыков</li>
                             <li>Совместные проекты</li>
@@ -235,7 +235,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                             <h5 class="card-title">Заполнение профиля</h5>
                             <p class="card-text">Добавьте информацию о себе или своей компании</p>
                             <div class="step-details mt-3">
-                                <ul class="list-check text-start ps-4">
+                                <ul class="list-check text-start">
                                     <li>Образование и навыки</li>
                                     <li>Проекты и работы</li>
                                     <li>Интересы и цели</li>
@@ -252,9 +252,9 @@ $isLoggedIn = isset($_SESSION['user_id']);
                             <p class="card-text">Работодатели находят подходящих кандидатов и связываются с ними</p>
                             <div class="step-details mt-3">
                                 <div class="d-flex flex-column align-items-center">
-                                    <span class="step-icons badge bg-light text-dark border"><i class="bi bi-search me-1"></i>Поиск и просмотр</span>
-                                    <span class="step-icons badge bg-light text-dark border mt-2"><i class="bi bi-chat me-1"></i>Общение</span>
-                                    <span class="step-icons badge bg-light text-dark border mt-2"><i class="bi bi-briefcase me-1"></i>Сотрудничество</span>
+                                    <span class="step-icons badge bg-light text-dark border w-75"><i class="bi bi-search me-1"></i>Поиск и просмотр</span>
+                                    <span class="step-icons badge bg-light text-dark border w-75 mt-2"><i class="bi bi-chat me-1"></i>Общение</span>
+                                    <span class="step-icons badge bg-light text-dark border w-75 mt-2"><i class="bi bi-briefcase me-1"></i>Сотрудничество</span>
                                 </div>
                             </div>
                         </div>
@@ -264,8 +264,10 @@ $isLoggedIn = isset($_SESSION['user_id']);
             <div class="cta-box mt-5 p-4 rounded-3">
                 <h3 class="mb-3">Готовы присоединиться?</h3>
                 <p class="mb-4">Станьте частью сообщества СтудМаркет и откройте новые возможности</p>
-                <a href="#" class="btn btn-outline-light bi-person-plus" data-bs-toggle="modal" data-bs-target="#registerModal"> Зарегистрироваться</a>
-                <a href="files/cooperation.php" class="btn btn-outline-primary bi-briefcase"> Сотрудничество</a>
+                <div class="d-flex flex-wrap justify-content-center gap-2">
+                    <a href="#" class="btn btn-outline-light bi-person-plus" data-bs-toggle="modal" data-bs-target="#registerModal"> Зарегистрироваться</a>
+                    <a href="files/cooperation.php" class="btn btn-outline-primary bi-briefcase"> Сотрудничество</a>
+                </div>
             </div>
         </div>
     </section>

@@ -413,11 +413,11 @@ if ($isLoggedIn)
                 <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
                     <div class="pe-3">
                         <div class="mb-3">
-                            <label for="workTitle" class="form-label">Название работы</label>
+                            <label for="workTitle" class="form-label">Название работы <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="workTitle" name="title" required>
                         </div>
                         <div class="mb-3">
-                            <label for="workCategory" class="form-label">Категория</label>
+                            <label for="workCategory" class="form-label">Категория <span class="text-danger">*</span></label>
                             <select class="form-select" id="workCategory" name="category_id" required>
                                 <?php 
                                 foreach ($categories as $id => $name)
@@ -430,7 +430,7 @@ if ($isLoggedIn)
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="workDescription" class="form-label">Описание</label>
+                            <label for="workDescription" class="form-label">Описание <span class="text-danger">*</span></label>
                             <textarea class="form-control" id="workDescription" name="description" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
@@ -438,7 +438,7 @@ if ($isLoggedIn)
                             <input type="text" class="form-control" id="workTags" name="tags" placeholder="Например: дизайн, логотип, брендинг">
                         </div>
                         <div class="mb-3">
-                            <label for="workImage" class="form-label">Изображение работы</label>
+                            <label for="workImage" class="form-label">Изображение работы <span class="text-danger">*</span></label>
                             <input type="file" class="form-control" id="workImage" name="image" accept="image/*" required>
                             <div class="form-text">Рекомендуемый размер: 1200x800px. Макс. размер: 5MB.</div>
                         </div>

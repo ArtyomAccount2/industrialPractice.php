@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
 <div class="flex-grow-1">
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="../index.php">
+            <a class="navbar-brand" href="<?php if ($isLoggedIn) { echo '../profile.php'; } else { echo '../index.php'; } ?>">
                 <img class="logo" src="../img/img5.png" alt="Логотип">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
                 <div class="col-md-6">
                     <div class="card h-100 text-center border-0 shadow-sm">
                         <div class="card-body p-4 d-flex align-items-center flex-column">
-                            <div class="icon-box bg-primary mb-2 bg-opacity-10 text-primary rounded-circle me-3">
+                            <div class="icon-box bg-primary mb-2 bg-opacity-10 text-primary rounded-circle">
                                 <i class="bi bi-person-badge fs-2"></i>
                             </div>
                             <h3 class="mb-3">Для студентов</h3>
@@ -178,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
                 <div class="col-md-6">
                     <div class="card text-center h-100 border-0 shadow-sm">
                         <div class="card-body p-4 d-flex align-items-center flex-column">
-                            <div class="icon-box bg-primary mb-2 bg-opacity-10 text-primary rounded-circle me-3">
+                            <div class="icon-box bg-primary mb-2 bg-opacity-10 text-primary rounded-circle">
                                 <i class="bi bi-building fs-2"></i>
                             </div>
                             <h3 class="mb-3">Для работодателей</h3>
@@ -203,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
                         <div class="card-body p-4">
                             <div class="row align-items-center">
                                 <div class="col-md-6 d-flex align-items-center flex-column">
-                                    <div class="icon-box bg-primary mb-2 bg-opacity-10 text-primary rounded-circle me-3">
+                                    <div class="icon-box bg-primary mb-2 bg-opacity-10 text-primary rounded-circle">
                                         <i class="bi bi-award fs-2"></i>
                                     </div>
                                     <h3 class="mb-3">Для колледжа</h3>

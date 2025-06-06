@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 04 2025 г., 20:38
+-- Время создания: Июн 06 2025 г., 20:12
 -- Версия сервера: 5.7.39
 -- Версия PHP: 8.0.22
 
@@ -60,8 +60,7 @@ CREATE TABLE `likes` (
 INSERT INTO `likes` (`id`, `user_id`, `review_id`, `is_active`, `like_currect`, `created_at`) VALUES
 (4, 1, 4, 0, '24', '2025-05-21 07:24:39'),
 (9, 2, 9, 0, '18', '2025-05-19 16:28:30'),
-(10, 3, 10, 0, '12', '2025-05-17 11:25:37'),
-(11, 7, 10, 0, '0', '2025-05-29 16:33:50');
+(10, 3, 10, 0, '12', '2025-05-17 11:25:37');
 
 -- --------------------------------------------------------
 
@@ -181,7 +180,11 @@ INSERT INTO `portfolio_views` (`id`, `work_id`, `user_id`, `viewed_at`) VALUES
 (27, 3, 7, '2025-05-28 15:24:52'),
 (28, 2, 7, '2025-05-28 15:24:52'),
 (29, 1, 7, '2025-05-28 15:24:52'),
-(30, 4, 7, '2025-05-28 15:57:59');
+(30, 4, 7, '2025-05-28 15:57:59'),
+(31, 4, 8, '2025-06-06 15:28:23'),
+(32, 3, 8, '2025-06-06 15:28:23'),
+(33, 2, 8, '2025-06-06 15:28:23'),
+(34, 1, 8, '2025-06-06 15:28:23');
 
 -- --------------------------------------------------------
 
@@ -237,7 +240,81 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `c
 (4, 'Илья Р.', 'email4@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL),
 (5, 'DesignPro Studio', 'email5@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 'Максим А.', 'email6@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL),
-(7, 'Тестовый аккаунт', 'account404@gmail.com', '$2y$10$DQfQW.kpiRs3yZ.Cm.q52OvZ9i0ZtBvPpDLtxTyz19NvhPTYRNSm.', 'student', '+79115678934', '2025-05-28 15:24:43', 'img/no-image.png', NULL, NULL, NULL);
+(7, 'Тестовый аккаунт', 'account404@gmail.com', '$2y$10$P0y/B9YqB57bA7GRkoS/W.vY8Cjww3HYy9esUgPvuqJ3vy/.RXw2i', 'student', '+79115678934', '2025-05-28 15:24:43', 'img/no-image.png', NULL, NULL, NULL),
+(8, 'Тест-Работодатель', 'account202@gmail.com', '$2y$10$StXzsLp6zorahiMjTv92Ke6Exge/yOvkexTz7J4kuSfLtI5n9xxTi', 'employer', '+79118954238', '2025-06-06 14:45:33', 'img/no-image.png', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `vacancies`
+--
+
+CREATE TABLE `vacancies` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `employment_type` enum('full','part','internship','remote') NOT NULL,
+  `salary` varchar(100) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `requirements` varchar(255) DEFAULT NULL,
+  `benefits` varchar(255) DEFAULT NULL,
+  `contacts` varchar(255) DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `vacancy_applications`
+--
+
+CREATE TABLE `vacancy_applications` (
+  `id` int(11) NOT NULL,
+  `vacancy_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `resume_path` varchar(255) DEFAULT NULL,
+  `applied_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('pending','reviewed','rejected','accepted') NOT NULL DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `vacancy_categories`
+--
+
+CREATE TABLE `vacancy_categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `vacancy_categories`
+--
+
+INSERT INTO `vacancy_categories` (`id`, `name`) VALUES
+(1, 'Маркетинг'),
+(2, 'Дизайн'),
+(3, 'IT'),
+(4, 'Финансы'),
+(5, 'Управление');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `vacancy_views`
+--
+
+CREATE TABLE `vacancy_views` (
+  `id` int(11) NOT NULL,
+  `vacancy_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `viewed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Индексы сохранённых таблиц
@@ -309,6 +386,36 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Индексы таблицы `vacancies`
+--
+ALTER TABLE `vacancies`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Индексы таблицы `vacancy_applications`
+--
+ALTER TABLE `vacancy_applications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `vacancy_id` (`vacancy_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Индексы таблицы `vacancy_categories`
+--
+ALTER TABLE `vacancy_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `vacancy_views`
+--
+ALTER TABLE `vacancy_views`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `vacancy_user` (`vacancy_id`,`user_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -322,13 +429,13 @@ ALTER TABLE `cooperation_requests`
 -- AUTO_INCREMENT для таблицы `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `portfolio`
@@ -352,7 +459,7 @@ ALTER TABLE `portfolio_likes`
 -- AUTO_INCREMENT для таблицы `portfolio_views`
 --
 ALTER TABLE `portfolio_views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT для таблицы `reviews`
@@ -365,6 +472,30 @@ ALTER TABLE `reviews`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT для таблицы `vacancies`
+--
+ALTER TABLE `vacancies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT для таблицы `vacancy_applications`
+--
+ALTER TABLE `vacancy_applications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT для таблицы `vacancy_categories`
+--
+ALTER TABLE `vacancy_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT для таблицы `vacancy_views`
+--
+ALTER TABLE `vacancy_views`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -409,6 +540,27 @@ ALTER TABLE `portfolio_views`
 --
 ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `vacancies`
+--
+ALTER TABLE `vacancies`
+  ADD CONSTRAINT `vacancies_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `vacancies_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `vacancy_categories` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `vacancy_applications`
+--
+ALTER TABLE `vacancy_applications`
+  ADD CONSTRAINT `vacancy_applications_ibfk_1` FOREIGN KEY (`vacancy_id`) REFERENCES `vacancies` (`id`),
+  ADD CONSTRAINT `vacancy_applications_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `vacancy_views`
+--
+ALTER TABLE `vacancy_views`
+  ADD CONSTRAINT `vacancy_views_ibfk_1` FOREIGN KEY (`vacancy_id`) REFERENCES `vacancies` (`id`),
+  ADD CONSTRAINT `vacancy_views_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
