@@ -91,15 +91,15 @@ $stats = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total_vacanc
                         <div class="card-body">
                             <div class="row text-center">
                                 <div class="col-md-4">
-                                    <h3 class="text-primary"><?= $stats['total_vacancies'] ? $stats['total_vacancies'] : 0?></h3>
+                                    <h3 class="text-primary"><?= $stats['total_vacancies'] ? $stats['total_vacancies'] : 0 ?></h3>
                                     <p class="text-muted">Всего вакансий</p>
                                 </div>
                                 <div class="col-md-4">
-                                    <h3 class="text-primary"><?= $stats['total_views'] ? $stats['total_views'] : 0?></h3>
+                                    <h3 class="text-primary"><?= $stats['total_views'] ? $stats['total_views'] : 0 ?></h3>
                                     <p class="text-muted">Просмотров</p>
                                 </div>
                                 <div class="col-md-4">
-                                    <h3 class="text-primary"><?= $stats['total_applications'] ? $stats['total_applications'] : 0?></h3>
+                                    <h3 class="text-primary"><?= $stats['total_applications'] ? $stats['total_applications'] : 0 ?></h3>
                                     <p class="text-muted">Откликов</p>
                                 </div>
                             </div>
@@ -113,18 +113,20 @@ $stats = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total_vacanc
                 {
                 ?>
                     <?php 
-                    while ($vacancy = mysqli_fetch_assoc($vacancies)) 
+                    while($vacancy = mysqli_fetch_assoc($vacancies))
                     {
                     ?>
-                        <div class="col-md-6 mb-4">
-                            <div class="card h-100">
+                        <div class="col-md-4">
+                            <div class="card h-100 vacancy-card">
+                                <img src="<?= htmlspecialchars($vacancy['image_path']) ?>" class="card-img-top vacancy-img" alt="<?= htmlspecialchars($vacancy['title']) ?>">
                                 <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <span class="badge bg-primary"><?= htmlspecialchars($vacancy['category_name']) ?></span>
-                                        <small class="text-muted"><?= date('d.m.Y', strtotime($vacancy['created_at'])) ?></small>
-                                    </div>
-                                    <h4 class="card-title"><?= htmlspecialchars($vacancy['title']) ?></h4>
+                                    <h5 class="card-title"><?= htmlspecialchars($vacancy['title']) ?></h5>
+                                    <span class="badge bg-primary mb-2"><?= htmlspecialchars($vacancy['category_name']) ?></span>
                                     <div class="vacancy-meta mb-3">
+                                        <p class="mb-1">
+                                            <i class="bi bi-geo-alt"></i> 
+                                            <?= htmlspecialchars($vacancy['location'] ?: 'Не указано') ?>
+                                        </p>
                                         <p class="mb-1">
                                             <i class="bi bi-cash-coin"></i> 
                                             <?= $vacancy['salary'] ? htmlspecialchars($vacancy['salary']) . ' ₽' : 'По договорённости' ?>
@@ -142,23 +144,20 @@ $stats = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total_vacanc
                                             ?>
                                         </p>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="badge bg-info">
-                                            <i class="bi bi-eye"></i> <?= $vacancy['views_count'] ?>
-                                        </span>
-                                        <span class="badge bg-success">
-                                            <i class="bi bi-people"></i> <?= $vacancy['applications_count'] ?>
-                                        </span>
-                                    </div>
-                                    <div class="d-grid gap-2">
-                                        <a href="vacancy_details.php?id=<?= $vacancy['id'] ?>" class="btn btn-outline-primary">
+                                    <div class="d-flex justify-content-center">
+                                        <a href="vacancy_details.php?id=<?= $vacancy['id'] ?>" class="btn btn-primary w-75 mb-2">
                                             <i class="bi bi-eye"></i> Просмотреть
                                         </a>
-                                        <button class="btn btn-outline-danger" 
-                                                onclick="if(confirm('Вы уверены, что хотите удалить эту вакансию? Все отклики также будут удалены.')) window.location='delete_vacancy.php?id=<?= $vacancy['id'] ?>'">
-                                            <i class="bi bi-trash"></i> Удалить
-                                        </button>
                                     </div>
+                                </div>
+                                <div class="card-footer border-0 bg-white">
+                                    <p class="text-muted small border-0">
+                                        <i class="bi bi-calendar me-1"></i> <?= date('d.m.Y', strtotime($vacancy['created_at'])) ?>
+                                    </p>
+                                    <span class="stats-badge">
+                                        <i class="bi bi-eye me-1"></i><?= $vacancy['views_count'] ?> 
+                                        <i class="bi bi-people ms-2 me-1"></i><?= $vacancy['applications_count'] ?>
+                                    </span>
                                 </div>
                             </div>
                         </div>

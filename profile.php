@@ -244,10 +244,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                             <li class="nav-item">
                                 <a class="nav-link active" href="profile.php"><i class="bi bi-person me-2"></i>Профиль</a>
                             </li>
+                            <?php 
+                            if ($_SESSION['user_type'] == 'student') 
+                            {
+                            ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="files/my_works.php"><i class="bi bi-collection me-2"></i>Мои работы</a>
                             </li>
                             <?php 
+                            }
+
                             if ($_SESSION['user_type'] == 'employer') 
                             {
                             ?>

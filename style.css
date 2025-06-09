@@ -493,20 +493,20 @@ footer p
     font-size: 0.9rem;
 }
 
-.work-card 
+.work-card, .vacancy-card
 {
     transition: all 0.3s ease;
     height: 100%;
     position: relative;
 }
 
-.work-card:hover 
+.work-card:hover, .vacancy-card:hover
 {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-.work-img 
+.work-img, .vacancy-img
 {
     height: 200px;
     object-fit: cover;

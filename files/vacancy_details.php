@@ -8,6 +8,15 @@ if (!isset($_GET['id']))
     exit();
 }
 
+if (isset($_SERVER['HTTP_REFERER']) && !strpos($_SERVER['HTTP_REFERER'], 'vacancy_details.php')) 
+{
+    $_SESSION['previous_page'] = $_SERVER['HTTP_REFERER'];
+} 
+else if (!isset($_SESSION['previous_page'])) 
+{
+    $_SESSION['previous_page'] = 'vacancies.php';
+}
+
 $vacancy_id = (int)$_GET['id'];
 $isLoggedIn = isset($_SESSION['user_id']);
 
@@ -123,7 +132,10 @@ if ($isLoggedIn)
                 <div class="col-lg-8">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="d-flex justify-content-center mb-3">
+                                <img src="<?= htmlspecialchars($vacancy['image_path']) ?>" class="img-thumbnail" style="max-height: 250px;">
+                            </div>
+                            <div class="d-flex justify-content-between align-items-start mb-2">
                                 <span class="badge bg-primary"><?= htmlspecialchars($vacancy['category_name']) ?></span>
                                 <p class="text-muted small border-0">Опубликовано: <?= date('d.m.Y', strtotime($vacancy['created_at'])) ?></p>
                             </div>
@@ -178,35 +190,24 @@ if ($isLoggedIn)
                             <?php 
                             } 
                             ?>
-                            <div class="mb-4">
-                                <h4 class="mb-3">Контактная информация</h4>
-                                <p><?= nl2br(htmlspecialchars($vacancy['contacts'])) ?></p>
-                                <?php 
-                                if ($isLoggedIn && $_SESSION['user_type'] == 'employer' && $_SESSION['user_id'] == $vacancy['user_id']) 
-                                {
-                                ?>
-                                    <p><i class="bi bi-envelope"></i> Email: <?= htmlspecialchars($vacancy['company_email']) ?></p>
-                                    <p><i class="bi bi-telephone"></i> Телефон: <?= htmlspecialchars($vacancy['company_phone']) ?></p>
-                                <?php 
-                                } 
-                                ?>
-                            </div>
+                                <div class="mb-4">
+                                    <h4 class="mb-3">Контактная информация</h4>
+                                    <p><?= nl2br(htmlspecialchars($vacancy['contacts'])) ?></p>
+                                </div>
+                            <?php 
+                            if ($isLoggedIn && $_SESSION['user_type'] == 'student') 
+                            {
+                            ?>
+                                <div class="card-body text-center">
+                                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">
+                                        <i class="bi bi-send"></i> Откликнуться на вакансию
+                                    </button>
+                                </div>
+                            <?php 
+                            } 
+                            ?>
                         </div>
                     </div>
-                    <?php 
-                    if ($isLoggedIn && $_SESSION['user_type'] == 'student') 
-                    {
-                    ?>
-                        <div class="card mb-4">
-                            <div class="card-body text-center">
-                                <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">
-                                    <i class="bi bi-send"></i> Откликнуться на вакансию
-                                </button>
-                            </div>
-                        </div>
-                    <?php 
-                    } 
-                    ?>
                 </div>
                 <div class="col-lg-4">
                     <div class="card mb-4">
@@ -219,16 +220,25 @@ if ($isLoggedIn)
                             ?>
                                 <p>Email: <?= htmlspecialchars($vacancy['company_email']) ?></p>
                                 <p>Телефон: <?= htmlspecialchars($vacancy['company_phone']) ?></p>
-                                <div class="d-grid gap-2 mt-3">
-                                    <button class="btn btn-danger" onclick="if(confirm('Вы уверены, что хотите удалить эту вакансию?')) window.location='delete_vacancy.php?id=<?= $vacancy['id'] ?>'">
+                                <div class="d-grid d-flex flex-column align-items-center gap-2 mt-3">
+                                    <a href="edit_vacancy.php?id=<?= $vacancy['id'] ?>" class="btn btn-warning w-75">
+                                        <i class="bi bi-pencil"></i> Редактировать
+                                    </a>
+                                    <button class="btn btn-danger w-75" onclick="if(confirm('Вы уверены, что хотите удалить эту вакансию?')) window.location='delete_vacancy.php?id=<?= $vacancy['id'] ?>'">
                                         <i class="bi bi-trash"></i> Удалить
                                     </button>
-                                    <a href="vacancies.php?id=<?= $vacancy['id'] ?>" class="btn btn-primary">
+                                    <a href="<?= htmlspecialchars($_SESSION['previous_page']) ?>" class="btn btn-primary w-75">
                                         <i class="bi bi-arrow-left"></i> Назад
                                     </a>
                                 </div>
                             <?php 
                             } 
+                            else
+                            {
+                            ?>
+                                <p>Телефон: <?= htmlspecialchars($vacancy['company_phone']) ?></p>
+                            <?php
+                            }
                             ?>
                         </div>
                     </div>
@@ -250,7 +260,7 @@ if ($isLoggedIn)
                                         <li class="list-group-item">
                                             <a href="vacancy_details.php?id=<?= $other['id'] ?>" class="text-decoration-none">
                                                 <?= htmlspecialchars($other['title']) ?>
-                                                <small class="d-block text-muted"><?= date('d.m.Y', strtotime($other['created_at'])) ?></small>
+                                                <p class="d-block text-muted small border-0"><?= date('d.m.Y', strtotime($other['created_at'])) ?></p>
                                             </a>
                                         </li>
                                     <?php 

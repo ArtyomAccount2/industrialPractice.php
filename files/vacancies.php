@@ -214,16 +214,6 @@ if ($current_page > $total_pages && $total_pages > 0)
                         </div>
                     <?php 
                     }
-                    else if (!$isLoggedIn) 
-                    {
-                    ?>
-                        <div class="col-md-12 mt-3 text-center">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                <i class="bi bi-plus-circle"></i> Добавить вакансию
-                            </button>
-                        </div>
-                    <?php 
-                    } 
                     ?>
                 </div>
             </div>
@@ -247,6 +237,14 @@ if ($current_page > $total_pages && $total_pages > 0)
                                     <h5 class="card-title"><?= htmlspecialchars($vacancy['title']) ?></h5>
                                     <p class="text-muted small mb-2">
                                         <i class="bi bi-building"></i> <?= htmlspecialchars($vacancy['company_name']) ?>
+                                        <span class="badge bg-<?php if ($vacancy['user_type'] == 'employer') { echo 'warning'; } ?>">
+                                            <?php 
+                                            if ($vacancy['user_type'] == 'employer') 
+                                            { 
+                                                echo 'Работодатель'; 
+                                            } 
+                                            ?>
+                                        </span>
                                     </p>
                                     <div class="vacancy-meta mb-3">
                                         <p class="mb-1">
@@ -342,7 +340,8 @@ if ($current_page > $total_pages && $total_pages > 0)
                 else 
                 { 
                 ?>
-                    <div class="col-12 text-center py-5">
+                    <div class="col-12 text-center py-4">
+                        <i class="bi bi-file-earmark-excel" style="font-size: 3rem;"></i>
                         <h4>Вакансии не найдены</h4>
                         <p>Попробуйте изменить параметры поиска</p>
                     </div>

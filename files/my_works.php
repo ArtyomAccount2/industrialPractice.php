@@ -149,9 +149,9 @@ $works = mysqli_query($conn, "SELECT p.*, c.name as category_name, (SELECT COUNT
                                     <p class="card-text"><?= mb_substr(htmlspecialchars($work['description']), 0, 100) ?>...</p>
                                 </div>
                                 <div class="card-footer border-0 bg-white d-flex justify-content-between">
-                                    <small class="text-muted">
+                                    <p class="text-muted small border-0">
                                         <i class="bi bi-calendar me-1"></i> <?= date('d.m.Y', strtotime($work['created_at'])) ?>
-                                    </small>
+                                    </p>
                                     <span class="stats-badge">
                                         <i class="bi bi-eye me-1"></i><?= $work['views_count'] ?> 
                                         <i class="bi bi-heart ms-2 me-1"></i><?= $work['likes_count'] ?>

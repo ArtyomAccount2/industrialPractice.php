@@ -237,7 +237,7 @@ if ($isLoggedIn && !isset($_GET['action']))
                     </form>
                     <div class="col-md-12 mt-3 text-center h-50">
                     <?php 
-                    if ($isLoggedIn)
+                    if ($isLoggedIn && $_SESSION['user_type'] == 'student')
                     {
                     ?>
                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addWorkModal">
@@ -245,14 +245,6 @@ if ($isLoggedIn && !isset($_GET['action']))
                         </button>
                     <?php 
                     }
-                    else 
-                    {
-                    ?>
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#loginModal">
-                            <i class="bi bi-plus-circle"></i> Добавить работу
-                        </button>
-                    <?php 
-                    } 
                     ?>
                     </div>
                 </div>
@@ -322,10 +314,15 @@ if ($isLoggedIn && !isset($_GET['action']))
                                     } 
                                     ?>
                                     <div class="step-card d-flex justify-content-between align-items-center">
-                                        <span class="badge bg-<?php if ($work['user_type'] == 'student') { echo 'info'; } else { echo 'warning'; } ?>">
-                                            <?php if ($work['user_type'] == 'student') { echo 'Студент'; } else { echo 'Работодатель'; } ?>
+                                        <span class="badge bg-<?php if ($work['user_type'] == 'student') { echo 'info'; } ?>">
+                                            <?php 
+                                            if ($work['user_type'] == 'student') 
+                                            { 
+                                                echo 'Студент'; 
+                                            } 
+                                            ?>
                                         </span>
-                                        <small class="text-muted"><?= htmlspecialchars($work['author_name']) ?></small>
+                                        <p class="text-muted small border-0"><?= htmlspecialchars($work['author_name']) ?></p>
                                     </div>
                                     <div class="stats d-flex justify-content-center align-items-center w-100 mt-2">
                                         <span class="text-muted me-2" title="Просмотры">
@@ -361,6 +358,7 @@ if ($isLoggedIn && !isset($_GET['action']))
                 { 
                 ?>
                     <div class="col-12 text-center py-5">
+                        <i class="bi bi-search" style="font-size: 3rem;"></i>
                         <h4>Работ не найдено</h4>
                         <p>Попробуйте изменить параметры поиска или добавьте свою работу</p>
                     </div>

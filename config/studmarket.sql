@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 06 2025 г., 20:12
+-- Время создания: Июн 09 2025 г., 18:30
 -- Версия сервера: 5.7.39
 -- Версия PHP: 8.0.22
 
@@ -238,10 +238,14 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `c
 (2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', NULL, NULL, 'uploads/avatars/avatar2.png', NULL, NULL, NULL),
 (3, 'Иван П.', 'email3@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar3.png', NULL, NULL, NULL),
 (4, 'Илья Р.', 'email4@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 'DesignPro Studio', 'email5@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 'Александр Я.', 'email5@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 'Максим А.', 'email6@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 'Тестовый аккаунт', 'account404@gmail.com', '$2y$10$P0y/B9YqB57bA7GRkoS/W.vY8Cjww3HYy9esUgPvuqJ3vy/.RXw2i', 'student', '+79115678934', '2025-05-28 15:24:43', 'img/no-image.png', NULL, NULL, NULL),
-(8, 'Тест-Работодатель', 'account202@gmail.com', '$2y$10$StXzsLp6zorahiMjTv92Ke6Exge/yOvkexTz7J4kuSfLtI5n9xxTi', 'employer', '+79118954238', '2025-06-06 14:45:33', 'img/no-image.png', NULL, NULL, NULL);
+(8, 'Тест-Работодатель', 'account202@gmail.com', '$2y$10$StXzsLp6zorahiMjTv92Ke6Exge/yOvkexTz7J4kuSfLtI5n9xxTi', 'employer', '+79118954238', '2025-06-06 14:45:33', 'img/no-image.png', NULL, NULL, NULL),
+(9, 'DataLabs', 'email7@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL),
+(10, 'WebInnovations', 'email8@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL),
+(11, 'DesignHub', 'email9@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 'DevTeam', 'email10@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -471,7 +475,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT для таблицы `vacancies`
@@ -483,7 +487,7 @@ ALTER TABLE `vacancies`
 -- AUTO_INCREMENT для таблицы `vacancy_applications`
 --
 ALTER TABLE `vacancy_applications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `vacancy_categories`
@@ -495,7 +499,7 @@ ALTER TABLE `vacancy_categories`
 -- AUTO_INCREMENT для таблицы `vacancy_views`
 --
 ALTER TABLE `vacancy_views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
