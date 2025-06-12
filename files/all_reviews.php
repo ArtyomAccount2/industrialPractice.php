@@ -69,6 +69,13 @@ if ($current_page > $total_pages)
 {
     $current_page = $total_pages;
 }
+
+$sql_where = "WHERE r.status = 'approved'";
+
+if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] == 'moderator')) 
+{
+    $sql_where = "WHERE 1=1";
+}
 ?>
 
 <!DOCTYPE html>

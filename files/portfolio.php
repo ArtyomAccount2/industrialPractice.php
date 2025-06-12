@@ -120,6 +120,13 @@ if ($isLoggedIn && !isset($_GET['action']))
     
     mysqli_data_seek($portfolio_items, 0);
 }
+
+$sql_where = "WHERE p.status = 'approved'";
+
+if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] == 'moderator')) 
+{
+    $sql_where = "WHERE 1=1";
+}
 ?>
 
 <!DOCTYPE html>

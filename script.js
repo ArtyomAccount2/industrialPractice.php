@@ -60,4 +60,16 @@ document.addEventListener('DOMContentLoaded', function()
             e.stopPropagation();
         }
     });
+
+    let currentPage = window.location.pathname.split('/').pop();
+    let links = document.querySelectorAll('.admin-sidebar .nav-link');
+            
+    links.forEach(link => {
+        let linkHref = link.getAttribute('href');
+        
+        if (linkHref === currentPage || (linkHref.includes('admin_users') && currentPage.includes('admin_users')) || (linkHref.includes('admin_portfolio') && currentPage.includes('admin_portfolio')) || (linkHref.includes('admin_vacancies') && currentPage.includes('admin_vacancies')) || (linkHref.includes('admin_reviews') && currentPage.includes('admin_reviews'))) 
+        {
+            link.classList.add('active');
+        }
+    });
 });

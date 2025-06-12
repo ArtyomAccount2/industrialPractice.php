@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 09 2025 г., 18:30
+-- Время создания: Июн 10 2025 г., 21:13
 -- Версия сервера: 5.7.39
 -- Версия PHP: 8.0.22
 
@@ -20,6 +20,51 @@ SET time_zone = "+00:00";
 --
 -- База данных: `studmarket`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `admins`
+--
+
+CREATE TABLE `admins` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('superadmin','admin','moderator') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'moderator',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_login` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `admins`
+--
+
+INSERT INTO `admins` (`id`, `email`, `password`, `name`, `role`, `created_at`, `last_login`) VALUES
+(1, 'account505@gmail.com', '$2y$10$mKggUBnxTPbEwL1x0NCVqOUIB0UJ7DPSGogTYeG08jrCubx4t03y6', 'Админ-Аккаунт', 'superadmin', '2025-06-10 17:25:33', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `admin_actions`
+--
+
+CREATE TABLE `admin_actions` (
+  `id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `action` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `details` text COLLATE utf8mb4_unicode_ci,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `admin_actions`
+--
+
+INSERT INTO `admin_actions` (`id`, `admin_id`, `action`, `details`, `ip_address`, `created_at`) VALUES
+(1, 1, 'Вход в систему', 'Успешный вход', '127.0.0.1', '2025-06-10 17:28:03');
 
 -- --------------------------------------------------------
 
@@ -92,18 +137,20 @@ CREATE TABLE `portfolio` (
   `tags` varchar(255) DEFAULT NULL,
   `image_path` varchar(255) NOT NULL,
   `external_links` text,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  `moderator_comment` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Дамп данных таблицы `portfolio`
 --
 
-INSERT INTO `portfolio` (`id`, `user_id`, `title`, `category_id`, `description`, `tags`, `image_path`, `external_links`, `created_at`) VALUES
-(1, 4, 'Веб-сайт для автосервиса', 2, ' Разработка адаптивного сайта с системой онлайн-записи. Использованы: HTML5, CSS3, JavaScript.', '#веб-разработка, #лэндинг, #автосервис', '../uploads/portfolio/work_4_1748346459.jfif', NULL, '2025-05-12 11:47:39'),
-(2, 5, 'Логотип для пекарни \"Ржаной\"', 1, 'Создание узнаваемого логотипа в народном стиле с элементами пшеничных колосьев.', '#логотип, #хлеб, #традиции, #брендинг', '../uploads/portfolio/work_7_1748346573.jfif', NULL, '2025-05-15 11:49:33'),
-(3, 6, 'Фирменный стиль для кафе \"Утро\"', 1, 'Создание фирменного стиля для уютного кафе с акцентом на утреннюю атмосферу.', '#логотип, #брендинг, #кафе, #упаковка', '../uploads/portfolio/work_8_1748349086.jfif', NULL, '2025-05-27 12:31:26'),
-(4, 7, 'Логотип и айдентика для кофейни \"Morning Brew\"', 1, 'Полный редизайн айдентики для сети кофеен премиум-класса. Концепция объединяет образ утреннего солнца и кофейного зерна, передавая атмосферу свежести и пробуждения.', '#логотип, #брендинг, #кофе, #упаковка', '../uploads/portfolio/work_11_1748447879.jpg', NULL, '2025-05-28 15:57:59');
+INSERT INTO `portfolio` (`id`, `user_id`, `title`, `category_id`, `description`, `tags`, `image_path`, `external_links`, `created_at`, `status`, `moderator_comment`) VALUES
+(1, 4, 'Веб-сайт для автосервиса', 2, ' Разработка адаптивного сайта с системой онлайн-записи. Использованы: HTML5, CSS3, JavaScript.', '#веб-разработка, #лэндинг, #автосервис', '../uploads/portfolio/work_4_1748346459.jfif', NULL, '2025-05-12 11:47:39', 'pending', NULL),
+(2, 5, 'Логотип для пекарни \"Ржаной\"', 1, 'Создание узнаваемого логотипа в народном стиле с элементами пшеничных колосьев.', '#логотип, #хлеб, #традиции, #брендинг', '../uploads/portfolio/work_7_1748346573.jfif', NULL, '2025-05-15 11:49:33', 'pending', NULL),
+(3, 6, 'Фирменный стиль для кафе \"Утро\"', 1, 'Создание фирменного стиля для уютного кафе с акцентом на утреннюю атмосферу.', '#логотип, #брендинг, #кафе, #упаковка', '../uploads/portfolio/work_8_1748349086.jfif', NULL, '2025-05-27 12:31:26', 'pending', NULL),
+(4, 7, 'Логотип и айдентика для кофейни \"Morning Brew\"', 1, 'Полный редизайн айдентики для сети кофеен премиум-класса. Концепция объединяет образ утреннего солнца и кофейного зерна, передавая атмосферу свежести и пробуждения.', '#логотип, #брендинг, #кофе, #упаковка', '../uploads/portfolio/work_11_1748447879.jpg', NULL, '2025-05-28 15:57:59', 'pending', NULL);
 
 -- --------------------------------------------------------
 
@@ -197,17 +244,33 @@ CREATE TABLE `reviews` (
   `user_id` int(11) NOT NULL,
   `rating` tinyint(4) NOT NULL,
   `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('pending','approved','rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `moderator_comment` text COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `reviews`
 --
 
-INSERT INTO `reviews` (`id`, `user_id`, `rating`, `text`, `created_at`) VALUES
-(4, 1, 5, 'Благодаря СтудМаркету я получила стажировку в крупной компании уже на 3 курсе. Очень удобная платформа, где можно показать свои работы и сразу получить отклик от работодателей.', '2025-05-21 07:14:42'),
-(9, 2, 4, 'За последний год нашли через платформу 3 отличных стажера. Особенно ценно, что можно сразу увидеть реальные работы студентов, а не только сухие резюме. Экономит массу времени!', '2025-05-19 16:26:34'),
-(10, 3, 5, 'Платформа помогла мне найти первых клиентов на фрилансе еще во время учебы. Теперь у меня есть портфолио и опыт, которые помогут устроиться на работу после выпуска.', '2025-05-17 10:58:33');
+INSERT INTO `reviews` (`id`, `user_id`, `rating`, `text`, `created_at`, `status`, `moderator_comment`) VALUES
+(4, 1, 5, 'Благодаря СтудМаркету я получила стажировку в крупной компании уже на 3 курсе. Очень удобная платформа, где можно показать свои работы и сразу получить отклик от работодателей.', '2025-05-21 07:14:42', 'pending', NULL),
+(9, 2, 4, 'За последний год нашли через платформу 3 отличных стажера. Особенно ценно, что можно сразу увидеть реальные работы студентов, а не только сухие резюме. Экономит массу времени!', '2025-05-19 16:26:34', 'pending', NULL),
+(10, 3, 5, 'Платформа помогла мне найти первых клиентов на фрилансе еще во время учебы. Теперь у меня есть портфолио и опыт, которые помогут устроиться на работу после выпуска.', '2025-05-17 10:58:33', 'pending', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `system_settings`
+--
+
+CREATE TABLE `system_settings` (
+  `id` int(11) NOT NULL,
+  `setting_key` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `setting_value` text COLLATE utf8mb4_unicode_ci,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -226,26 +289,28 @@ CREATE TABLE `users` (
   `avatar_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'img/no-image.png',
   `vk_id` bigint(20) DEFAULT NULL,
   `telegram_id` bigint(20) DEFAULT NULL,
-  `telegram_username` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `telegram_username` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_banned` tinyint(1) NOT NULL DEFAULT '0',
+  `ban_reason` text COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `created_at`, `avatar_path`, `vk_id`, `telegram_id`, `telegram_username`) VALUES
-(1, 'Анна К.', 'email1@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar1.png', NULL, NULL, NULL),
-(2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', NULL, NULL, 'uploads/avatars/avatar2.png', NULL, NULL, NULL),
-(3, 'Иван П.', 'email3@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar3.png', NULL, NULL, NULL),
-(4, 'Илья Р.', 'email4@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 'Александр Я.', 'email5@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 'Максим А.', 'email6@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL),
-(7, 'Тестовый аккаунт', 'account404@gmail.com', '$2y$10$P0y/B9YqB57bA7GRkoS/W.vY8Cjww3HYy9esUgPvuqJ3vy/.RXw2i', 'student', '+79115678934', '2025-05-28 15:24:43', 'img/no-image.png', NULL, NULL, NULL),
-(8, 'Тест-Работодатель', 'account202@gmail.com', '$2y$10$StXzsLp6zorahiMjTv92Ke6Exge/yOvkexTz7J4kuSfLtI5n9xxTi', 'employer', '+79118954238', '2025-06-06 14:45:33', 'img/no-image.png', NULL, NULL, NULL),
-(9, 'DataLabs', 'email7@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL),
-(10, 'WebInnovations', 'email8@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL),
-(11, 'DesignHub', 'email9@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL),
-(12, 'DevTeam', 'email10@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `created_at`, `avatar_path`, `vk_id`, `telegram_id`, `telegram_username`, `is_banned`, `ban_reason`) VALUES
+(1, 'Анна К.', 'email1@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar1.png', NULL, NULL, NULL, 0, NULL),
+(2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', NULL, NULL, 'uploads/avatars/avatar2.png', NULL, NULL, NULL, 0, NULL),
+(3, 'Иван П.', 'email3@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar3.png', NULL, NULL, NULL, 0, NULL),
+(4, 'Илья Р.', 'email4@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(5, 'Александр Я.', 'email5@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(6, 'Максим А.', 'email6@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(7, 'Тестовый аккаунт', 'account404@gmail.com', '$2y$10$P0y/B9YqB57bA7GRkoS/W.vY8Cjww3HYy9esUgPvuqJ3vy/.RXw2i', 'student', '+79115678934', '2025-05-28 15:24:43', 'img/no-image.png', NULL, NULL, NULL, 0, NULL),
+(8, 'Тест-Работодатель', 'account202@gmail.com', '$2y$10$StXzsLp6zorahiMjTv92Ke6Exge/yOvkexTz7J4kuSfLtI5n9xxTi', 'employer', '+79118954238', '2025-06-06 14:45:33', 'img/no-image.png', NULL, NULL, NULL, 0, NULL),
+(9, 'DataLabs', 'email7@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(10, 'WebInnovations', 'email8@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(11, 'DesignHub', 'email9@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(12, 'DevTeam', 'email10@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -266,7 +331,9 @@ CREATE TABLE `vacancies` (
   `benefits` varchar(255) DEFAULT NULL,
   `contacts` varchar(255) DEFAULT NULL,
   `image_path` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  `moderator_comment` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -323,6 +390,20 @@ CREATE TABLE `vacancy_views` (
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Индексы таблицы `admin_actions`
+--
+ALTER TABLE `admin_actions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `admin_id` (`admin_id`);
 
 --
 -- Индексы таблицы `cooperation_requests`
@@ -383,6 +464,13 @@ ALTER TABLE `reviews`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Индексы таблицы `system_settings`
+--
+ALTER TABLE `system_settings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `setting_key` (`setting_key`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
@@ -422,6 +510,18 @@ ALTER TABLE `vacancy_views`
 --
 -- AUTO_INCREMENT для сохранённых таблиц
 --
+
+--
+-- AUTO_INCREMENT для таблицы `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT для таблицы `admin_actions`
+--
+ALTER TABLE `admin_actions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `cooperation_requests`
@@ -472,6 +572,12 @@ ALTER TABLE `reviews`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT для таблицы `system_settings`
+--
+ALTER TABLE `system_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
@@ -481,7 +587,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `vacancies`
 --
 ALTER TABLE `vacancies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `vacancy_applications`
@@ -499,11 +605,17 @@ ALTER TABLE `vacancy_categories`
 -- AUTO_INCREMENT для таблицы `vacancy_views`
 --
 ALTER TABLE `vacancy_views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
+
+--
+-- Ограничения внешнего ключа таблицы `admin_actions`
+--
+ALTER TABLE `admin_actions`
+  ADD CONSTRAINT `admin_actions_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admins` (`id`) ON DELETE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `likes`
