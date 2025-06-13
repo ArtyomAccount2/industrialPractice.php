@@ -273,8 +273,8 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
                                         <span class="badge badge-category"><?= htmlspecialchars($categories[$work['category_id']] ?? 'Без категории') ?></span>
                                         <small class="text-muted"><?= date('d.m.Y', strtotime($work['created_at'])) ?></small>
                                     </div>
-                                    <h5 class="card-title"><?= htmlspecialchars($work['title']) ?></h5>
-                                    <p class="card-text"><?= mb_substr(htmlspecialchars($work['description']), 0, 100) ?>...</p>
+                                    <h5 class="card-title"><?= htmlspecialchars($work['title'], ENT_QUOTES, 'UTF-8', false) ?></h5>
+                                    <p class="card-text"><?= mb_substr(htmlspecialchars($work['description'], ENT_QUOTES, 'UTF-8', false), 0, 100) ?>...</p>
                                     <?php 
                                     if (!empty($work['tags']))
                                     { 
@@ -411,76 +411,128 @@ if ($isLoggedIn)
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addWorkModalLabel">Добавить работу в портфолио</h5>
+                <h5 class="modal-title" id="addWorkModalLabel">Мастер добавления работы</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="add_work.php" enctype="multipart/form-data">
+            <form method="POST" action="add_work.php" enctype="multipart/form-data" id="portfolioForm">
                 <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-                    <div class="pe-3">
-                        <div class="mb-3">
-                            <label for="workTitle" class="form-label">Название работы <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="workTitle" name="title" required>
+                    <ul class="nav nav-pills mb-4" id="portfolioWizard" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="step1-tab" type="button" role="tab">1. Основное</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link disabled" id="step2-tab" type="button" role="tab">2. Описание</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link disabled" id="step3-tab" type="button" role="tab">3. Медиа</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link disabled" id="step4-tab" type="button" role="tab">4. Дополнительно</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="portfolioWizardContent">
+                        <div class="tab-pane fade show active" id="step1" role="tabpanel" aria-labelledby="step1-tab">
+                            <div class="mb-3">
+                                <label for="workTitle" class="form-label">Название работы <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="workTitle" name="title" placeholder="Например: Логотип для кафе 'Уют'" data-bs-toggle="tooltip" data-bs-placement="top" title="Придумайте краткое и понятное название, отражающее суть работы" required>
+                                <div class="form-text">От 5 до 100 символов</div>
+                                <div class="invalid-feedback">Пожалуйста, укажите название работы</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="workCategory" class="form-label">Категория <span class="text-danger">*</span></label>
+                                <select class="form-select" id="workCategory" name="category_id" data-bs-toggle="tooltip" data-bs-placement="top" title="Выберите наиболее подходящую категорию для вашей работы" required>
+                                    <option value="" selected disabled>-- Выберите категорию --</option>
+                                    <?php 
+                                    foreach ($categories as $id => $name)
+                                    {
+                                    ?>
+                                        <option value="<?= $id ?>"><?= htmlspecialchars($name) ?></option>
+                                    <?php 
+                                    } 
+                                    ?>
+                                </select>
+                                <div class="invalid-feedback">Пожалуйста, выберите категорию</div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary next-step" data-next="step2">Далее <i class="bi bi-arrow-right"></i></button>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="workCategory" class="form-label">Категория <span class="text-danger">*</span></label>
-                            <select class="form-select" id="workCategory" name="category_id" required>
-                                <?php 
-                                foreach ($categories as $id => $name)
-                                { 
-                                ?>
-                                    <option value="<?= $id ?>"><?= htmlspecialchars($name) ?></option>
-                                <?php 
-                                } 
-                                ?>
-                            </select>
+                        <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab">
+                            <div class="mb-3">
+                                <label for="workDescription" class="form-label">Описание работы <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="workDescription" name="description" rows="5" placeholder="Опишите вашу работу: цели, задачи, процесс создания, использованные технологии..." data-bs-toggle="tooltip" data-bs-placement="top" title="Подробно опишите вашу работу, чтобы другие пользователи могли понять её ценность" required></textarea>
+                                <div class="form-text">
+                                    <span id="descriptionCounter">0</span>/1000 символов. Минимум 50 символов.
+                                </div>
+                                <div class="invalid-feedback">Описание должно содержать не менее 50 символов</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="workTags" class="form-label">Теги (через запятую) <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="workTags" name="tags" placeholder="#дизайн, #логотип, #брендинг" data-bs-toggle="tooltip" data-bs-placement="top" title="Укажите ключевые слова через запятую, которые помогут найти вашу работу" required>
+                                <div class="form-text">До 5 тегов, каждый не длиннее 20 символов</div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary prev-step" data-prev="step1"><i class="bi bi-arrow-left"></i> Назад</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="step3">Далее <i class="bi bi-arrow-right"></i></button>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="workDescription" class="form-label">Описание <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="workDescription" name="description" rows="3" required></textarea>
+                        <div class="tab-pane fade" id="step3" role="tabpanel" aria-labelledby="step3-tab">
+                            <div class="mb-3">
+                                <label for="workImage" class="form-label">Главное изображение <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="workImage" name="image" accept="image/*" data-bs-toggle="tooltip" data-bs-placement="top" title="Загрузите основное изображение, которое будет отображаться в галерее" required>
+                                <div class="form-text">Форматы: JPG, PNG. Макс. размер: 5MB. Рекомендуемое разрешение: 1200x800px</div>
+                                <div class="invalid-feedback">Пожалуйста, загрузите изображение</div>
+                                <div class="mt-3 text-center" id="imagePreviewContainer" style="display:none;">
+                                    <img id="imagePreview" src="#" alt="Предпросмотр" class="img-thumbnail" style="max-height: 200px;">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary prev-step" data-prev="step2"><i class="bi bi-arrow-left"></i> Назад</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="step4">Далее <i class="bi bi-arrow-right"></i></button>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="workTags" class="form-label">Теги (через запятую)</label>
-                            <input type="text" class="form-control" id="workTags" name="tags" placeholder="Например: дизайн, логотип, брендинг">
-                        </div>
-                        <div class="mb-3">
-                            <label for="workImage" class="form-label">Изображение работы <span class="text-danger">*</span></label>
-                            <input type="file" class="form-control" id="workImage" name="image" accept="image/*" required>
-                            <div class="form-text">Рекомендуемый размер: 1200x800px. Макс. размер: 5MB.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Внешние ссылки</label>
-                            <div class="row g-2">
-                                <div class="col-md-6">
-                                    <div class="input-group mb-2">
-                                        <span class="input-group-text"><i class="bi bi-behance"></i></span>
-                                        <input type="url" class="form-control" name="external_links[Behance]" placeholder="Ссылка на Behance">
+                        <div class="tab-pane fade" id="step4" role="tabpanel" aria-labelledby="step4-tab">
+                            <div class="mb-3">
+                                <label class="form-label">Внешние ссылки</label>
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="bi bi-behance"></i></span>
+                                            <input type="url" class="form-control" name="external_links[Behance]" placeholder="https://www.behance.net/вашпроект">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="bi bi-github"></i></span>
+                                            <input type="url" class="form-control" name="external_links[GitHub]" placeholder="https://github.com/вашпроект">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="bi bi-dribbble"></i></span>
+                                            <input type="url" class="form-control" name="external_links[Dribbble]" placeholder="https://dribbble.com/вашпроект">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                                            <input type="url" class="form-control" name="external_links[Website]" placeholder="https://вашсайт.com/проект">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="input-group mb-2">
-                                        <span class="input-group-text"><i class="bi bi-github"></i></span>
-                                        <input type="url" class="form-control" name="external_links[GitHub]" placeholder="Ссылка на GitHub">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group mb-2">
-                                        <span class="input-group-text"><i class="bi bi-dribbble"></i></span>
-                                        <input type="url" class="form-control" name="external_links[Dribbble]" placeholder="Ссылка на Dribbble">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group mb-2">
-                                        <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
-                                        <input type="url" class="form-control" name="external_links[Website]" placeholder="Другая ссылка">
-                                    </div>
-                                </div>
+                                <div class="form-text">Укажите ссылки на другие платформы, где представлена ваша работа</div>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="agreeTerms" name="agree_terms" required>
+                                <label class="form-check-label" for="agreeTerms">Я подтверждаю, что это моя оригинальная работа и она не нарушает авторские права третьих лиц</label>
+                                <div class="invalid-feedback">Необходимо подтверждение</div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary prev-step" data-prev="step3"><i class="bi bi-arrow-left"></i> Назад</button>
+                                <button type="submit" class="btn btn-success"><i class="bi bi-plus-circle"></i> Добавить работу</button>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn btn-primary">Добавить работу</button>
                 </div>
             </form>
         </div>
@@ -495,6 +547,281 @@ if ($isLoggedIn)
     require_once("footer.php"); 
 ?>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() 
+{
+    let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+
+    tooltipTriggerList.map(function (tooltipTriggerEl) 
+    {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    let nextButtons = document.querySelectorAll('.next-step');
+    let prevButtons = document.querySelectorAll('.prev-step');
+    
+    let currentStep = 1;
+    let totalSteps = 4;
+    
+    function goToStep(step) 
+    {
+        document.querySelectorAll('.tab-pane').forEach(pane => {
+            pane.classList.remove('show', 'active');
+        });
+        
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        document.getElementById(`step${step}`).classList.add('show', 'active');
+        
+        document.getElementById(`step${step}-tab`).classList.add('active');
+        
+        currentStep = step;
+    }
+    
+    nextButtons.forEach(button => {
+        button.addEventListener('click', function() 
+        {
+            if (validateStep(`step${currentStep}`)) 
+            {
+                let nextStep = currentStep + 1;
+
+                if (nextStep <= totalSteps) 
+                {
+                    document.getElementById(`step${nextStep}-tab`).classList.remove('disabled');
+                    goToStep(nextStep);
+                }
+            }
+        });
+    });
+    
+    prevButtons.forEach(button => {
+        button.addEventListener('click', function() 
+        {
+            let prevStep = currentStep - 1;
+
+            if (prevStep >= 1) 
+            {
+                goToStep(prevStep);
+            }
+        });
+    });
+    
+    function validateStep(stepId) 
+    {
+        let isValid = true;
+        let stepElement = document.getElementById(stepId);
+        let requiredFields = stepElement.querySelectorAll('[required]');
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) 
+            {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } 
+            else 
+            {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        if (stepId === 'step1') 
+        {
+            let title = document.getElementById('workTitle');
+
+            if (title.value.length < 5 || title.value.length > 100) 
+            {
+                title.classList.add('is-invalid');
+                isValid = false;
+            }
+        } 
+        else if (stepId === 'step2') 
+        {
+            let description = document.getElementById('workDescription');
+
+            if (description.value.length < 50) 
+            {
+                description.classList.add('is-invalid');
+                isValid = false;
+            }
+        } 
+        else if (stepId === 'step3') 
+        {
+            let imageInput = document.getElementById('workImage');
+
+            if (imageInput.files.length === 0) 
+            {
+                imageInput.classList.add('is-invalid');
+                isValid = false;
+            }
+        }
+        
+        return isValid;
+    }
+
+    let descriptionField = document.getElementById('workDescription');
+    let counter = document.getElementById('descriptionCounter');
+    
+    if (descriptionField && counter) 
+    {
+        descriptionField.addEventListener('input', function() 
+        {
+            counter.textContent = this.value.length;
+
+            if (this.value.length < 50) 
+            {
+                this.classList.add('is-invalid');
+            } 
+            else 
+            {
+                this.classList.remove('is-invalid');
+            }
+        });
+    }
+
+    let imageInput = document.getElementById('workImage');
+    let previewContainer = document.getElementById('imagePreviewContainer');
+    let preview = document.getElementById('imagePreview');
+    
+    if (imageInput && previewContainer && preview) 
+    {
+        imageInput.addEventListener('change', function() 
+        {
+            if (this.files && this.files[0]) 
+            {
+                let reader = new FileReader();
+                
+                reader.onload = function(e) 
+                {
+                    preview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    this.classList.remove('is-invalid');
+                }.bind(this);
+                
+                reader.readAsDataURL(this.files[0]);
+            } 
+            else 
+            {
+                previewContainer.style.display = 'none';
+            }
+        });
+    }
+
+    let form = document.getElementById('portfolioForm');
+
+    if (form) 
+    {
+        form.addEventListener('submit', function(e) 
+        {
+            let allValid = true;
+            let steps = ['step1', 'step2', 'step3', 'step4'];
+            let firstInvalidStep = null;
+            
+            steps.forEach(step => {
+                if (!validateStep(step)) 
+                {
+                    allValid = false;
+
+                    if (!firstInvalidStep) 
+                    {
+                        firstInvalidStep = step;
+                    }
+                }
+            });
+            
+            if (!allValid) 
+            {
+                e.preventDefault();
+                document.getElementById(firstInvalidStep + '-tab').click();
+
+                let invalidField = document.querySelector('#' + firstInvalidStep + ' .is-invalid');
+
+                if (invalidField) 
+                {
+                    invalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    if (invalidField.tagName === 'INPUT' || invalidField.tagName === 'TEXTAREA' || invalidField.tagName === 'SELECT') 
+                    {
+                        invalidField.focus();
+                    }
+                }
+                
+                alert('Пожалуйста, заполните все обязательные поля корректно.');
+            }
+        });
+    }
+    
+    let workTitle = document.getElementById('workTitle');
+
+    if (workTitle) 
+    {
+        workTitle.addEventListener('input', function() 
+        {
+            if (this.value.length >= 5 && this.value.length <= 100) 
+            {
+                this.classList.remove('is-invalid');
+            } 
+            else 
+            {
+                this.classList.add('is-invalid');
+            }
+        });
+    }
+    
+    let workCategory = document.getElementById('workCategory');
+
+    if (workCategory) 
+    {
+        workCategory.addEventListener('change', function() 
+        {
+            if (this.value) 
+            {
+                this.classList.remove('is-invalid');
+            } 
+            else 
+            {
+                this.classList.add('is-invalid');
+            }
+        });
+    }
+    
+    let workTags = document.getElementById('workTags');
+
+    if (workTags) 
+    {
+        workTags.addEventListener('input', function() 
+        {
+
+            if (this.value.trim()) 
+            {
+                this.classList.remove('is-invalid');
+            } 
+            else 
+            {
+                this.classList.add('is-invalid');
+            }
+        });
+    }
+    
+    let agreeTerms = document.getElementById('agreeTerms');
+
+    if (agreeTerms) 
+    {
+        agreeTerms.addEventListener('change', function() 
+        {
+            if (this.checked) 
+            {
+                this.classList.remove('is-invalid');
+            } 
+            else 
+            {
+                this.classList.add('is-invalid');
+            }
+        });
+    }
+});
+</script>
 <script src="../js/bootstrap.bundle.min.js"></script>
 <script src="../script.js"></script>
 </body>

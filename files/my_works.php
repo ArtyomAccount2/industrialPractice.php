@@ -138,15 +138,17 @@ $works = mysqli_query($conn, "SELECT p.*, c.name as category_name, (SELECT COUNT
                     ?>
                         <div class="col">
                             <div class="card h-100 work-card">
-                                <button class="btn btn-danger btn-sm btn-delete" 
-                                        onclick="if(confirm('Вы уверены, что хотите полностью удалить эту работу?')) window.location='my_works.php?delete=<?= $work['id'] ?>'">
-                                    <i class="bi bi-trash"></i> Удалить
+                                <button class="btn btn-danger btn-sm btn-delete" onclick="if(confirm('Вы уверены, что хотите полностью удалить эту работу?')) window.location='my_works.php?delete=<?= $work['id'] ?>'">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                <button class="btn btn-primary btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#editWorkModal" data-id="<?= $work['id'] ?>" data-title="<?= htmlspecialchars($work['title']) ?>" data-category="<?= $work['category_id'] ?>" data-description="<?= htmlspecialchars($work['description']) ?>" data-tags="<?= htmlspecialchars($work['tags']) ?>" data-image="<?= htmlspecialchars($work['image_path']) ?>" data-links='<?= htmlspecialchars($work['external_links'] ?? '') ?>'>
+                                    <i class="bi bi-pencil"></i>
                                 </button>
                                 <img src="<?= htmlspecialchars($work['image_path']) ?>" class="card-img-top work-img" alt="<?= htmlspecialchars($work['title']) ?>">
                                 <div class="card-body">
-                                    <h5 class="card-title"><?= htmlspecialchars($work['title']) ?></h5>
+                                    <h5 class="card-title"><?= htmlspecialchars($work['title'], ENT_QUOTES, 'UTF-8', false) ?></h5>
                                     <span class="badge bg-primary mb-2"><?= htmlspecialchars($work['category_name']) ?></span>
-                                    <p class="card-text"><?= mb_substr(htmlspecialchars($work['description']), 0, 100) ?>...</p>
+                                    <p class="card-text"><?= mb_substr(htmlspecialchars($work['description'], ENT_QUOTES, 'UTF-8', false), 0, 100) ?>...</p>
                                 </div>
                                 <div class="card-footer border-0 bg-white d-flex justify-content-between">
                                     <p class="text-muted small border-0">
@@ -185,6 +187,93 @@ $works = mysqli_query($conn, "SELECT p.*, c.name as category_name, (SELECT COUNT
             </div>
         </div>
     </section>
+</div>
+
+<div class="modal fade" id="editWorkModal" tabindex="-1" aria-labelledby="editWorkModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editWorkModalLabel">Редактирование работы</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="edit_work.php" enctype="multipart/form-data">
+                <input type="hidden" name="work_id" id="editWorkId">
+                <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                    <div class="pe-3">
+                        <div class="mb-3">
+                            <label for="editTitle" class="form-label">Название работы <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editTitle" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCategory" class="form-label">Категория <span class="text-danger">*</span></label>
+                            <select class="form-select" id="editCategory" name="category_id" required>
+                                <?php 
+                                $categories_query = mysqli_query($conn, "SELECT * FROM portfolio_categories");
+                                
+                                while($category = mysqli_fetch_assoc($categories_query)) 
+                                {
+                                    echo '<option value="'.$category['id'].'">'.htmlspecialchars($category['name']).'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDescription" class="form-label">Описание <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="editDescription" name="description" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTags" class="form-label">Теги (через запятую) <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editTags" name="tags" placeholder="Например: дизайн, логотип, брендинг" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Изображение</label>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                            <div class="form-text">Макс. размер: 2MB. Допустимые форматы: JPG, PNG.</div>
+                            <div class="mt-2">
+                                <p>Текущее изображение:</p>
+                                <img id="editCurrentImage" src="" class="img-thumbnail" style="max-height: 150px;">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Внешние ссылки</label>
+                            <div class="row g-2" id="externalLinksContainer">
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="bi bi-behance"></i></span>
+                                            <input type="url" class="form-control" name="external_links[Behance]" placeholder="Ссылка на Behance" id="editBehanceLink">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="bi bi-github"></i></span>
+                                            <input type="url" class="form-control" name="external_links[GitHub]" placeholder="Ссылка на GitHub" id="editGithubLink">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="bi bi-dribbble"></i></span>
+                                            <input type="url" class="form-control" name="external_links[Dribbble]" placeholder="Ссылка на Dribbble" id="editDribbbleLink">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                                            <input type="url" class="form-control" name="external_links[Website]" placeholder="Другая ссылка" id="editWebsiteLink">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <footer class="bg-dark text-white py-4">
@@ -230,6 +319,57 @@ $works = mysqli_query($conn, "SELECT p.*, c.name as category_name, (SELECT COUNT
     </div>
 </footer>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() 
+{
+    var editWorkModal = document.getElementById('editWorkModal');
+
+    if (editWorkModal) 
+    {
+        editWorkModal.addEventListener('show.bs.modal', function(event) 
+        {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+            var title = button.getAttribute('data-title');
+            var category = button.getAttribute('data-category');
+            var description = button.getAttribute('data-description');
+            var tags = button.getAttribute('data-tags');
+            var image = button.getAttribute('data-image');
+            var links = button.getAttribute('data-links');
+            
+            document.getElementById('editWorkId').value = id;
+            document.getElementById('editTitle').value = title;
+            document.getElementById('editCategory').value = category;
+            document.getElementById('editDescription').value = description;
+            document.getElementById('editTags').value = tags;
+            document.getElementById('editCurrentImage').src = image;
+            
+            try 
+            {
+                var linksObj;
+
+                if (links) 
+                {
+                    linksObj = JSON.parse(links);
+                } 
+                else 
+                {
+                    linksObj = {};
+                }
+
+                document.getElementById('editBehanceLink').value = linksObj.Behance || '';
+                document.getElementById('editGithubLink').value = linksObj.GitHub || '';
+                document.getElementById('editDribbbleLink').value = linksObj.Dribbble || '';
+                document.getElementById('editWebsiteLink').value = linksObj.Website || '';
+            } 
+            catch (e) 
+            {
+                console.error('Error parsing links:', e);
+            }
+        });
+    }
+});
+</script>
 <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
