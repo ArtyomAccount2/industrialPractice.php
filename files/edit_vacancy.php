@@ -32,15 +32,25 @@ $vacancy = mysqli_fetch_assoc($vacancy_result);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
-    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $title = trim($_POST['title']);
     $category_id = (int)$_POST['category_id'];
-    $employment_type = mysqli_real_escape_string($conn, $_POST['employment_type']);
-    $salary = mysqli_real_escape_string($conn, $_POST['salary']);
-    $location = mysqli_real_escape_string($conn, $_POST['location']);
-    $description = mysqli_real_escape_string($conn, $_POST['description']);
-    $requirements = mysqli_real_escape_string($conn, $_POST['requirements']);
-    $benefits = mysqli_real_escape_string($conn, $_POST['benefits']);
-    $contacts = mysqli_real_escape_string($conn, $_POST['contacts']);
+    $employment_type = trim($_POST['employment_type']);
+    $salary = trim($_POST['salary']);
+    $location = trim($_POST['location']);
+    $description = str_replace(['\r\n', '\n', '\r'], "\n", trim($_POST['description']));
+    $requirements = str_replace(['\r\n', '\n', '\r'], "\n", trim($_POST['requirements']));
+    $benefits = str_replace(['\r\n', '\n', '\r'], "\n", trim($_POST['benefits'] ?? ''));
+    $contacts = str_replace(['\r\n', '\n', '\r'], "\n", trim($_POST['contacts']));
+
+    $title = mysqli_real_escape_string($conn, $title);
+    $employment_type = mysqli_real_escape_string($conn, $employment_type);
+    $salary = mysqli_real_escape_string($conn, $salary);
+    $location = mysqli_real_escape_string($conn, $location);
+    $description = mysqli_real_escape_string($conn, $description);
+    $requirements = mysqli_real_escape_string($conn, $requirements);
+    $benefits = mysqli_real_escape_string($conn, $benefits);
+    $contacts = mysqli_real_escape_string($conn, $contacts);
+
     $image_path = $vacancy['image_path'];
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) 

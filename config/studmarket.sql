@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 10 2025 г., 21:13
+-- Время создания: Июн 16 2025 г., 18:32
 -- Версия сервера: 5.7.39
 -- Версия PHP: 8.0.22
 
@@ -42,7 +42,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `email`, `password`, `name`, `role`, `created_at`, `last_login`) VALUES
-(1, 'account505@gmail.com', '$2y$10$mKggUBnxTPbEwL1x0NCVqOUIB0UJ7DPSGogTYeG08jrCubx4t03y6', 'Админ-Аккаунт', 'superadmin', '2025-06-10 17:25:33', NULL);
+(3, 'account505@gmail.com', '$2y$10$QTAFDeo3g.hroPrnhSXzu.QauB5GBH/G6RaHIoUYmt/BkI1LiLeTW', 'Админ', 'superadmin', '2025-06-16 15:23:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -64,7 +64,8 @@ CREATE TABLE `admin_actions` (
 --
 
 INSERT INTO `admin_actions` (`id`, `admin_id`, `action`, `details`, `ip_address`, `created_at`) VALUES
-(1, 1, 'Вход в систему', 'Успешный вход', '127.0.0.1', '2025-06-10 17:28:03');
+(2, 3, 'Вход в систему', 'Успешный вход', '127.0.0.1', '2025-06-16 15:32:08'),
+(3, 3, 'Выход из системы', 'Успешный выход', '127.0.0.1', '2025-06-16 15:32:28');
 
 -- --------------------------------------------------------
 
@@ -231,7 +232,15 @@ INSERT INTO `portfolio_views` (`id`, `work_id`, `user_id`, `viewed_at`) VALUES
 (31, 4, 8, '2025-06-06 15:28:23'),
 (32, 3, 8, '2025-06-06 15:28:23'),
 (33, 2, 8, '2025-06-06 15:28:23'),
-(34, 1, 8, '2025-06-06 15:28:23');
+(34, 1, 8, '2025-06-06 15:28:23'),
+(35, 4, 13, '2025-06-16 10:49:13'),
+(36, 3, 13, '2025-06-16 10:49:13'),
+(37, 2, 13, '2025-06-16 10:49:13'),
+(38, 1, 13, '2025-06-16 10:49:13'),
+(39, 4, 15, '2025-06-16 13:56:57'),
+(40, 3, 15, '2025-06-16 13:56:57'),
+(41, 2, 15, '2025-06-16 13:56:57'),
+(42, 1, 15, '2025-06-16 13:56:57');
 
 -- --------------------------------------------------------
 
@@ -287,9 +296,6 @@ CREATE TABLE `users` (
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `avatar_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'img/no-image.png',
-  `vk_id` bigint(20) DEFAULT NULL,
-  `telegram_id` bigint(20) DEFAULT NULL,
-  `telegram_username` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_banned` tinyint(1) NOT NULL DEFAULT '0',
   `ban_reason` text COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -298,19 +304,18 @@ CREATE TABLE `users` (
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `created_at`, `avatar_path`, `vk_id`, `telegram_id`, `telegram_username`, `is_banned`, `ban_reason`) VALUES
-(1, 'Анна К.', 'email1@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar1.png', NULL, NULL, NULL, 0, NULL),
-(2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', NULL, NULL, 'uploads/avatars/avatar2.png', NULL, NULL, NULL, 0, NULL),
-(3, 'Иван П.', 'email3@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar3.png', NULL, NULL, NULL, 0, NULL),
-(4, 'Илья Р.', 'email4@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-(5, 'Александр Я.', 'email5@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-(6, 'Максим А.', 'email6@gmail.com', '', 'student', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-(7, 'Тестовый аккаунт', 'account404@gmail.com', '$2y$10$P0y/B9YqB57bA7GRkoS/W.vY8Cjww3HYy9esUgPvuqJ3vy/.RXw2i', 'student', '+79115678934', '2025-05-28 15:24:43', 'img/no-image.png', NULL, NULL, NULL, 0, NULL),
-(8, 'Тест-Работодатель', 'account202@gmail.com', '$2y$10$StXzsLp6zorahiMjTv92Ke6Exge/yOvkexTz7J4kuSfLtI5n9xxTi', 'employer', '+79118954238', '2025-06-06 14:45:33', 'img/no-image.png', NULL, NULL, NULL, 0, NULL),
-(9, 'DataLabs', 'email7@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-(10, 'WebInnovations', 'email8@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-(11, 'DesignHub', 'email9@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-(12, 'DevTeam', 'email10@gmail.com', '', 'employer', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `created_at`, `avatar_path`, `is_banned`, `ban_reason`) VALUES
+(1, 'Анна К.', 'email1@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar1.png', 0, NULL),
+(2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', NULL, NULL, 'uploads/avatars/avatar2.png', 0, NULL),
+(3, 'Иван П.', 'email3@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar3.png', 0, NULL),
+(4, 'Илья Р.', 'email4@gmail.com', '', 'student', NULL, NULL, 'img/no-image.png', 0, NULL),
+(5, 'Александр Я.', 'email5@gmail.com', '', 'student', NULL, NULL, 'img/no-image.png', 0, NULL),
+(6, 'Максим А.', 'email6@gmail.com', '', 'student', NULL, NULL, 'img/no-image.png', 0, NULL),
+(7, 'Тестовый аккаунт', 'account404@gmail.com', '$2y$10$P0y/B9YqB57bA7GRkoS/W.vY8Cjww3HYy9esUgPvuqJ3vy/.RXw2i', 'student', '+79115678934', '2025-05-28 15:24:43', 'img/no-image.png', 0, NULL),
+(8, 'Тест-Работодатель', 'account202@gmail.com', '$2y$10$StXzsLp6zorahiMjTv92Ke6Exge/yOvkexTz7J4kuSfLtI5n9xxTi', 'employer', '+79118954238', '2025-06-06 14:45:33', 'img/no-image.png', 0, NULL),
+(13, 'DataLabs', 'email7@gmail.com', '', 'employer', '+79118654736', NULL, 'img/no-image.png', 0, NULL),
+(15, 'WebInnovations', 'email8@gmail.com', '', 'employer', '+79115957623', NULL, 'img/no-image.png', 0, NULL),
+(16, 'DesignHub', 'email9@gmail.com', '', 'employer', '+79114368769', NULL, 'img/no-image.png', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -335,6 +340,16 @@ CREATE TABLE `vacancies` (
   `status` enum('pending','approved','rejected') NOT NULL DEFAULT 'pending',
   `moderator_comment` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `vacancies`
+--
+
+INSERT INTO `vacancies` (`id`, `user_id`, `title`, `category_id`, `employment_type`, `salary`, `location`, `description`, `requirements`, `benefits`, `contacts`, `image_path`, `created_at`, `status`, `moderator_comment`) VALUES
+(1, 13, 'Стажировка в IT-компании', 3, 'internship', '30000-40000', 'Калининград / Удалённо', 'Мы ищем студентов-разработчиков для участия в проекте по созданию API для fintech-стартапа. Работа в команде с ментором, гибкий график, возможность трудоустройства.', '· Базовые знания Python/Java/Golang;\\r\\n· Понимание REST API и баз данных (SQL/NoSQL);\\r\\n· Готовность работать 20–30 часов в неделю.', '', 'Отправлять резюме на: hr@techcompany.ru с темой «Стажировка Backend».\\r\\nТелефон: +7 (495) 123-45-67 (Анна).', '../uploads/vacancies/vacancy_13_1750071399.png', '2025-06-16 10:56:39', 'pending', NULL),
+(5, 15, 'Маркетолог в Digital-агентство', 1, 'full', '60000-80000', 'Калиниград', 'Разработка и реализация маркетинговых стратегий для клиентов (SMM, контекстная реклама, email-рассылки). Анализ эффективности кампаний.', '· Опыт в digital-маркетинге от 1 года;\\n· Знание Google Ads, Meta Business Suite, Яндекс.Метрики;\\n· Умение работать с CRM (AmoCRM, Bitrix24).', '', 'Отправлять резюме на: hr@digital-agency.ru с темой «Маркетолог».\\nТелефон: +7 (495) 111-22-33 (Ольга).', '../uploads/vacancies/vacancy_15_1750072569.png', '2025-06-16 11:16:09', 'pending', NULL),
+(6, 16, 'Менеджер проектов (стажёр)', 5, 'internship', '40000-50000', 'Калиниград', 'Координация работы команд, контроль сроков, ведение документации в Jira/Notion. Обучение у Senior PM.', '· Обучаетесь на менеджмента/IT;\\r\\n· Организованность и multitasking;\\r\\n· Знание основ Agile/Waterfall.', '· ДМС + компенсация спортзала;\\r\\n· Гибкий график;\\r\\n· Бонусы за успешные проекты.', 'Отправлять резюме на: pm-intern@company.com + мотивационное письмо.', '../uploads/vacancies/vacancy_16_1750084654.png', '2025-06-16 14:37:34', 'pending', NULL),
+(7, 16, 'Разработчик Python (Junior)', 3, 'full', '80000-120000', 'Калиниград', 'Разработка backend-части веб-приложений (Django/Flask). Участие в код-ревью, работа в Scrum-команде.', '· Опыт с Python от 6 месяцев;\\r\\n· Знание SQL (PostgreSQL), Git;\\r\\n· Понимание REST API.', '', 'dev@tech.ru (ссылку на GitHub/GitLab).', '../uploads/vacancies/vacancy_16_1750084871.png', '2025-06-16 14:41:11', 'pending', NULL);
 
 -- --------------------------------------------------------
 
@@ -386,6 +401,18 @@ CREATE TABLE `vacancy_views` (
   `user_id` int(11) NOT NULL,
   `viewed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `vacancy_views`
+--
+
+INSERT INTO `vacancy_views` (`id`, `vacancy_id`, `user_id`, `viewed_at`) VALUES
+(1, 1, 13, '2025-06-16 10:57:05'),
+(5, 1, 15, '2025-06-16 11:14:39'),
+(6, 5, 15, '2025-06-16 11:16:18'),
+(7, 5, 16, '2025-06-16 14:32:25'),
+(8, 6, 16, '2025-06-16 14:37:37'),
+(9, 7, 16, '2025-06-16 14:41:15');
 
 --
 -- Индексы сохранённых таблиц
@@ -515,13 +542,13 @@ ALTER TABLE `vacancy_views`
 -- AUTO_INCREMENT для таблицы `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `admin_actions`
 --
 ALTER TABLE `admin_actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `cooperation_requests`
@@ -563,7 +590,7 @@ ALTER TABLE `portfolio_likes`
 -- AUTO_INCREMENT для таблицы `portfolio_views`
 --
 ALTER TABLE `portfolio_views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT для таблицы `reviews`
@@ -581,13 +608,13 @@ ALTER TABLE `system_settings`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблицы `vacancies`
 --
 ALTER TABLE `vacancies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `vacancy_applications`
@@ -605,7 +632,7 @@ ALTER TABLE `vacancy_categories`
 -- AUTO_INCREMENT для таблицы `vacancy_views`
 --
 ALTER TABLE `vacancy_views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -8,9 +8,18 @@ if (!isset($_GET['id']))
     exit();
 }
 
-if (isset($_SERVER['HTTP_REFERER']) && !strpos($_SERVER['HTTP_REFERER'], 'vacancy_details.php')) 
+if (isset($_SERVER['HTTP_REFERER'])) 
 {
-    $_SESSION['previous_page'] = $_SERVER['HTTP_REFERER'];
+    $referer = $_SERVER['HTTP_REFERER'];
+    
+    if (strpos($referer, 'edit_vacancy.php') !== false || strpos($referer, 'company_vacancies.php') !== false) 
+    {
+        $_SESSION['previous_page'] = 'vacancies.php';
+    } 
+    else if (!strpos($referer, 'vacancy_details.php')) 
+    {
+        $_SESSION['previous_page'] = $referer;
+    }
 } 
 else if (!isset($_SESSION['previous_page'])) 
 {
@@ -173,11 +182,11 @@ if ($isLoggedIn)
                             </div>
                             <div class="mb-4">
                                 <h4 class="mb-3">Описание вакансии</h4>
-                                <p><?= nl2br(htmlspecialchars($vacancy['description'])) ?></p>
+                                <p><?= nl2br(htmlspecialchars(str_replace(['\r\n', '\n', '\r'], "\n", $vacancy['description']))) ?></p>
                             </div>
                             <div class="mb-4">
                                 <h4 class="mb-3">Требования</h4>
-                                <p><?= nl2br(htmlspecialchars($vacancy['requirements'])) ?></p>
+                                <p><?= nl2br(htmlspecialchars(str_replace(['\r\n', '\n', '\r'], "\n", $vacancy['requirements']))) ?></p>
                             </div>
                             <?php 
                             if (!empty($vacancy['benefits'])) 
@@ -185,14 +194,14 @@ if ($isLoggedIn)
                             ?>
                                 <div class="mb-4">
                                     <h4 class="mb-3">Условия и бонусы</h4>
-                                    <p><?= nl2br(htmlspecialchars($vacancy['benefits'])) ?></p>
+                                    <p><?= nl2br(htmlspecialchars(str_replace(['\r\n', '\n', '\r'], "\n", $vacancy['benefits']))) ?></p>
                                 </div>
                             <?php 
                             } 
                             ?>
                                 <div class="mb-4">
                                     <h4 class="mb-3">Контактная информация</h4>
-                                    <p><?= nl2br(htmlspecialchars($vacancy['contacts'])) ?></p>
+                                    <p><?= nl2br(htmlspecialchars(str_replace(['\r\n', '\n', '\r'], "\n", $vacancy['contacts']))) ?></p>
                                 </div>
                             <?php 
                             if ($isLoggedIn && $_SESSION['user_type'] == 'student') 
@@ -268,7 +277,7 @@ if ($isLoggedIn)
                                     ?>
                                 </ul>
                                 <div class="mt-2">
-                                    <a href="vacancies.php?search=<?= urlencode($vacancy['company_name']) ?>" class="btn btn-sm btn-outline-primary w-100">
+                                    <a href="company_vacancies.php?company_id=<?= $vacancy['user_id'] ?>" class="btn btn-sm btn-outline-primary w-100">
                                         Все вакансии компании
                                     </a>
                                 </div>
