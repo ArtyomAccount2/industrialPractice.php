@@ -26,10 +26,10 @@
                 <?php 
                 } 
                 ?>
-                    <li class="mb-2"><a href="../files/portfolio.php" class="text-white text-decoration-none">Портфолио</a></li>
-                    <li class="mb-2"><a href="../files/cooperation.php" class="text-white text-decoration-none">Сотрудничество</a></li>
-                    <li class="mb-2"><a href="../files/vacancies.php" class="text-white text-decoration-none">Вакансии</a></li>
-                    <li><a href="../files/all_reviews.php" class="text-white text-decoration-none">Отзывы</a></li>
+                    <li class="mb-2"><a href="../pages/portfolio.php" class="text-white text-decoration-none">Портфолио</a></li>
+                    <li class="mb-2"><a href="../pages/cooperation.php" class="text-white text-decoration-none">Сотрудничество</a></li>
+                    <li class="mb-2"><a href="../pages/vacancies.php" class="text-white text-decoration-none">Вакансии</a></li>
+                    <li><a href="../pages/all_reviews.php" class="text-white text-decoration-none">Отзывы</a></li>
                 </ul>
             </div>
             <div class="col-md-3 mb-4 mb-md-0">

@@ -75,7 +75,7 @@ $page_title = "Вакансии компании " . htmlspecialchars($company['
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="logout.php" class="btn btn-outline-danger">
+                    <a href="../files/logout.php" class="btn btn-outline-danger">
                         <i class="bi bi-box-arrow-right"></i> Выйти
                     </a>
                 </div>
@@ -88,27 +88,44 @@ $page_title = "Вакансии компании " . htmlspecialchars($company['
             <div class="company-header text-center mb-5">
                 <h2 class="display-5 fw-bold">Вакансии компании: <?= htmlspecialchars($company['name']) ?></h2>
                 <div class="divider mx-auto"></div>
-                
                 <div class="company-info mt-4">
-                    <?php if (!empty($company['description'])): ?>
+                    <?php 
+                    if (!empty($company['description']))
+                    {
+                    ?>
                         <p class="lead"><?= htmlspecialchars($company['description']) ?></p>
-                    <?php endif; ?>
-                    
+                    <?php 
+                    } 
+                    ?>
                     <div class="company-contacts mt-3">
-                        <?php if (!empty($company['email'])): ?>
+                        <?php 
+                        if (!empty($company['email']))
+                        {
+                        ?>
                             <p><i class="bi bi-envelope"></i> Email: <?= htmlspecialchars($company['email']) ?></p>
-                        <?php endif; ?>
-                        
-                        <?php if (!empty($company['phone'])): ?>
+                        <?php 
+                        } 
+                        ?>
+                        <?php 
+                        if (!empty($company['phone']))
+                        {
+                        ?>
                             <p><i class="bi bi-telephone"></i> Телефон: <?= htmlspecialchars($company['phone']) ?></p>
-                        <?php endif; ?>
+                        <?php 
+                        } 
+                        ?>
                     </div>
                 </div>
-            </div>
-            
+            </div> 
             <div class="row g-4">
-                <?php if (mysqli_num_rows($vacancies_result) > 0): ?>
-                    <?php while ($vacancy = mysqli_fetch_assoc($vacancies_result)): ?>
+                <?php 
+                if (mysqli_num_rows($vacancies_result) > 0)
+                { 
+                ?>
+                    <?php 
+                    while ($vacancy = mysqli_fetch_assoc($vacancies_result))
+                    {
+                    ?>
                         <div class="col-md-4">
                             <div class="card h-100">
                                 <img src="<?= htmlspecialchars($vacancy['image_path'] ?: '../img/no-image.png') ?>" 
@@ -132,7 +149,8 @@ $page_title = "Вакансии компании " . htmlspecialchars($company['
                                         <p class="mb-1">
                                             <i class="bi bi-clock"></i> 
                                             <?php 
-                                            switch($vacancy['employment_type']) {
+                                            switch($vacancy['employment_type']) 
+                                            {
                                                 case 'full': echo 'Полная занятость'; break;
                                                 case 'part': echo 'Частичная занятость'; break;
                                                 case 'internship': echo 'Стажировка'; break;
@@ -149,24 +167,27 @@ $page_title = "Вакансии компании " . htmlspecialchars($company['
                                         <a href="vacancy_details.php?id=<?= $vacancy['id'] ?>" class="btn btn-sm btn-outline-primary">
                                             Подробнее
                                         </a>
-                                        <?php if ($isLoggedIn && $_SESSION['user_type'] == 'student'): ?>
+                                        <?php 
+                                        if ($isLoggedIn && $_SESSION['user_type'] == 'student')
+                                        {
+                                        ?>
                                             <button class="btn btn-sm btn-success" data-bs-toggle="modal" 
                                                     data-bs-target="#applyModal<?= $vacancy['id'] ?>">
                                                 Откликнуться
                                             </button>
-                                        <?php endif; ?>
+                                        <?php 
+                                        } 
+                                        ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <div class="col-12 text-center py-4">
-                        <i class="bi bi-file-earmark-excel" style="font-size: 3rem;"></i>
-                        <h4>У компании пока нет вакансий</h4>
-                        <p>Попробуйте посмотреть позже</p>
-                    </div>
-                <?php endif; ?>
+                    <?php 
+                    } 
+                    ?>
+                <?php 
+                } 
+                ?>
             </div>
         </div>
     </section>

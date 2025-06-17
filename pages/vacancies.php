@@ -147,7 +147,7 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
                     if ($isLoggedIn)
                     {
                     ?>
-                        <a href="logout.php" class="btn btn-outline-danger">
+                        <a href="../files/logout.php" class="btn btn-outline-danger">
                             <i class="bi bi-box-arrow-right"></i> Выйти
                         </a>
                     <?php 
@@ -308,7 +308,7 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
                                             <h5 class="modal-title">Отклик на вакансию</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form method="POST" action="apply_vacancy.php">
+                                        <form method="POST" action="../files/apply_vacancy.php">
                                             <input type="hidden" name="vacancy_id" value="<?= $vacancy['id'] ?>">
                                             <div class="modal-body">
                                                 <div class="mb-3">
@@ -398,7 +398,7 @@ if ($isLoggedIn && $_SESSION['user_type'] == 'employer')
                 <h5 class="modal-title">Добавить новую вакансию</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="add_vacancy.php" enctype="multipart/form-data">
+            <form method="POST" action="../files/add_vacancy.php" enctype="multipart/form-data">
                 <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
                     <div class="pe-3">
                         <div class="mb-3">

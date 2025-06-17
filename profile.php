@@ -190,16 +190,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                         <a class="nav-link active" aria-current="page" href="profile.php">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="files/portfolio.php">Портфолио</a>
+                        <a class="nav-link" href="pages/portfolio.php">Портфолио</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="files/cooperation.php">Сотрудничество</a>
+                        <a class="nav-link" href="pages/cooperation.php">Сотрудничество</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="files/vacancies.php">Вакансии</a>
+                        <a class="nav-link" href="pages/vacancies.php">Вакансии</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="files/all_reviews.php">Отзывы</a>
+                        <a class="nav-link" aria-current="page" href="pages/all_reviews.php">Отзывы</a>
                     </li>
                 </ul>
             </div>
@@ -249,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                             {
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="files/my_works.php"><i class="bi bi-collection me-2"></i>Мои работы</a>
+                                <a class="nav-link" href="pages/my_works.php"><i class="bi bi-collection me-2"></i>Мои работы</a>
                             </li>
                             <?php 
                             }
@@ -258,7 +258,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
                             {
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="files/my_vacancies.php"><i class="bi bi-collection me-2"></i>Мои вакансии</a>
+                                <a class="nav-link" href="pages/my_vacancies.php"><i class="bi bi-collection me-2"></i>Мои вакансии</a>
                             </li>
                             <?php 
                             }
@@ -344,7 +344,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_avatar']) && is
 </div>
 
 <?php
-    require_once("files/footer.php");
+    require_once("pages/footer.php");
 ?>
 
 <script src="../js/bootstrap.bundle.min.js"></script>

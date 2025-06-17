@@ -98,6 +98,6 @@ else
     $_SESSION['error'] = "Ошибка при обновлении работы: " . mysqli_error($conn);
 }
 
-header("Location: my_works.php");
+header("Location: ../pages/my_works.php");
 exit();
 ?>

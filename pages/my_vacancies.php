@@ -48,7 +48,7 @@ $stats = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total_vacanc
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="logout.php" class="btn btn-outline-danger">
+                    <a href="../files/logout.php" class="btn btn-outline-danger">
                         <i class="bi bi-box-arrow-right"></i> Выйти
                     </a>
                 </div>

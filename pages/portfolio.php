@@ -188,7 +188,7 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
                     if ($isLoggedIn)
                     {
                     ?>
-                        <a href="logout.php" class="btn btn-outline-danger">
+                        <a href="../files/logout.php" class="btn btn-outline-danger">
                             <i class="bi bi-box-arrow-right"></i> Выйти
                         </a>
                     <?php 
@@ -414,7 +414,7 @@ if ($isLoggedIn)
                 <h5 class="modal-title" id="addWorkModalLabel">Мастер добавления работы</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="add_work.php" enctype="multipart/form-data" id="portfolioForm">
+            <form method="POST" action="../files/add_work.php" enctype="multipart/form-data" id="portfolioForm">
                 <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
                     <ul class="nav nav-pills mb-4" id="portfolioWizard" role="tablist">
                         <li class="nav-item" role="presentation">

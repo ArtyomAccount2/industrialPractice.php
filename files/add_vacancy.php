@@ -51,46 +51,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 else 
                 {
                     $_SESSION['error'] = "Ошибка при загрузке изображения";
-                    header("Location: my_vacancies.php");
+                    header("Location: ../pages/my_vacancies.php");
                     exit();
                 }
             } 
             else 
             {
                 $_SESSION['error'] = "Размер изображения не должен превышать 2MB";
-                header("Location: my_vacancies.php");
+                header("Location: ../pages/my_vacancies.php");
                 exit();
             }
         } 
         else 
         {
             $_SESSION['error'] = "Допустимы только файлы JPG или PNG";
-            header("Location: my_vacancies.php");
+            header("Location: ../pages/my_vacancies.php");
             exit();
         }
     }
 
     $sql = "INSERT INTO `vacancies` (`user_id`, `title`, `category_id`, `employment_type`, `salary`, `location`, `description`, `requirements`, `benefits`, `contacts`, `image_path`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "isissssssss", $user_id, $title, $category_id, $employment_type, $salary, $location, $description, $requirements, $benefits, $contacts, $image_path);
     
     if (mysqli_stmt_execute($stmt)) 
     {
         $_SESSION['success'] = "Вакансия успешно опубликована";
-        header("Location: my_vacancies.php");
+        header("Location: ../pages/my_vacancies.php");
     } 
     else 
     {
         $_SESSION['error'] = "Ошибка при публикации вакансии: " . mysqli_error($conn);
-        header("Location: my_vacancies.php");
+        header("Location: ../pages/my_vacancies.php");
     }
     
     exit();
 } 
 else 
 {
-    header("Location: my_vacancies.php");
+    header("Location: ../pages/my_vacancies.php");
     exit();
 }
 ?>

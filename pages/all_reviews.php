@@ -137,7 +137,7 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
                     if ($isLoggedIn)
                     {
                     ?>
-                        <a href="logout.php" class="btn btn-outline-danger">
+                        <a href="../files/logout.php" class="btn btn-outline-danger">
                             <i class="bi bi-box-arrow-right"></i> Выйти
                         </a>
                     <?php 

@@ -113,7 +113,7 @@ if ($isLoggedIn)
                     if ($isLoggedIn)
                     {
                     ?>
-                        <a href="logout.php" class="btn btn-outline-danger">
+                        <a href="../files/logout.php" class="btn btn-outline-danger">
                             <i class="bi bi-box-arrow-right"></i> Выйти
                         </a>
                     <?php 
@@ -233,7 +233,7 @@ if ($isLoggedIn)
                                     <a href="edit_vacancy.php?id=<?= $vacancy['id'] ?>" class="btn btn-warning w-75">
                                         <i class="bi bi-pencil"></i> Редактировать
                                     </a>
-                                    <button class="btn btn-danger w-75" onclick="if(confirm('Вы уверены, что хотите удалить эту вакансию?')) window.location='delete_vacancy.php?id=<?= $vacancy['id'] ?>'">
+                                    <button class="btn btn-danger w-75" onclick="if(confirm('Вы уверены, что хотите удалить эту вакансию?')) window.location='../files/delete_vacancy.php?id=<?= $vacancy['id'] ?>'">
                                         <i class="bi bi-trash"></i> Удалить
                                     </button>
                                     <a href="<?= htmlspecialchars($_SESSION['previous_page']) ?>" class="btn btn-primary w-75">
@@ -309,7 +309,7 @@ if ($isLoggedIn && $_SESSION['user_type'] == 'student')
                 <h5 class="modal-title">Отклик на вакансию</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="apply_vacancy.php">
+            <form method="POST" action="../files/apply_vacancy.php">
                 <input type="hidden" name="vacancy_id" value="<?= $vacancy['id'] ?>">
                 <div class="modal-body">
                     <div class="mb-3">

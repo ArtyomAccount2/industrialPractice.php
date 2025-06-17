@@ -26,7 +26,7 @@
                         <label for="loginPassword" class="form-label">Пароль <span class="text-danger">*</span></label>
                         <input type="password" class="form-control" id="loginPassword" name="password" required>
                         <div class="text-end mt-1">
-                            <a href="../files/forgot_password.php" class="text-decoration-none">Забыли пароль?</a>
+                            <a href="../pages/forgot_password.php" class="text-decoration-none">Забыли пароль?</a>
                         </div>
                     </div>
                     <div class="mb-3 form-check">

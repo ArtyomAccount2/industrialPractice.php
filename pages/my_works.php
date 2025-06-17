@@ -90,7 +90,7 @@ $works = mysqli_query($conn, "SELECT p.*, c.name as category_name, (SELECT COUNT
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="logout.php" class="btn btn-outline-danger">
+                    <a href="../files/logout.php" class="btn btn-outline-danger">
                         <i class="bi bi-box-arrow-right"></i> Выйти
                     </a>
                 </div>
@@ -196,7 +196,7 @@ $works = mysqli_query($conn, "SELECT p.*, c.name as category_name, (SELECT COUNT
                 <h5 class="modal-title" id="editWorkModalLabel">Редактирование работы</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="edit_work.php" enctype="multipart/form-data">
+            <form method="POST" action="../files/edit_work.php" enctype="multipart/form-data">
                 <input type="hidden" name="work_id" id="editWorkId">
                 <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
                     <div class="pe-3">

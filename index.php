@@ -32,16 +32,16 @@ $isLoggedIn = isset($_SESSION['user_id']);
                         <a class="nav-link active" aria-current="page" href="index.php">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="files/portfolio.php">Портфолио</a>
+                        <a class="nav-link" href="pages/portfolio.php">Портфолио</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="files/cooperation.php">Сотрудничество</a>
+                        <a class="nav-link" href="pages/cooperation.php">Сотрудничество</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="files/vacancies.php">Вакансии</a>
+                        <a class="nav-link" href="pages/vacancies.php">Вакансии</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="files/all_reviews.php">Отзывы</a>
+                        <a class="nav-link" aria-current="page" href="pages/all_reviews.php">Отзывы</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -202,7 +202,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                 </div>
             </div>  
             <div class="text-center mt-4">
-                <a href="files/portfolio.php" class="btn btn-primary btn-lg bi-collection"> Смотреть все работы</a>
+                <a href="pages/portfolio.php" class="btn btn-primary btn-lg bi-collection"> Смотреть все работы</a>
             </div>
         </div>
     </section>
@@ -266,7 +266,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                 <p class="mb-4">Станьте частью сообщества СтудМаркет и откройте новые возможности</p>
                 <div class="d-flex flex-wrap justify-content-center gap-2">
                     <a href="#" class="btn btn-outline-light bi-person-plus" data-bs-toggle="modal" data-bs-target="#registerModal"> Зарегистрироваться</a>
-                    <a href="files/cooperation.php" class="btn btn-outline-primary bi-briefcase"> Сотрудничество</a>
+                    <a href="pages/cooperation.php" class="btn btn-outline-primary bi-briefcase"> Сотрудничество</a>
                 </div>
             </div>
         </div>
@@ -336,7 +336,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                 </div>
             </div>
             <div class="text-center mt-4">
-                <a href="files/vacancies.php" class="btn btn-primary btn-lg bi-card-checklist"> Все вакансии</a>
+                <a href="pages/vacancies.php" class="btn btn-primary btn-lg bi-card-checklist"> Все вакансии</a>
             </div>
         </div>
     </section>
@@ -471,7 +471,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                 </div>
             </div>
             <div class="text-center mt-4">
-                <a href="files/all_reviews.php" class="btn btn-primary btn-lg bi-chat-left-text"> Смотреть все отзывы</button></a>
+                <a href="pages/all_reviews.php" class="btn btn-primary btn-lg bi-chat-left-text"> Смотреть все отзывы</button></a>
             </div>
         </div>
     </section>
@@ -565,8 +565,8 @@ $isLoggedIn = isset($_SESSION['user_id']);
 </div>
 
 <?php
-    require_once("files/modals.php");
-    require_once("files/footer.php");
+    require_once("pages/modals.php");
+    require_once("pages/footer.php");
 ?>
 
 <script src="../js/bootstrap.bundle.min.js"></script>

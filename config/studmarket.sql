@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 16 2025 г., 18:32
+-- Время создания: Июн 17 2025 г., 22:40
 -- Версия сервера: 5.7.39
 -- Версия PHP: 8.0.22
 
@@ -64,8 +64,8 @@ CREATE TABLE `admin_actions` (
 --
 
 INSERT INTO `admin_actions` (`id`, `admin_id`, `action`, `details`, `ip_address`, `created_at`) VALUES
-(2, 3, 'Вход в систему', 'Успешный вход', '127.0.0.1', '2025-06-16 15:32:08'),
-(3, 3, 'Выход из системы', 'Успешный выход', '127.0.0.1', '2025-06-16 15:32:28');
+(1, 3, 'Вход в систему', 'Успешный вход', '127.0.0.1', '2025-06-17 19:20:03'),
+(2, 3, 'Выход из системы', 'Успешный выход', '127.0.0.1', '2025-06-17 19:35:06');
 
 -- --------------------------------------------------------
 
@@ -346,10 +346,10 @@ CREATE TABLE `vacancies` (
 --
 
 INSERT INTO `vacancies` (`id`, `user_id`, `title`, `category_id`, `employment_type`, `salary`, `location`, `description`, `requirements`, `benefits`, `contacts`, `image_path`, `created_at`, `status`, `moderator_comment`) VALUES
-(1, 13, 'Стажировка в IT-компании', 3, 'internship', '30000-40000', 'Калининград / Удалённо', 'Мы ищем студентов-разработчиков для участия в проекте по созданию API для fintech-стартапа. Работа в команде с ментором, гибкий график, возможность трудоустройства.', '· Базовые знания Python/Java/Golang;\\r\\n· Понимание REST API и баз данных (SQL/NoSQL);\\r\\n· Готовность работать 20–30 часов в неделю.', '', 'Отправлять резюме на: hr@techcompany.ru с темой «Стажировка Backend».\\r\\nТелефон: +7 (495) 123-45-67 (Анна).', '../uploads/vacancies/vacancy_13_1750071399.png', '2025-06-16 10:56:39', 'pending', NULL),
-(5, 15, 'Маркетолог в Digital-агентство', 1, 'full', '60000-80000', 'Калиниград', 'Разработка и реализация маркетинговых стратегий для клиентов (SMM, контекстная реклама, email-рассылки). Анализ эффективности кампаний.', '· Опыт в digital-маркетинге от 1 года;\\n· Знание Google Ads, Meta Business Suite, Яндекс.Метрики;\\n· Умение работать с CRM (AmoCRM, Bitrix24).', '', 'Отправлять резюме на: hr@digital-agency.ru с темой «Маркетолог».\\nТелефон: +7 (495) 111-22-33 (Ольга).', '../uploads/vacancies/vacancy_15_1750072569.png', '2025-06-16 11:16:09', 'pending', NULL),
+(1, 13, 'Стажировка в IT-компании', 3, 'internship', '30000-40000', 'Калининград / Удалённо', 'Мы ищем студентов-разработчиков для участия в проекте по созданию API для fintech-стартапа. Работа в команде с ментором, гибкий график, возможность трудоустройства.', '· Базовые знания Python/Java/Golang;\\r\\n· Понимание REST API и баз данных (SQL/NoSQL);\\r\\n· Готовность работать 20–30 часов в неделю.', '', 'Отправлять резюме на: hr@techcompany.ru с темой «Стажировка Backend».\\r\\nТелефон: +7 (495) 123-45-67 (Анна).', '../uploads/vacancies/vacancy_13_1750071399.png', '2025-06-12 10:56:39', 'pending', NULL),
+(5, 15, 'Маркетолог в Digital-агентство', 1, 'full', '60000-80000', 'Калиниград', 'Разработка и реализация маркетинговых стратегий для клиентов (SMM, контекстная реклама, email-рассылки). Анализ эффективности кампаний.', '· Опыт в digital-маркетинге от 1 года;\\n· Знание Google Ads, Meta Business Suite, Яндекс.Метрики;\\n· Умение работать с CRM (AmoCRM, Bitrix24).', '', 'Отправлять резюме на: hr@digital-agency.ru с темой «Маркетолог».\\nТелефон: +7 (495) 111-22-33 (Ольга).', '../uploads/vacancies/vacancy_15_1750072569.png', '2025-06-15 11:16:09', 'pending', NULL),
 (6, 16, 'Менеджер проектов (стажёр)', 5, 'internship', '40000-50000', 'Калиниград', 'Координация работы команд, контроль сроков, ведение документации в Jira/Notion. Обучение у Senior PM.', '· Обучаетесь на менеджмента/IT;\\r\\n· Организованность и multitasking;\\r\\n· Знание основ Agile/Waterfall.', '· ДМС + компенсация спортзала;\\r\\n· Гибкий график;\\r\\n· Бонусы за успешные проекты.', 'Отправлять резюме на: pm-intern@company.com + мотивационное письмо.', '../uploads/vacancies/vacancy_16_1750084654.png', '2025-06-16 14:37:34', 'pending', NULL),
-(7, 16, 'Разработчик Python (Junior)', 3, 'full', '80000-120000', 'Калиниград', 'Разработка backend-части веб-приложений (Django/Flask). Участие в код-ревью, работа в Scrum-команде.', '· Опыт с Python от 6 месяцев;\\r\\n· Знание SQL (PostgreSQL), Git;\\r\\n· Понимание REST API.', '', 'dev@tech.ru (ссылку на GitHub/GitLab).', '../uploads/vacancies/vacancy_16_1750084871.png', '2025-06-16 14:41:11', 'pending', NULL);
+(7, 16, 'Разработчик Python (Junior)', 3, 'full', '80000-120000', 'Калиниград', 'Разработка backend-части веб-приложений (Django/Flask). Участие в код-ревью, работа в Scrum-команде.', '· Опыт с Python от 6 месяцев;\\r\\n· Знание SQL (PostgreSQL), Git;\\r\\n· Понимание REST API.', '', 'dev@tech.ru (ссылку на GitHub/GitLab).', '../uploads/vacancies/vacancy_16_1750084871.png', '2025-06-06 14:41:11', 'pending', NULL);
 
 -- --------------------------------------------------------
 
@@ -412,7 +412,10 @@ INSERT INTO `vacancy_views` (`id`, `vacancy_id`, `user_id`, `viewed_at`) VALUES
 (6, 5, 15, '2025-06-16 11:16:18'),
 (7, 5, 16, '2025-06-16 14:32:25'),
 (8, 6, 16, '2025-06-16 14:37:37'),
-(9, 7, 16, '2025-06-16 14:41:15');
+(9, 7, 16, '2025-06-16 14:41:15'),
+(11, 1, 8, '2025-06-17 19:18:54'),
+(12, 7, 8, '2025-06-17 19:19:04'),
+(13, 6, 8, '2025-06-17 19:19:13');
 
 --
 -- Индексы сохранённых таблиц
@@ -548,7 +551,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT для таблицы `admin_actions`
 --
 ALTER TABLE `admin_actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `cooperation_requests`
@@ -560,7 +563,7 @@ ALTER TABLE `cooperation_requests`
 -- AUTO_INCREMENT для таблицы `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT для таблицы `password_resets`
@@ -572,7 +575,7 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT для таблицы `portfolio`
 --
 ALTER TABLE `portfolio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `portfolio_categories`
@@ -590,7 +593,7 @@ ALTER TABLE `portfolio_likes`
 -- AUTO_INCREMENT для таблицы `portfolio_views`
 --
 ALTER TABLE `portfolio_views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT для таблицы `reviews`
@@ -614,7 +617,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `vacancies`
 --
 ALTER TABLE `vacancies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблицы `vacancy_applications`
@@ -632,7 +635,7 @@ ALTER TABLE `vacancy_categories`
 -- AUTO_INCREMENT для таблицы `vacancy_views`
 --
 ALTER TABLE `vacancy_views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

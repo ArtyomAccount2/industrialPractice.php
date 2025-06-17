@@ -242,7 +242,22 @@ $users = $conn->query("SELECT * FROM `users` $where_clause ORDER BY `id` ASC LIM
                                 <td><?= $user['id'] ?></td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="<?= htmlspecialchars($user['avatar_path'] ?: '../img/no-image.png') ?>" class="user-avatar me-2" alt="Аватар">
+                                        <?php
+                                        if (!empty($user['avatar_path'])) 
+                                        {
+                                            $avatarPath = $user['avatar_path'];
+                                        } 
+                                        else 
+                                        {
+                                            $avatarPath = '../img/no-image.png';
+                                        }
+
+                                        if (!empty($user['avatar_path']) && strpos($user['avatar_path'], '../') === false) 
+                                        {
+                                            $avatarPath = '../' . $user['avatar_path'];
+                                        }
+                                        ?>
+                                        <img src="<?= htmlspecialchars($avatarPath) ?>" class="user-avatar me-2" alt="Аватар">
                                         <?= htmlspecialchars($user['name']) ?>
                                     </div>
                                 </td>
@@ -284,7 +299,7 @@ $users = $conn->query("SELECT * FROM `users` $where_clause ORDER BY `id` ASC LIM
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" href="../profile.php?id=<?= $user['id'] ?>" target="_blank"><i class="bi bi-eye"></i> Просмотреть</a></li>
                                             <?php 
-                                            if ($user['user_type'] == 'employer' && !$user['is_verified']) 
+                                            if ($user['user_type'] == 'employer') 
                                             {
                                             ?>
                                             <li>

@@ -81,7 +81,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                             <?php 
                             } 
                             ?>
-                            <form action="process_forgot_password.php" method="POST">
+                            <form action="../files/process_forgot_password.php" method="POST">
                                 <div class="mb-4">
                                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                     <input type="email" class="form-control" id="email" name="email" required placeholder="Ваш email">

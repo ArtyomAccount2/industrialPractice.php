@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_cooperation'])
                     if ($isLoggedIn)
                     {
                     ?>
-                        <a href="logout.php" class="btn btn-outline-danger">
+                        <a href="../files/logout.php" class="btn btn-outline-danger">
                             <i class="bi bi-box-arrow-right"></i> Выйти
                         </a>
                     <?php 

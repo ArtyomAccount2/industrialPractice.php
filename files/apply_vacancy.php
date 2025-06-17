@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     if (mysqli_num_rows($check_vacancy) == 0) 
     {
         $_SESSION['error'] = "Вакансия не найдена";
-        header("Location: vacancies.php");
+        header("Location: ../pages/vacancies.php");
         exit();
     }
 
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     if (mysqli_num_rows($check_application) > 0) 
     {
         $_SESSION['error'] = "Вы уже откликались на эту вакансию";
-        header("Location: vacancy_details.php?id=$vacancy_id");
+        header("Location: ../pages/vacancy_details.php?id=$vacancy_id");
         exit();
     }
 
@@ -62,21 +62,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 else 
                 {
                     $_SESSION['error'] = "Ошибка при загрузке файла резюме";
-                    header("Location: vacancy_details.php?id=$vacancy_id");
+                    header("Location: ../pages/vacancy_details.php?id=$vacancy_id");
                     exit();
                 }
             } 
             else 
             {
                 $_SESSION['error'] = "Размер файла резюме не должен превышать 5MB";
-                header("Location: vacancy_details.php?id=$vacancy_id");
+                header("Location: ../pages/vacancy_details.php?id=$vacancy_id");
                 exit();
             }
         } 
         else 
         {
             $_SESSION['error'] = "Допустимы только файлы PDF, DOC или DOCX";
-            header("Location: vacancy_details.php?id=$vacancy_id");
+            header("Location: ../pages/vacancy_details.php?id=$vacancy_id");
             exit();
         }
     }
@@ -103,19 +103,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             mail($to, $subject, $message, $headers);
         }
         
-        header("Location: vacancy_details.php?id=$vacancy_id");
+        header("Location: ../pages/vacancy_details.php?id=$vacancy_id");
     } 
     else 
     {
         $_SESSION['error'] = "Ошибка при отправке отклика: " . mysqli_error($conn);
-        header("Location: vacancy_details.php?id=$vacancy_id");
+        header("Location: ../pages/vacancy_details.php?id=$vacancy_id");
     }
     
     exit();
 } 
 else 
 {
-    header("Location: vacancies.php");
+    header("Location: ../pages/vacancies.php");
     exit();
 }
 ?>

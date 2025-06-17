@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] != 'employer')
 
 if (!isset($_GET['id'])) 
 {
-    header("Location: my_vacancies.php");
+    header("Location: ../pages/my_vacancies.php");
     exit();
 }
 
@@ -52,6 +52,6 @@ catch (Exception $e)
     $_SESSION['error'] = "Ошибка при удалении: " . $e->getMessage();
 }
 
-header("Location: my_vacancies.php");
+header("Location: ../pages/my_vacancies.php");
 exit();
 ?>
