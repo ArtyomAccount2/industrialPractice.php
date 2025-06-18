@@ -141,6 +141,10 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
 </head>
 <body class="d-flex flex-column min-vh-100">
 
+<div class="loader-container" id="globalLoader">
+    <div class="loader"></div>
+</div>
+
 <div class="flex-grow-1">
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <div class="container">
@@ -219,7 +223,7 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
             </div>
             <div class="row mb-4">
                 <div class="col-md-12">
-                    <form method="GET" action="portfolio.php" class="row g-2">
+                    <form method="GET" action="portfolio.php" class="row g-2" id="filterForm">
                         <div class="col-md-5">
                             <select class="form-select" name="category">
                                 <option value="0">Все категории</option>
@@ -239,7 +243,10 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
                             <input type="text" class="form-control" name="search" placeholder="Поиск по работам..." value="<?= htmlspecialchars($search_query) ?>">
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary w-100">Применить</button>
+                            <button type="submit" class="btn btn-primary w-100" id="filterButton">
+                                <span id="filterButtonText">Применить</span>
+                                <span id="filterButtonLoader" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
                         </div>
                     </form>
                     <div class="col-md-12 mt-3 text-center h-50">
@@ -256,18 +263,23 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
                     </div>
                 </div>
             </div>
-            <div class="row g-4">
-                <?php 
-                if (mysqli_num_rows($portfolio_items) > 0)
-                {
-                ?>
+            
+            <div id="portfolioContainer">
+                <div class="row g-4" id="portfolioItems">
                     <?php 
-                    while ($work = mysqli_fetch_assoc($portfolio_items))
-                    { 
+                    if (mysqli_num_rows($portfolio_items) > 0)
+                    {
+                        while ($work = mysqli_fetch_assoc($portfolio_items))
+                        { 
                     ?>
                         <div class="col-md-4">
                             <div class="card portfolio-item h-100">
-                                <img src="<?= htmlspecialchars($work['image_path'] ?: '../img/no-image.png') ?>" class="card-img-top portfolio-img" alt="<?= htmlspecialchars($work['title']) ?>">
+                                <div class="image-container">
+                                    <img src="<?= htmlspecialchars($work['image_path'] ?: '../img/no-image.png') ?>" 
+                                         class="card-img-top portfolio-img" 
+                                         alt="<?= htmlspecialchars($work['title']) ?>"
+                                         onload="this.classList.add('loaded')">
+                                </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
                                         <span class="badge badge-category"><?= htmlspecialchars($categories[$work['category_id']] ?? 'Без категории') ?></span>
@@ -357,25 +369,25 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
                             </div>
                         </div>
                     <?php 
+                        } 
+                    }
+                    else
+                    { 
+                    ?>
+                        <div class="col-12 text-center py-5">
+                            <i class="bi bi-search" style="font-size: 3rem;"></i>
+                            <h4>Работ не найдено</h4>
+                            <p>Попробуйте изменить параметры поиска или добавьте свою работу</p>
+                        </div>
+                    <?php 
                     } 
                     ?>
+                </div>
+                
                 <?php 
-                }
-                else
-                { 
+                if ($total_pages > 1)
+                {
                 ?>
-                    <div class="col-12 text-center py-5">
-                        <i class="bi bi-search" style="font-size: 3rem;"></i>
-                        <h4>Работ не найдено</h4>
-                        <p>Попробуйте изменить параметры поиска или добавьте свою работу</p>
-                    </div>
-                <?php 
-                } 
-                ?>
-            </div>
-            <?php if ($total_pages > 1)
-            {
-            ?>
                 <nav aria-label="Page navigation" class="mt-4">
                     <ul class="pagination justify-content-center">
                         <li class="page-item <?php if ($current_page == 1) { echo 'disabled'; } ?>">
@@ -396,9 +408,36 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
                         </li>
                     </ul>
                 </nav>
-            <?php 
-            } 
-            ?>
+                <?php 
+                } 
+                ?>
+            </div>
+            
+            <div id="skeletonLoader" style="display: none;">
+                <div class="row g-4">
+                    <?php 
+                    for ($i = 0; $i < 3; $i++)
+                    {
+                    ?>
+                    <div class="col-md-4">
+                        <div class="card portfolio-item loading h-100">
+                            <div class="skeleton-loader" style="height: 200px; width: 100%;"></div>
+                            <div class="card-body">
+                                <div class="skeleton-loader" style="height: 20px; width: 80%; margin-bottom: 10px;"></div>
+                                <div class="skeleton-loader" style="height: 15px; width: 60%; margin-bottom: 15px;"></div>
+                                <div class="skeleton-loader" style="height: 60px; width: 100%; margin-bottom: 15px;"></div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="skeleton-loader" style="height: 20px; width: 40%;"></div>
+                                    <div class="skeleton-loader" style="height: 20px; width: 30%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php 
+                    } 
+                    ?>
+                </div>
+            </div>
         </div>
     </section>
 </div>
@@ -550,6 +589,19 @@ if ($isLoggedIn)
 <script>
 document.addEventListener('DOMContentLoaded', function() 
 {
+    window.addEventListener('load', function() 
+    {
+        setTimeout(function() 
+        {
+            document.getElementById('globalLoader').style.display = 'none';
+        }, 500);
+    });
+
+    window.addEventListener('beforeunload', function() 
+    {
+        document.getElementById('globalLoader').style.display = 'flex';
+    });
+
     let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 
     tooltipTriggerList.map(function (tooltipTriggerEl) 
@@ -557,6 +609,83 @@ document.addEventListener('DOMContentLoaded', function()
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
     
+    document.getElementById('filterForm')?.addEventListener('submit', function(e) 
+    {
+        if (document.getElementById('filterButtonText') && document.getElementById('filterButtonLoader')) {
+            document.getElementById('filterButtonText').classList.add('d-none');
+            document.getElementById('filterButtonLoader').classList.remove('d-none');
+            document.getElementById('filterButton').disabled = true;
+        }
+
+        document.getElementById('portfolioItems').style.display = 'none';
+        document.getElementById('skeletonLoader').style.display = 'block';
+    });
+
+    document.querySelectorAll('.page-link').forEach(link => {
+        link.addEventListener('click', function(e) 
+        {
+            if (!this.parentElement.classList.contains('active')) 
+            {
+                document.getElementById('portfolioItems').style.display = 'none';
+                document.getElementById('skeletonLoader').style.display = 'block';
+            }
+        });
+    });
+
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) 
+        {
+            if (this.classList.contains('clickable')) 
+            {
+                let icon = this.querySelector('.stats-icon');
+
+                if (icon) 
+                {
+                    icon.classList.add('spinning');
+                }
+
+                this.classList.remove('clickable');
+            }
+        });
+    });
+
+    document.head.insertAdjacentHTML('beforeend', `
+        <style>
+            .spinning 
+            {
+                animation: spin 1s linear infinite;
+            }
+            @keyframes spin 
+            {
+                0% 
+                { 
+                    transform: rotate(0deg); 
+                }
+                100% 
+                { 
+                    transform: rotate(360deg); 
+                }
+            }
+        </style>
+    `);
+
+    window.addEventListener('beforeunload', function() 
+    {
+        document.getElementById('globalLoader').style.display = 'flex';
+    });
+
+    document.querySelectorAll('.portfolio-img').forEach(img => {
+        img.addEventListener('load', function() 
+        {
+            this.classList.add('loaded');
+        });
+
+        if (img.complete) 
+        {
+            img.classList.add('loaded');
+        }
+    });
+
     let nextButtons = document.querySelectorAll('.next-step');
     let prevButtons = document.querySelectorAll('.prev-step');
     
@@ -792,7 +921,6 @@ document.addEventListener('DOMContentLoaded', function()
     {
         workTags.addEventListener('input', function() 
         {
-
             if (this.value.trim()) 
             {
                 this.classList.remove('is-invalid');

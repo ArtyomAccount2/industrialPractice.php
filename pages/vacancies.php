@@ -391,82 +391,134 @@ if ($isLoggedIn && ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] 
 if ($isLoggedIn && $_SESSION['user_type'] == 'employer') 
 {
 ?>
-<div class="modal fade" id="addVacancyModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="addVacancyModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Добавить новую вакансию</h5>
+                <h5 class="modal-title">Мастер добавления вакансии</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="../files/add_vacancy.php" enctype="multipart/form-data">
+            <form method="POST" action="../files/add_vacancy.php" enctype="multipart/form-data" id="vacancyForm">
                 <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-                    <div class="pe-3">
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Название вакансии <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="title" name="title" required>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="category" class="form-label">Категория <span class="text-danger">*</span></label>
-                                <select class="form-select" id="category" name="category_id" required>
-                                    <?php 
-                                    $categories = mysqli_query($conn, "SELECT * FROM `vacancy_categories`");
+                    <ul class="nav nav-pills mb-4" id="vacancyWizard" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="vstep1-tab" type="button" role="tab">1. Основное</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link disabled" id="vstep2-tab" type="button" role="tab">2. Описание</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link disabled" id="vstep3-tab" type="button" role="tab">3. Требования</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link disabled" id="vstep4-tab" type="button" role="tab">4. Дополнительно</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="vacancyWizardContent">
+                        <div class="tab-pane fade show active" id="vstep1" role="tabpanel" aria-labelledby="vstep1-tab">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Название вакансии <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="title" name="title" required>
+                                <div class="invalid-feedback">Пожалуйста, укажите название вакансии</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="category" class="form-label">Категория <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="category" name="category_id" required>
+                                        <?php 
+                                        $categories = mysqli_query($conn, "SELECT * FROM `vacancy_categories`");
 
-                                    while ($cat = mysqli_fetch_assoc($categories)) 
-                                    {
-                                    ?>
-                                        <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
-                                    <?php 
-                                    } 
-                                    ?>
-                                </select>
+                                        while ($cat = mysqli_fetch_assoc($categories)) 
+                                        {
+                                        ?>
+                                            <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
+                                        <?php 
+                                        } 
+                                        ?>
+                                    </select>
+                                    <div class="invalid-feedback">Пожалуйста, выберите категорию</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="employment" class="form-label">Тип занятости <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="employment" name="employment_type" required>
+                                        <option value="full">Полная занятость</option>
+                                        <option value="part">Частичная занятость</option>
+                                        <option value="internship">Стажировка</option>
+                                        <option value="remote">Удалённая работа</option>
+                                    </select>
+                                    <div class="invalid-feedback">Пожалуйста, выберите тип занятости</div>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="employment" class="form-label">Тип занятости <span class="text-danger">*</span></label>
-                                <select class="form-select" id="employment" name="employment_type" required>
-                                    <option value="full">Полная занятость</option>
-                                    <option value="part">Частичная занятость</option>
-                                    <option value="internship">Стажировка</option>
-                                    <option value="remote">Удалённая работа</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="salary" class="form-label">Зарплата</label>
-                                <input type="text" class="form-control" id="salary" name="salary" placeholder="Например: 30000-50000">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="location" class="form-label">Местоположение</label>
-                                <input type="text" class="form-control" id="location" name="location" placeholder="Город или адрес">
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary next-step" data-next="vstep2">Далее <i class="bi bi-arrow-right"></i></button>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Описание вакансии <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                        <div class="tab-pane fade" id="vstep2" role="tabpanel" aria-labelledby="vstep2-tab">
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Описание вакансии <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                                <div class="form-text">
+                                    <span id="descriptionCounter">0</span>/1000 символов. Минимум 100 символов.
+                                </div>
+                                <div class="invalid-feedback">Описание должно содержать не менее 100 символов</div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary prev-step" data-prev="vstep1"><i class="bi bi-arrow-left"></i> Назад</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="vstep3">Далее <i class="bi bi-arrow-right"></i></button>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="requirements" class="form-label">Требования <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="requirements" name="requirements" rows="4" required></textarea>
+                        <div class="tab-pane fade" id="vstep3" role="tabpanel" aria-labelledby="vstep3-tab">
+                            <div class="mb-3">
+                                <label for="requirements" class="form-label">Требования <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="requirements" name="requirements" rows="5" required></textarea>
+                                <div class="form-text">
+                                    <span id="requirementsCounter">0</span>/1000 символов. Минимум 50 символов.
+                                </div>
+                                <div class="invalid-feedback">Требования должны содержать не менее 50 символов</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="benefits" class="form-label">Условия и бонусы</label>
+                                <textarea class="form-control" id="benefits" name="benefits" rows="3"></textarea>
+                                <div class="form-text">
+                                    <span id="benefitsCounter">0</span>/500 символов.
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary prev-step" data-prev="vstep2"><i class="bi bi-arrow-left"></i> Назад</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="vstep4">Далее <i class="bi bi-arrow-right"></i></button>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="benefits" class="form-label">Условия и бонусы</label>
-                            <textarea class="form-control" id="benefits" name="benefits" rows="3"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contacts" class="form-label">Контактная информация <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="contacts" name="contacts" rows="2" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="image" class="form-label">Изображение <span class="text-danger">*</span></label>
-                            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
-                            <div class="form-text">Макс. размер: 2MB. Допустимые форматы: JPG, PNG.</div>
+                        <div class="tab-pane fade" id="vstep4" role="tabpanel" aria-labelledby="vstep4-tab">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="salary" class="form-label">Зарплата</label>
+                                    <input type="text" class="form-control" id="salary" name="salary" placeholder="Например: 30000-50000">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="location" class="form-label">Местоположение</label>
+                                    <input type="text" class="form-control" id="location" name="location" placeholder="Город или адрес">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contacts" class="form-label">Контактная информация <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="contacts" name="contacts" rows="2" required></textarea>
+                                <div class="invalid-feedback">Пожалуйста, укажите контактную информацию</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Изображение <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                                <div class="form-text">Макс. размер: 2MB. Допустимые форматы: JPG, PNG.</div>
+                                <div class="invalid-feedback">Пожалуйста, загрузите изображение</div>
+                                <div class="mt-3 text-center" id="imagePreviewContainer" style="display:none;">
+                                    <img id="imagePreview" src="#" alt="Предпросмотр" class="img-thumbnail" style="max-height: 200px;">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary prev-step" data-prev="vstep3"><i class="bi bi-arrow-left"></i> Назад</button>
+                                <button type="submit" class="btn btn-success">Опубликовать вакансию</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn btn-primary">Опубликовать вакансию</button>
                 </div>
             </form>
         </div>
@@ -476,6 +528,203 @@ if ($isLoggedIn && $_SESSION['user_type'] == 'employer')
 } 
 ?>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() 
+{
+    let currentVacancyStep = 1;
+    let totalVacancySteps = 4;
+
+    function goToVacancyStep(step) 
+    {
+        document.querySelectorAll('#vacancyWizardContent .tab-pane').forEach(pane => {
+            pane.classList.remove('show', 'active');
+        });
+
+        document.querySelectorAll('#vacancyWizard .nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        document.getElementById(`vstep${step}`).classList.add('show', 'active');
+
+        document.getElementById(`vstep${step}-tab`).classList.add('active');
+        
+        currentVacancyStep = step;
+    }
+
+    document.querySelectorAll('#vacancyForm .next-step').forEach(button => {
+        button.addEventListener('click', function() 
+        {
+            if (validateVacancyStep(`vstep${currentVacancyStep}`)) 
+            {
+                let nextStep = currentVacancyStep + 1;
+
+                if (nextStep <= totalVacancySteps) 
+                {
+                    document.getElementById(`vstep${nextStep}-tab`).classList.remove('disabled');
+                    goToVacancyStep(nextStep);
+                }
+            }
+        });
+    });
+    
+    document.querySelectorAll('#vacancyForm .prev-step').forEach(button => {
+        button.addEventListener('click', function() 
+        {
+            let prevStep = currentVacancyStep - 1;
+
+            if (prevStep >= 1) 
+            {
+                goToVacancyStep(prevStep);
+            }
+        });
+    });
+
+    function validateVacancyStep(stepId) 
+    {
+        let isValid = true;
+        let stepElement = document.getElementById(stepId);
+        let requiredFields = stepElement.querySelectorAll('[required]');
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) 
+            {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } 
+            else 
+            {
+                field.classList.remove('is-invalid');
+            }
+        });
+ 
+        if (stepId === 'vstep1') 
+        {
+            let title = document.getElementById('title');
+
+            if (title.value.length < 5 || title.value.length > 100) 
+            {
+                title.classList.add('is-invalid');
+                isValid = false;
+            }
+        } 
+        else if (stepId === 'vstep2') 
+        {
+            let description = document.getElementById('description');
+
+            if (description.value.length < 100) 
+            {
+                description.classList.add('is-invalid');
+                isValid = false;
+            }
+        } 
+        else if (stepId === 'vstep3') 
+        {
+            let requirements = document.getElementById('requirements');
+
+            if (requirements.value.length < 50) 
+            {
+                requirements.classList.add('is-invalid');
+                isValid = false;
+            }
+        } 
+        else if (stepId === 'vstep4') 
+        {
+            let contacts = document.getElementById('contacts');
+
+            if (contacts.value.length < 10) 
+            {
+                contacts.classList.add('is-invalid');
+                isValid = false;
+            }
+        }
+        
+        return isValid;
+    }
+
+    let descriptionField = document.getElementById('description');
+    let descriptionCounter = document.getElementById('descriptionCounter');
+    let requirementsField = document.getElementById('requirements');
+    let requirementsCounter = document.getElementById('requirementsCounter');
+    let benefitsField = document.getElementById('benefits');
+    let benefitsCounter = document.getElementById('benefitsCounter');
+    
+    if (descriptionField && descriptionCounter) 
+    {
+        descriptionField.addEventListener('input', function() 
+        {
+            descriptionCounter.textContent = this.value.length;
+        });
+    }
+    
+    if (requirementsField && requirementsCounter) 
+    {
+        requirementsField.addEventListener('input', function() 
+        {
+            requirementsCounter.textContent = this.value.length;
+        });
+    }
+    
+    if (benefitsField && benefitsCounter) 
+    {
+        benefitsField.addEventListener('input', function() 
+        {
+            benefitsCounter.textContent = this.value.length;
+        });
+    }
+
+    let imageInput = document.getElementById('image');
+    let previewContainer = document.getElementById('imagePreviewContainer');
+    let preview = document.getElementById('imagePreview');
+    
+    if (imageInput && previewContainer && preview) 
+    {
+        imageInput.addEventListener('change', function() 
+        {
+            if (this.files && this.files[0]) 
+            {
+                let reader = new FileReader();
+                
+                reader.onload = function(e) 
+                {
+                    preview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            } 
+            else 
+            {
+                previewContainer.style.display = 'none';
+            }
+        });
+    }
+    
+    let vacancyForm = document.getElementById('vacancyForm');
+
+    if (vacancyForm) 
+    {
+        vacancyForm.addEventListener('submit', function(e) 
+        {
+            let allValid = true;
+            let steps = ['vstep1', 'vstep2', 'vstep3', 'vstep4'];
+            
+            steps.forEach(step => {
+                if (!validateVacancyStep(step)) 
+                {
+                    allValid = false;
+                    goToVacancyStep(parseInt(step.replace('vstep', '')));
+                }
+            });
+            
+            if (!allValid) 
+            {
+                e.preventDefault();
+                alert('Пожалуйста, заполните все обязательные поля корректно.');
+            }
+        });
+    }
+});
+</script>
 <?php 
     require_once("modals.php");
     require_once("footer.php"); 

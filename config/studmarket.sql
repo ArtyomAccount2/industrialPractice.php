@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 17 2025 г., 22:40
+-- Время создания: Июн 18 2025 г., 20:13
 -- Версия сервера: 5.7.39
 -- Версия PHP: 8.0.22
 
@@ -123,6 +123,13 @@ CREATE TABLE `password_resets` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Дамп данных таблицы `password_resets`
+--
+
+INSERT INTO `password_resets` (`id`, `user_id`, `token`, `expires_at`, `used`, `created_at`) VALUES
+(9, 7, 'e708473d4d0d1f1161e0b5f98384597d3ceed535f7d11961d6530abfdc9dbaf0', '2025-06-18 21:11:55', 0, '2025-06-18 17:11:55');
+
 -- --------------------------------------------------------
 
 --
@@ -151,7 +158,7 @@ INSERT INTO `portfolio` (`id`, `user_id`, `title`, `category_id`, `description`,
 (1, 4, 'Веб-сайт для автосервиса', 2, ' Разработка адаптивного сайта с системой онлайн-записи. Использованы: HTML5, CSS3, JavaScript.', '#веб-разработка, #лэндинг, #автосервис', '../uploads/portfolio/work_4_1748346459.jfif', NULL, '2025-05-12 11:47:39', 'pending', NULL),
 (2, 5, 'Логотип для пекарни \"Ржаной\"', 1, 'Создание узнаваемого логотипа в народном стиле с элементами пшеничных колосьев.', '#логотип, #хлеб, #традиции, #брендинг', '../uploads/portfolio/work_7_1748346573.jfif', NULL, '2025-05-15 11:49:33', 'pending', NULL),
 (3, 6, 'Фирменный стиль для кафе \"Утро\"', 1, 'Создание фирменного стиля для уютного кафе с акцентом на утреннюю атмосферу.', '#логотип, #брендинг, #кафе, #упаковка', '../uploads/portfolio/work_8_1748349086.jfif', NULL, '2025-05-27 12:31:26', 'pending', NULL),
-(4, 7, 'Логотип и айдентика для кофейни \"Morning Brew\"', 1, 'Полный редизайн айдентики для сети кофеен премиум-класса. Концепция объединяет образ утреннего солнца и кофейного зерна, передавая атмосферу свежести и пробуждения.', '#логотип, #брендинг, #кофе, #упаковка', '../uploads/portfolio/work_11_1748447879.jpg', NULL, '2025-05-28 15:57:59', 'pending', NULL);
+(4, 7, 'Логотип и айдентика для кофейни \"Morning Brew\"', 1, 'Полный редизайн айдентики для сети кофеен премиум-класса. Концепция объединяет образ утреннего солнца и кофейного зерна, передавая атмосферу свежести и пробуждения.', '#логотип, #брендинг, #кофе, #упаковка', '../uploads/portfolio/work_11_1748447879.jpg', '{\"GitHub\":\"https:\\/\\/docs.github.com\\/en\\/get-started\\/writing-on-github\\/working-with-advanced-formatting\\/autolinked-references-and-urls\",\"Website\":\"https:\\/\\/www.figma.com\\/file\\/abc123\\/domofon\"}', '2025-05-28 15:57:59', 'pending', NULL);
 
 -- --------------------------------------------------------
 
@@ -305,17 +312,17 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `phone`, `created_at`, `avatar_path`, `is_banned`, `ban_reason`) VALUES
-(1, 'Анна К.', 'email1@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar1.png', 0, NULL),
-(2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', NULL, NULL, 'uploads/avatars/avatar2.png', 0, NULL),
-(3, 'Иван П.', 'email3@gmail.com', '', 'student', NULL, NULL, 'uploads/avatars/avatar3.png', 0, NULL),
-(4, 'Илья Р.', 'email4@gmail.com', '', 'student', NULL, NULL, 'img/no-image.png', 0, NULL),
-(5, 'Александр Я.', 'email5@gmail.com', '', 'student', NULL, NULL, 'img/no-image.png', 0, NULL),
-(6, 'Максим А.', 'email6@gmail.com', '', 'student', NULL, NULL, 'img/no-image.png', 0, NULL),
+(1, 'Анна К.', 'email1@gmail.com', '', 'student', '+79114188956', '2025-04-12 09:22:45', 'uploads/avatars/avatar1.png', 0, NULL),
+(2, 'TechSolutions Inc.', 'email2@gmail.com', '', 'employer', '+79116127806', '2025-04-13 19:28:03', 'uploads/avatars/avatar2.png', 0, NULL),
+(3, 'Иван П.', 'email3@gmail.com', '', 'student', '+79117067051', '2025-04-14 06:45:17', 'uploads/avatars/avatar3.png', 0, NULL),
+(4, 'Илья Р.', 'email4@gmail.com', '', 'student', '+79112268556', '2025-04-16 08:54:58', 'img/no-image.png', 0, NULL),
+(5, 'Александр Я.', 'email5@gmail.com', '', 'student', '+79117390411', '2025-04-16 23:07:54', 'img/no-image.png', 0, NULL),
+(6, 'Максим А.', 'email6@gmail.com', '', 'student', '+79113477809', '2025-04-19 15:39:23', 'img/no-image.png', 0, NULL),
 (7, 'Тестовый аккаунт', 'account404@gmail.com', '$2y$10$P0y/B9YqB57bA7GRkoS/W.vY8Cjww3HYy9esUgPvuqJ3vy/.RXw2i', 'student', '+79115678934', '2025-05-28 15:24:43', 'img/no-image.png', 0, NULL),
 (8, 'Тест-Работодатель', 'account202@gmail.com', '$2y$10$StXzsLp6zorahiMjTv92Ke6Exge/yOvkexTz7J4kuSfLtI5n9xxTi', 'employer', '+79118954238', '2025-06-06 14:45:33', 'img/no-image.png', 0, NULL),
-(13, 'DataLabs', 'email7@gmail.com', '', 'employer', '+79118654736', NULL, 'img/no-image.png', 0, NULL),
-(15, 'WebInnovations', 'email8@gmail.com', '', 'employer', '+79115957623', NULL, 'img/no-image.png', 0, NULL),
-(16, 'DesignHub', 'email9@gmail.com', '', 'employer', '+79114368769', NULL, 'img/no-image.png', 0, NULL);
+(13, 'DataLabs', 'email7@gmail.com', '', 'employer', '+79118654736', '2025-06-17 09:33:56', 'img/no-image.png', 0, NULL),
+(15, 'WebInnovations', 'email8@gmail.com', '', 'employer', '+79115957623', '2025-06-17 11:59:07', 'img/no-image.png', 0, NULL),
+(16, 'DesignHub', 'email9@gmail.com', '', 'employer', '+79114368769', '2025-06-17 19:04:23', 'img/no-image.png', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -415,7 +422,8 @@ INSERT INTO `vacancy_views` (`id`, `vacancy_id`, `user_id`, `viewed_at`) VALUES
 (9, 7, 16, '2025-06-16 14:41:15'),
 (11, 1, 8, '2025-06-17 19:18:54'),
 (12, 7, 8, '2025-06-17 19:19:04'),
-(13, 6, 8, '2025-06-17 19:19:13');
+(13, 6, 8, '2025-06-17 19:19:13'),
+(14, 5, 8, '2025-06-18 15:22:31');
 
 --
 -- Индексы сохранённых таблиц
@@ -551,7 +559,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT для таблицы `admin_actions`
 --
 ALTER TABLE `admin_actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `cooperation_requests`
@@ -563,19 +571,19 @@ ALTER TABLE `cooperation_requests`
 -- AUTO_INCREMENT для таблицы `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT для таблицы `portfolio`
 --
 ALTER TABLE `portfolio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `portfolio_categories`
@@ -593,7 +601,7 @@ ALTER TABLE `portfolio_likes`
 -- AUTO_INCREMENT для таблицы `portfolio_views`
 --
 ALTER TABLE `portfolio_views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT для таблицы `reviews`
@@ -611,7 +619,7 @@ ALTER TABLE `system_settings`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `vacancies`
@@ -635,7 +643,7 @@ ALTER TABLE `vacancy_categories`
 -- AUTO_INCREMENT для таблицы `vacancy_views`
 --
 ALTER TABLE `vacancy_views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -30,12 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         
         $resetLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . "/pages/reset_password.php?token=$token";
         
-        require_once ('../lib/src/Exception.php');
-        require_once ('../lib/src/PHPMailer.php');
-        require_once ('../lib/src/SMTP.php');
-
-        use PHPMailer\PHPMailer\PHPMailer;
-        use PHPMailer\PHPMailer\Exception;
+        require_once '../lib/src/Exception.php';
+        require_once '../lib/src/PHPMailer.php';
+        require_once '../lib/src/SMTP.php';
         
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
         

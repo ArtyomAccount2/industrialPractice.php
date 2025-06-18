@@ -246,6 +246,11 @@ if ($isLoggedIn)
                             {
                             ?>
                                 <p>Телефон: <?= htmlspecialchars($vacancy['company_phone']) ?></p>
+                                <div class="d-grid d-flex flex-column align-items-center gap-2 mt-3">
+                                    <a href="<?= htmlspecialchars($_SESSION['previous_page']) ?>" class="btn btn-primary w-75">
+                                        <i class="bi bi-arrow-left"></i> Назад
+                                    </a>
+                                </div>
                             <?php
                             }
                             ?>
