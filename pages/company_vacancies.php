@@ -59,7 +59,7 @@ $page_title = "Вакансии компании " . htmlspecialchars($company['
 <div class="flex-grow-1">
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="company_vacancies.php">
+            <a class="navbar-brand" href="<?php if ($isLoggedIn) { echo '../profile.php'; } else { echo '../index.php'; } ?>">
                 <img class="logo" src="../img/img5.png" alt="Логотип">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -75,9 +75,27 @@ $page_title = "Вакансии компании " . htmlspecialchars($company['
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="../files/logout.php" class="btn btn-outline-danger">
-                        <i class="bi bi-box-arrow-right"></i> Выйти
-                    </a>
+                    <?php 
+                    if ($isLoggedIn)
+                    {
+                    ?>
+                        <a href="../files/logout.php" class="btn btn-outline-danger">
+                            <i class="bi bi-box-arrow-right"></i> Выйти
+                        </a>
+                    <?php 
+                    }
+                    else 
+                    {
+                    ?>
+                        <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Авторизация
+                        </button>
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                            <i class="bi bi-person-add me-2"></i>Регистрация
+                        </button>
+                    <?php 
+                    } 
+                    ?>
                 </div>
             </div>
         </div>
